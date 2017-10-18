@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="LIR">
+      <UniqueIdentifier>{a9f204ad-e4ab-4659-a62b-e76f1e7734e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LIR\core">
+      <UniqueIdentifier>{ec8b818f-8f08-4605-ba70-4e4cd64d8a34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LIR\platform">
+      <UniqueIdentifier>{fbec4ef0-bfba-409e-ade7-53a7a94b6103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LIR\tools">
+      <UniqueIdentifier>{9aa1b9ca-c535-4d83-82d0-a666d53791ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LIR\debug">
+      <UniqueIdentifier>{2849100a-5828-4629-8682-10f5e43617a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LIR\io">
+      <UniqueIdentifier>{7a638337-e226-4568-85f8-c6652c13950b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LIR\platform\win32">
+      <UniqueIdentifier>{f3baf40d-2fe2-48e4-ad8b-9440eb6af3b9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\platform\LPlatformConfig.h">
+      <Filter>LIR\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\tools\debug\LDebug.h">
+      <Filter>LIR\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\platform\LPlatformDefine.h">
+      <Filter>LIR\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\platform\LPlatformMacros.h">
+      <Filter>LIR\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\platform\win32\LPlatformDefine-win32.h">
+      <Filter>LIR\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\io\LFileUtils.h">
+      <Filter>LIR\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\core\LConfig.h">
+      <Filter>LIR\core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LIR.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\lir\io\LFileUtils.cpp">
+      <Filter>LIR\io</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
