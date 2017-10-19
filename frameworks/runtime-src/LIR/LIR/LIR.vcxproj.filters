@@ -48,9 +48,6 @@
     <ClInclude Include="..\..\..\lir\platform\LPlatformConfig.h">
       <Filter>LIR\platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\lir\tools\debug\LDebug.h">
-      <Filter>LIR\debug</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\lir\platform\LPlatformDefine.h">
       <Filter>LIR\platform</Filter>
     </ClInclude>
@@ -65,6 +62,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\lir\core\LConfig.h">
       <Filter>LIR\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\debug\LDebug.h">
+      <Filter>LIR\debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

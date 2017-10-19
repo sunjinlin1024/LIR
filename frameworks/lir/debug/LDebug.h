@@ -1,5 +1,5 @@
-#ifndef _LDEBUG_
-#define _LDEBUG_
+#ifndef _LIR_DEBUG_
+#define _LIR_DEBUG_
 
 #include "stdio.h"
 

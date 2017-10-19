@@ -893,6 +893,7 @@ protected:
      *  This variable is used for improving the performance of file search.
      */
     mutable std::unordered_map<std::string, std::string> _fullPathCache;
+	
 
     /**
      * Writable path.

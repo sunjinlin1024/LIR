@@ -1,6 +1,6 @@
 
-#ifndef __PLATFORM_CCPLATFORMDEFINE_H__
-#define __PLATFORM_CCPLATFORMDEFINE_H__
+#ifndef __PLATFORM_LPLATFORMDEFINE_H__
+#define __PLATFORM_LPLATFORMDEFINE_H__
 /// @cond DO_NOT_SHOW
 
 #include "platform/LPlatformConfig.h"
@@ -22,4 +22,4 @@
 #endif
 
 /// @endcond
-#endif /* __PLATFORM_CCPLATFORMDEFINE_H__*/
+#endif /* __PLATFORM_LPLATFORMDEFINE_H__*/

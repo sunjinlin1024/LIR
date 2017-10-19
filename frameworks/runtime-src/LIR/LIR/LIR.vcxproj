@@ -51,7 +51,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -84,12 +85,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\lir\core\LConfig.h" />
+    <ClInclude Include="..\..\..\lir\debug\LDebug.h" />
     <ClInclude Include="..\..\..\lir\io\LFileUtils.h" />
     <ClInclude Include="..\..\..\lir\platform\LPlatformConfig.h" />
     <ClInclude Include="..\..\..\lir\platform\LPlatformDefine.h" />
     <ClInclude Include="..\..\..\lir\platform\LPlatformMacros.h" />
     <ClInclude Include="..\..\..\lir\platform\win32\LPlatformDefine-win32.h" />
-    <ClInclude Include="..\..\..\lir\tools\debug\LDebug.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
