@@ -52,4 +52,18 @@
 
 #endif //s LIR_TARGET_PLATFORM == LIR_PLATFORM_WIN32
 
+#ifdef __MINGW32__
+#include <string.h>
+#endif
+
+#if defined(CC_STATIC)
+#define CC_DLL
+#else
+#if defined(_USRDLL)
+#define CC_DLL     __declspec(dllexport)
+#else         /* use a DLL library */
+#define CC_DLL     //__declspec(dllimport)
+#endif
+#endif
+
 #endif /* __CCPLATFORMDEFINE_H__*/
