@@ -41,7 +41,7 @@ public:
 
     virtual void purgeCachedEntries();
 
-	FileReader::FileStatus getContents(const std::string& filename, Buffer* buffer);
+	FileStatus getContents(const std::string& filename, Buffer* buffer);
 
 	std::string fullPathForFilename(const std::string& filename) const;
 

@@ -91,20 +91,20 @@ void FileUtils::purgeCachedEntries()
 	_fullPathCache.clear();
 }
 
-FileReader::FileStatus FileUtils::getContents(const std::string& filename, Buffer* buffer)
+FileStatus FileUtils::getContents(const std::string& filename, Buffer* buffer)
 {
 	if (filename.empty())
-		return FileReader::FileStatus::NotExists;
+		return FileStatus::NotExists;
 
 	auto fs = FileUtils::getInstance();
 
 	std::string fullPath = fs->fullPathForFilename(filename);
 	if (fullPath.empty())
-		return FileReader::FileStatus::NotExists;
+		return FileStatus::NotExists;
 
 	FILE *fp = fopen(fs->getSuitableFOpen(fullPath).c_str(), "rb");
 	if (!fp)
-		return FileReader::FileStatus::OpenFailed;
+		return FileStatus::OpenFailed;
 
 #if defined(_MSC_VER)
 	auto descriptor = _fileno(fp);
@@ -114,7 +114,7 @@ FileReader::FileStatus FileUtils::getContents(const std::string& filename, Buffe
 	struct stat statBuf;
 	if (fstat(descriptor, &statBuf) == -1) {
 		fclose(fp);
-		return FileReader::FileStatus::ReadFailed;
+		return FileStatus::ReadFailed;
 	}
 	size_t size = statBuf.st_size;
 
@@ -124,10 +124,10 @@ FileReader::FileStatus FileUtils::getContents(const std::string& filename, Buffe
 
 	if (readsize < size) {
 		buffer->resize(readsize);
-		return FileReader::FileStatus::ReadFailed;
+		return FileStatus::ReadFailed;
 	}
 
-	return FileReader::FileStatus::SUCCESS;
+	return FileStatus::Success;
 }
 
 bool FileUtils::isAbsolutePath(const std::string& path) const

@@ -2,10 +2,29 @@
 #define __LIR_FILEREADER_H__
 
 #include <string>
+#include <unordered_map>
 
 #include "platform/PlatformMacros.h"
 
 NS_LIR_BEGIN
+
+enum FileStatus
+{
+	Success = 0,
+	NotExists, // File not exists
+	OpenFailed, // Open file failed.
+	ReadFailed, // Read failed
+	NotInitialized, // FileUtils is not initializes
+	TooLarge, // The file is too large (great than 2^32-1)
+	ObtainSizeFailed, // Failed to obtain the file size.
+	Openend, //  file Opened.
+	Downloading,//Downloading
+};
+
+typedef struct FilePackInfo{
+	size_t offset;
+	size_t size;
+};
 
 class LIR_DLL Buffer
 {
@@ -46,24 +65,10 @@ private:
 class LIR_DLL FileReader
 {
 public:
-		
-	enum FileStatus
-	{
-		SUCCESS = 0,
-		NotExists , // File not exists
-		OpenFailed , // Open file failed.
-		ReadFailed , // Read failed
-		NotInitialized, // FileUtils is not initializes
-		TooLarge, // The file is too large (great than 2^32-1)
-		ObtainSizeFailed, // Failed to obtain the file size.
-		Openend, //  file Opened.
-		Downloading,//Downloading
-	};
-
+	virtual FileStatus read(const std::string& filename, Buffer* buffer)=0;
+protected:
 	FileReader();
 	virtual ~FileReader();
-	virtual FileStatus read(const std::string& filename, Buffer* buffer) = 0;
-protected:
 	FileStatus openFile(const std::string& filename, FILE* file, size_t& size);
 };
 
@@ -72,7 +77,7 @@ class LIR_DLL FileReaderSingle:FileReader
 public:
 	FileReaderSingle();
 	~FileReaderSingle();
-	virtual FileStatus read(const std::string& filename, Buffer* buffer);
+	virtual FileStatus read(const std::string& filename, Buffer* buffer) override;
 protected:
 	FILE *_file;
 };
@@ -83,10 +88,12 @@ class LIR_DLL FileReaderPack :FileReader
 public:
 	FileReaderPack();
 	~FileReaderPack();
-	virtual FileStatus read(const std::string& filename, Buffer* buffer);
-	FileStatus initByPack(const std::string& packname);
+	virtual FileStatus read(const std::string& filename, Buffer* buffer) override;
+	FileStatus initByPackFile(const std::string& packname);
 protected:
+	size_t _contentOffset;
 	FILE *_file;
+	mutable std::unordered_map<std::string,FilePackInfo> _fileDic;
 };
 
 
