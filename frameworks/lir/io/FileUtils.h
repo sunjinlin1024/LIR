@@ -6,7 +6,8 @@
 #include <unordered_map>
 #include <type_traits>
 
-#include "platform/LPlatformMacros.h"
+#include "platform/PlatformMacros.h"
+#include "io/FileReader.h"
 //#include "base/ccTypes.h"
 //#include "base/CCValue.h"
 //#include "base/CCData.h"
@@ -17,47 +18,12 @@
 NS_LIR_BEGIN
 
 
-class LIR_DLL Buffer
-{
-public:
-	Buffer() :_size(0),_buff(nullptr){};
-	~Buffer();
-
-	void resize(size_t size){
-		if (size ==_size)
-		{
-			return;
-		}
-		else if (size >_size)
-		{
-			realloc(_buff, size);
-		}
-		_size = size;
-	}
-
-	unsigned char* buffer(){
-		return _buff;
-	}
-
-private:
-	size_t _size;
-	unsigned char* _buff;
-};
 
 /** Helper class to handle file operations. */
 class LIR_DLL FileUtils
 {
 public:
-	enum Status
-	{
-		OK = 0,
-		NotExists = 1, // File not exists
-		OpenFailed = 2, // Open file failed.
-		ReadFailed = 3, // Read failed
-		NotInitialized = 4, // FileUtils is not initializes
-		TooLarge = 5, // The file is too large (great than 2^32-1)
-		ObtainSizeFailed = 6 // Failed to obtain the file size.
-	};
+
     /**
      *  Gets the instance of FileUtils.
      */
@@ -70,14 +36,14 @@ public:
 		
 	FileUtils();
 
-    virtual ~FileUtils();
+   
 
 
     virtual void purgeCachedEntries();
 
-	Status getContents(const std::string& filename,Buffer* buffer);
+	FileReader::FileStatus getContents(const std::string& filename, Buffer* buffer);
 
-	std::string fullPathForFilename(const std::string &filename) const;
+	std::string fullPathForFilename(const std::string& filename) const;
 
 	virtual bool isAbsolutePath(const std::string& path) const;
 
@@ -85,16 +51,20 @@ public:
 
 	std::string getNewFilename(const std::string &filename) const;
 
+	virtual bool isFileExistInternal(const std::string& filename) const{
+		return true;
+	};// = 0;
 
 	bool isPopupNotify() const;
 
 	void setPopupNotify(bool notify);
 
+
+	virtual bool init();
+	virtual ~FileUtils();
 protected:
 
     
-
-    virtual bool init();
 
     virtual std::string getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath) const;
 

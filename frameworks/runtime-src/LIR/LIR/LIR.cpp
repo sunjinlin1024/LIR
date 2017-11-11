@@ -8,8 +8,8 @@
 #include <mutex>
 #include <Windows.h>
 
-#include "LDebug.h"
-#include "LFileUtils.h"
+#include "Debug.h"
+#include "FileUtils.h"
 
 
 USING_NS_LIR
@@ -74,14 +74,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	//}
 	//lir::log("test num %d \n", num);
 		
-	FileUtils::setDelegate(new FileUtils());
+	FileUtils* fileUtils = new FileUtils();
+	fileUtils->init();
+	FileUtils::setDelegate(fileUtils);
+	
 
-	Buffer* buffer;
-	FileUtils::getInstance()->getContents("res.zip",buffer);
+	Buffer buffer;
+	FileUtils::getInstance()->getContents("res.zip",&buffer);
 
 	while (true){
 		count++;
-		lir::log("count %d \n", count);
+		//lir::log("count %d \n", count);
 		//lir::log("test num %d \n", num);
 		Sleep(1000);
 	}

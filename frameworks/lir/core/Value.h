@@ -1,9 +1,9 @@
 
-#ifndef __LIR_LValue__
-#define __LIR_LValue__
+#ifndef __LIR_VALUE__
+#define __LIR_VALUE__
 
-#include "platform/LPlatformMacros.h"
-#include "base/ccMacros.h"
+#include "platform/PlatformMacros.h"
+#include "base/Macros.h"
 #include <string>
 #include <vector>
 #include <unordered_map>

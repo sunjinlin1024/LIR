@@ -2,7 +2,7 @@
 #ifndef __PLATFORM_CCSTDC_H__
 #define __PLATFORM_CCSTDC_H__
 
-#include "platform/LPlatformConfig.h"
+#include "platform/PlatformConfig.h"
 
 //#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 //#include "platform/mac/CCStdC-mac.h"

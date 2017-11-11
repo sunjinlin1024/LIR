@@ -3,11 +3,9 @@
 
 #include "stdio.h"
 
-namespace lir
-{
 
-
-
+namespace lir{
+	
 void log(const char* format)
 {
 	printf(format);
@@ -26,5 +24,4 @@ template<typename  T, typename Q, typename S> void log(const char* format, T& t,
 }
 
 }
-
 #endif

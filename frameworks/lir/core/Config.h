@@ -1,8 +1,8 @@
 
-#ifndef __LCONFIG_H__
-#define __LCONFIG_H__
+#ifndef __LIR_CONFIG_H__
+#define __LIR_CONFIG_H__
 
-#include "platform/LPlatformConfig.h"
+#include "platform/PlatformConfig.h"
 
 /**
  * @file
@@ -372,4 +372,4 @@
 # define LIR_ENABLE_PREMULTIPLIED_ALPHA 1
 #endif
 
-#endif // __CCCONFIG_H__
+#endif // __LIR_CONFIG_H__

@@ -7,7 +7,7 @@
 #endif
 
 //#include "core/LConsole.h"
-#include "platform/LStdC.h"
+#include "platform/StdC.h"
 
 #ifndef LASSERT
 #if LIR_DEBUG > 0
@@ -36,7 +36,7 @@
 #define L_ASSERT LASSERT
 #endif  // LASSERT
 
-#include "core/LConfig.h"
+#include "core/Config.h"
 
 /** @def LIR_SWAP
 simple macro that swaps 2 variables
@@ -47,7 +47,7 @@ simple macro that swaps 2 variables
     x = y; y = temp;        \
 }
 
-#include "core/LRandom.h"
+#include "core/Random.h"
 
 /** @def CCRANDOM_MINUS1_1
  returns a random float between -1 and 1

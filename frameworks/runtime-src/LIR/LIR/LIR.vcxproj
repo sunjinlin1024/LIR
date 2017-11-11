@@ -56,8 +56,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_USRDLL;_DEBUG;_WINDOWS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -85,22 +86,24 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\lir\core\LConfig.h" />
-    <ClInclude Include="..\..\..\lir\core\LMacros.h" />
-    <ClInclude Include="..\..\..\lir\core\LRandom.h" />
-    <ClInclude Include="..\..\..\lir\debug\LDebug.h" />
-    <ClInclude Include="..\..\..\lir\io\LFileUtils.h" />
-    <ClInclude Include="..\..\..\lir\platform\LPlatformConfig.h" />
-    <ClInclude Include="..\..\..\lir\platform\LPlatformDefine.h" />
-    <ClInclude Include="..\..\..\lir\platform\LPlatformMacros.h" />
-    <ClInclude Include="..\..\..\lir\platform\LStdC.h" />
-    <ClInclude Include="..\..\..\lir\platform\win32\LPlatformDefine-win32.h" />
+    <ClInclude Include="..\..\..\lir\core\Config.h" />
+    <ClInclude Include="..\..\..\lir\core\Macros.h" />
+    <ClInclude Include="..\..\..\lir\core\Random.h" />
+    <ClInclude Include="..\..\..\lir\debug\Debug.h" />
+    <ClInclude Include="..\..\..\lir\io\FileReader.h" />
+    <ClInclude Include="..\..\..\lir\io\FileUtils.h" />
+    <ClInclude Include="..\..\..\lir\platform\PlatformConfig.h" />
+    <ClInclude Include="..\..\..\lir\platform\PlatformDefine.h" />
+    <ClInclude Include="..\..\..\lir\platform\PlatformMacros.h" />
+    <ClInclude Include="..\..\..\lir\platform\StdC.h" />
+    <ClInclude Include="..\..\..\lir\platform\win32\PlatformDefine-win32.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\lir\core\LRandom.cpp" />
-    <ClCompile Include="..\..\..\lir\io\LFileUtils.cpp" />
+    <ClCompile Include="..\..\..\lir\core\Random.cpp" />
+    <ClCompile Include="..\..\..\lir\io\FileReader.cpp" />
+    <ClCompile Include="..\..\..\lir\io\FileUtils.cpp" />
     <ClCompile Include="LIR.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -1,7 +1,7 @@
-#ifndef __LPLATFORMDEFINE_H__
-#define __LPLATFORMDEFINE_H__
+#ifndef __PLATFORMDEFINE_H__
+#define __PLATFORMDEFINE_H__
 
-#include "platform/LPlatformConfig.h"
+#include "platform/PlatformConfig.h"
 #if LIR_TARGET_PLATFORM == LIR_PLATFORM_WIN32
 
 #ifdef __MINGW32__
@@ -66,4 +66,4 @@
 #endif
 #endif
 
-#endif /* __LPLATFORMDEFINE_H__*/
+#endif /* __PLATFORMDEFINE_H__*/

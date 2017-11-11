@@ -4,9 +4,9 @@
 /**
  * Define some platform specific macros.
  */
-#include "core/LConfig.h"
-#include "platform/LPlatformConfig.h"
-#include "platform/LPlatformDefine.h"
+#include "core/Config.h"
+#include "platform/PlatformConfig.h"
+#include "platform/PlatformDefine.h"
 
 /** @def CREATE_FUNC(__TYPE__)
  * Define a create function for a specific type, such as Layer.

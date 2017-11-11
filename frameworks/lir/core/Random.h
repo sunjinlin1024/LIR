@@ -23,13 +23,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ccRandom_H_
-#define __ccRandom_H_
+#ifndef __LIR_RANDOM_H_
+#define __LIR_RANDOM_H_
 
 #include <random>
 #include <cstdlib>
 
-#include "platform/LPlatformMacros.h"
+#include "platform/PlatformMacros.h"
 
 /**
 * @addtogroup base
@@ -123,4 +123,4 @@ inline float rand_0_1() {
 NS_LIR_END
 // end group
 /// @}
-#endif //__ccRandom_H_
+#endif //__LIR_RANDOM_H_

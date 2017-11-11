@@ -1,10 +1,13 @@
 
-#include "io/LFileUtils.h"
+#include "io/FileUtils.h"
+
 
 #include <stack>
 
+
+
 //#include "base/CCData.h"
-#include "core/LMacros.h"
+#include "core/Macros.h"
 //#include "platform/CCSAXParser.h"
 //#include "base/ccUtils.h"
 
@@ -16,7 +19,6 @@
 //#include "unzip.h"
 //#endif
 #include <sys/stat.h>
-#include <sys/types.h>
 
 USING_NS_LIR
 
@@ -50,17 +52,22 @@ bool FileUtils::isPopupNotify() const
 // Implement FileUtils
 FileUtils* FileUtils::s_sharedFileUtils = nullptr;
 
-
 void FileUtils::destroyInstance()
 {
-    LIR_SAFE_DELETE(s_sharedFileUtils);
+	LIR_SAFE_DELETE(s_sharedFileUtils);
 }
 
 void FileUtils::setDelegate(FileUtils *delegate)
 {
-    if (s_sharedFileUtils)
-        delete s_sharedFileUtils;
-    s_sharedFileUtils = delegate;
+	if (s_sharedFileUtils)
+		delete s_sharedFileUtils;
+
+	s_sharedFileUtils = delegate;
+}
+
+FileUtils* FileUtils::getInstance()
+{
+	return s_sharedFileUtils;
 }
 
 FileUtils::FileUtils()
@@ -84,20 +91,20 @@ void FileUtils::purgeCachedEntries()
 	_fullPathCache.clear();
 }
 
-FileUtils::Status FileUtils::getContents(const std::string& filename, Buffer* buffer)
+FileReader::FileStatus FileUtils::getContents(const std::string& filename, Buffer* buffer)
 {
 	if (filename.empty())
-		return Status::NotExists;
+		return FileReader::FileStatus::NotExists;
 
 	auto fs = FileUtils::getInstance();
 
 	std::string fullPath = fs->fullPathForFilename(filename);
 	if (fullPath.empty())
-		return Status::NotExists;
+		return FileReader::FileStatus::NotExists;
 
 	FILE *fp = fopen(fs->getSuitableFOpen(fullPath).c_str(), "rb");
 	if (!fp)
-		return Status::OpenFailed;
+		return FileReader::FileStatus::OpenFailed;
 
 #if defined(_MSC_VER)
 	auto descriptor = _fileno(fp);
@@ -107,7 +114,7 @@ FileUtils::Status FileUtils::getContents(const std::string& filename, Buffer* bu
 	struct stat statBuf;
 	if (fstat(descriptor, &statBuf) == -1) {
 		fclose(fp);
-		return Status::ReadFailed;
+		return FileReader::FileStatus::ReadFailed;
 	}
 	size_t size = statBuf.st_size;
 
@@ -117,11 +124,33 @@ FileUtils::Status FileUtils::getContents(const std::string& filename, Buffer* bu
 
 	if (readsize < size) {
 		buffer->resize(readsize);
-		return Status::ReadFailed;
+		return FileReader::FileStatus::ReadFailed;
 	}
 
-	return Status::OK;
+	return FileReader::FileStatus::SUCCESS;
 }
+
+bool FileUtils::isAbsolutePath(const std::string& path) const
+{
+	return (path[0] == '/');
+}
+
+std::string FileUtils::getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename) const
+{
+	// get directory+filename, safely adding '/' as necessary
+	std::string ret = directory;
+	if (directory.size() && directory[directory.size() - 1] != '/'){
+		ret += '/';
+	}
+	ret += filename;
+
+	// if the file doesn't exist, return an empty string
+	if (!isFileExistInternal(ret)) {
+		ret = "";
+	}
+	return ret;
+}
+
 
 std::string FileUtils::getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath) const
 {
