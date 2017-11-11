@@ -39,9 +39,9 @@
 #if _MSC_VER > 1800
 #pragma comment(lib,"libpng-2015.lib")
 #pragma comment(lib,"libjpeg-2015.lib")
-#pragma comment(lib,"libtiff-2015.lib")
+//#pragma comment(lib,"libtiff-2015.lib")
 #pragma comment(lib,"glfw3-2015.lib")
-#pragma comment(lib,"libchipmunk-2015.lib")
+//#pragma comment(lib,"libchipmunk-2015.lib")
 #else
 //#pragma comment(lib,"libpng.lib")
 //#pragma comment(lib,"libjpeg.lib")
@@ -57,13 +57,13 @@
 #endif
 
 #if defined(CC_STATIC)
-#define CC_DLL
+#define LIR_DLL
 #else
 #if defined(_USRDLL)
-#define CC_DLL     __declspec(dllexport)
+#define LIR_DLL     __declspec(dllexport)
 #else         /* use a DLL library */
-#define CC_DLL     //__declspec(dllimport)
+#define LIR_DLL     //__declspec(dllimport)
 #endif
 #endif
 
-#endif /* __CCPLATFORMDEFINE_H__*/
+#endif /* __LPLATFORMDEFINE_H__*/

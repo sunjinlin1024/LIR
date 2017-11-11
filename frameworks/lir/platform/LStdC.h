@@ -20,4 +20,5 @@
 //#include "platform/tizen/CCStdC-tizen.h"
 //#endif
 
+
 #endif /* __PLATFORM_CCSTDC_H__*/

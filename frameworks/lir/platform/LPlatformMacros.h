@@ -82,7 +82,7 @@ LIR_DEPRECATED_ATTRIBUTE static __TYPE__* node() \
 #ifdef __cplusplus
     #define NS_LIR_BEGIN                     namespace lir {
     #define NS_LIR_END                       }
-    #define USING_NS_LIR                     using namespace lir
+	#define USING_NS_LIR                     using namespace lir;
     #define NS_LIR                           ::lir
 #else
     #define NS_LIR_BEGIN 

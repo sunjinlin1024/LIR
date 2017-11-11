@@ -6,40 +6,43 @@
 #define _USE_MATH_DEFINES
 #endif
 
-#include "core/LConsole.h"
+//#include "core/LConsole.h"
 #include "platform/LStdC.h"
 
-#ifndef CCASSERT
+#ifndef LASSERT
 #if LIR_DEBUG > 0
-    #if CC_ENABLE_SCRIPT_BINDING
-    extern bool CC_DLL cc_assert_script_compatible(const char *msg);
-    #define CCASSERT(cond, msg) do {                              \
-          if (!(cond)) {                                          \
-            if (!cc_assert_script_compatible(msg) && strlen(msg)) \
-              cocos2d::log("Assert failed: %s", msg);             \
-            CC_ASSERT(cond);                                      \
-          } \
-        } while (0)
-    #else
-    #define CCASSERT(cond, msg) CC_ASSERT(cond)
-    #endif
+   // #if LIR_ENABLE_SCRIPT_BINDING
+   // extern bool LIR_DLL lir_assert_script_compatible(const char *msg);
+   // #define LASSERT(cond, msg) do {                              \
+   //       if (!(cond)) {                                          \
+			//if (!lir_assert_script_compatible(msg) && strlen(msg)) \
+   //           lir::log("Assert failed: %s", msg);             \
+   //         L_ASSERT(cond);                                      \
+   //       } \
+   //     } while (0)
+   // #else
+   // #define LASSERT(cond, msg) LIR_ASSERT(cond)
+   // #endif
+	#define LASSERT(cond,msg) if(!cond)\
+		lir::log("Assert failed: %s", msg);\
+	}
 #else
-    #define CCASSERT(cond, msg)
+    #define LASSERT(cond, msg)
 #endif
 
-#define GP_ASSERT(cond) CCASSERT(cond, "")
+#define GP_ASSERT(cond) LASSERT(cond, "")
 
 // FIXME:: Backward compatible
-#define CCAssert CCASSERT
-#endif  // CCASSERT
+#define L_ASSERT LASSERT
+#endif  // LASSERT
 
 #include "core/LConfig.h"
 
-/** @def CC_SWAP
+/** @def LIR_SWAP
 simple macro that swaps 2 variables
  @deprecated use std::swap() instead
 */
-#define CC_SWAP(x, y, type)    \
+#define LIR_SWAP(x, y, type)    \
 {    type temp = (x);        \
     x = y; y = temp;        \
 }
@@ -56,33 +59,33 @@ simple macro that swaps 2 variables
  */
 #define CCRANDOM_0_1() cocos2d::rand_0_1()
 
-/** @def CC_DEGREES_TO_RADIANS
+/** @def LIR_DEGREES_TO_RADIANS
  converts degrees to radians
  */
-#define CC_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.01745329252f) // PI / 180
+#define LIR_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.01745329252f) // PI / 180
 
-/** @def CC_RADIANS_TO_DEGREES
+/** @def LIR_RADIANS_TO_DEGREES
  converts radians to degrees
  */
-#define CC_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
+#define LIR_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
 
-#define CC_REPEAT_FOREVER (UINT_MAX -1)
-#define kRepeatForever CC_REPEAT_FOREVER
+#define LIR_REPEAT_FOREVER (UINT_MAX -1)
+#define kRepeatForever LIR_REPEAT_FOREVER
 
-/** @def CC_BLEND_SRC
+/** @def LIR_BLEND_SRC
 default gl blend src function. Compatible with premultiplied alpha images.
 */
-#define CC_BLEND_SRC GL_ONE
-#define CC_BLEND_DST GL_ONE_MINUS_SRC_ALPHA
+#define LIR_BLEND_SRC GL_ONE
+#define LIR_BLEND_DST GL_ONE_MINUS_SRC_ALPHA
 
 
-/** @def CC_NODE_DRAW_SETUP
+/** @def LIR_NODE_DRAW_SETUP
  Helpful macro that setups the GL server state, the correct GL program and sets the Model View Projection matrix
  @since v2.0
  */
-#define CC_NODE_DRAW_SETUP() \
+#define LIR_NODE_DRAW_SETUP() \
 do { \
-    CCASSERT(getGLProgram(), "No shader program set for this node"); \
+    LASSERT(getGLProgram(), "No shader program set for this node"); \
     { \
         getGLProgram()->use(); \
         getGLProgram()->setUniformsForBuiltins(_modelViewTransform); \
@@ -90,65 +93,65 @@ do { \
 } while(0)
 
 
- /** @def CC_DIRECTOR_END
+ /** @def LIR_DIRECTOR_END
   Stops and removes the director from memory.
   Removes the GLView from its parent
 
   @since v0.99.4
   */
-#define CC_DIRECTOR_END()                                       \
+#define LIR_DIRECTOR_END()                                       \
 do {                                                            \
     Director *__director = cocos2d::Director::getInstance();             \
     __director->end();                                          \
 } while(0)
 
-/** @def CC_CONTENT_SCALE_FACTOR
+/** @def LIR_CONTENT_SCALE_FACTOR
 On Mac it returns 1;
 On iPhone it returns 2 if RetinaDisplay is On. Otherwise it returns 1
 */
-#define CC_CONTENT_SCALE_FACTOR() cocos2d::Director::getInstance()->getContentScaleFactor()
+#define LIR_CONTENT_SCALE_FACTOR() cocos2d::Director::getInstance()->getContentScaleFactor()
 
 /****************************/
 /** RETINA DISPLAY ENABLED **/
 /****************************/
 
-/** @def CC_RECT_PIXELS_TO_POINTS
+/** @def LIR_RECT_PIXELS_TO_POINTS
  Converts a rect in pixels to points
  */
-#define CC_RECT_PIXELS_TO_POINTS(__rect_in_pixels__)                                                                        \
-    Rect( (__rect_in_pixels__).origin.x / CC_CONTENT_SCALE_FACTOR(), (__rect_in_pixels__).origin.y / CC_CONTENT_SCALE_FACTOR(),    \
-            (__rect_in_pixels__).size.width / CC_CONTENT_SCALE_FACTOR(), (__rect_in_pixels__).size.height / CC_CONTENT_SCALE_FACTOR() )
+#define LIR_RECT_PIXELS_TO_POINTS(__rect_in_pixels__)                                                                        \
+    Rect( (__rect_in_pixels__).origin.x / LIR_CONTENT_SCALE_FACTOR(), (__rect_in_pixels__).origin.y / LIR_CONTENT_SCALE_FACTOR(),    \
+            (__rect_in_pixels__).size.width / LIR_CONTENT_SCALE_FACTOR(), (__rect_in_pixels__).size.height / LIR_CONTENT_SCALE_FACTOR() )
 
-/** @def CC_RECT_POINTS_TO_PIXELS
+/** @def LIR_RECT_POINTS_TO_PIXELS
  Converts a rect in points to pixels
  */
-#define CC_RECT_POINTS_TO_PIXELS(__rect_in_points_points__)                                                                        \
-    Rect( (__rect_in_points_points__).origin.x * CC_CONTENT_SCALE_FACTOR(), (__rect_in_points_points__).origin.y * CC_CONTENT_SCALE_FACTOR(),    \
-            (__rect_in_points_points__).size.width * CC_CONTENT_SCALE_FACTOR(), (__rect_in_points_points__).size.height * CC_CONTENT_SCALE_FACTOR() )
+#define LIR_RECT_POINTS_TO_PIXELS(__rect_in_points_points__)                                                                        \
+    Rect( (__rect_in_points_points__).origin.x * LIR_CONTENT_SCALE_FACTOR(), (__rect_in_points_points__).origin.y * LIR_CONTENT_SCALE_FACTOR(),    \
+            (__rect_in_points_points__).size.width * LIR_CONTENT_SCALE_FACTOR(), (__rect_in_points_points__).size.height * LIR_CONTENT_SCALE_FACTOR() )
 
-/** @def CC_POINT_PIXELS_TO_POINTS
+/** @def LIR_POINT_PIXELS_TO_POINTS
  Converts a rect in pixels to points
  */
-#define CC_POINT_PIXELS_TO_POINTS(__pixels__)                                                                        \
-Vec2( (__pixels__).x / CC_CONTENT_SCALE_FACTOR(), (__pixels__).y / CC_CONTENT_SCALE_FACTOR())
+#define LIR_POINT_PIXELS_TO_POINTS(__pixels__)                                                                        \
+Vec2( (__pixels__).x / LIR_CONTENT_SCALE_FACTOR(), (__pixels__).y / LIR_CONTENT_SCALE_FACTOR())
 
-/** @def CC_POINT_POINTS_TO_PIXELS
+/** @def LIR_POINT_POINTS_TO_PIXELS
  Converts a rect in points to pixels
  */
-#define CC_POINT_POINTS_TO_PIXELS(__points__)                                                                        \
-Vec2( (__points__).x * CC_CONTENT_SCALE_FACTOR(), (__points__).y * CC_CONTENT_SCALE_FACTOR())
+#define LIR_POINT_POINTS_TO_PIXELS(__points__)                                                                        \
+Vec2( (__points__).x * LIR_CONTENT_SCALE_FACTOR(), (__points__).y * LIR_CONTENT_SCALE_FACTOR())
 
-/** @def CC_POINT_PIXELS_TO_POINTS
+/** @def LIR_POINT_PIXELS_TO_POINTS
  Converts a rect in pixels to points
  */
-#define CC_SIZE_PIXELS_TO_POINTS(__size_in_pixels__)                                                                        \
-Size( (__size_in_pixels__).width / CC_CONTENT_SCALE_FACTOR(), (__size_in_pixels__).height / CC_CONTENT_SCALE_FACTOR())
+#define LIR_SIZE_PIXELS_TO_POINTS(__size_in_pixels__)                                                                        \
+Size( (__size_in_pixels__).width / LIR_CONTENT_SCALE_FACTOR(), (__size_in_pixels__).height / LIR_CONTENT_SCALE_FACTOR())
 
-/** @def CC_POINT_POINTS_TO_PIXELS
+/** @def LIR_POINT_POINTS_TO_PIXELS
  Converts a rect in points to pixels
  */
-#define CC_SIZE_POINTS_TO_PIXELS(__size_in_points__)                                                                        \
-Size( (__size_in_points__).width * CC_CONTENT_SCALE_FACTOR(), (__size_in_points__).height * CC_CONTENT_SCALE_FACTOR())
+#define LIR_SIZE_POINTS_TO_PIXELS(__size_in_points__)                                                                        \
+Size( (__size_in_points__).width * LIR_CONTENT_SCALE_FACTOR(), (__size_in_points__).height * LIR_CONTENT_SCALE_FACTOR())
 
 
 #ifndef FLT_EPSILON
@@ -167,51 +170,51 @@ It should work same as apples CFSwapInt32LittleToHost(..)
 */
 
 /// when define returns true it means that our architecture uses big endian
-#define CC_HOST_IS_BIG_ENDIAN (bool)(*(unsigned short *)"\0\xff" < 0x100) 
-#define CC_SWAP32(i)  ((i & 0x000000ff) << 24 | (i & 0x0000ff00) << 8 | (i & 0x00ff0000) >> 8 | (i & 0xff000000) >> 24)
-#define CC_SWAP16(i)  ((i & 0x00ff) << 8 | (i &0xff00) >> 8)   
-#define CC_SWAP_INT32_LITTLE_TO_HOST(i) ((CC_HOST_IS_BIG_ENDIAN == true)? CC_SWAP32(i) : (i) )
-#define CC_SWAP_INT16_LITTLE_TO_HOST(i) ((CC_HOST_IS_BIG_ENDIAN == true)? CC_SWAP16(i) : (i) )
-#define CC_SWAP_INT32_BIG_TO_HOST(i)    ((CC_HOST_IS_BIG_ENDIAN == true)? (i) : CC_SWAP32(i) )
-#define CC_SWAP_INT16_BIG_TO_HOST(i)    ((CC_HOST_IS_BIG_ENDIAN == true)? (i):  CC_SWAP16(i) )
+#define LIR_HOST_IS_BIG_ENDIAN (bool)(*(unsigned short *)"\0\xff" < 0x100) 
+#define LIR_SWAP32(i)  ((i & 0x000000ff) << 24 | (i & 0x0000ff00) << 8 | (i & 0x00ff0000) >> 8 | (i & 0xff000000) >> 24)
+#define LIR_SWAP16(i)  ((i & 0x00ff) << 8 | (i &0xff00) >> 8)   
+#define LIR_SWAP_INT32_LITTLE_TO_HOST(i) ((LIR_HOST_IS_BIG_ENDIAN == true)? LIR_SWAP32(i) : (i) )
+#define LIR_SWAP_INT16_LITTLE_TO_HOST(i) ((LIR_HOST_IS_BIG_ENDIAN == true)? LIR_SWAP16(i) : (i) )
+#define LIR_SWAP_INT32_BIG_TO_HOST(i)    ((LIR_HOST_IS_BIG_ENDIAN == true)? (i) : LIR_SWAP32(i) )
+#define LIR_SWAP_INT16_BIG_TO_HOST(i)    ((LIR_HOST_IS_BIG_ENDIAN == true)? (i):  LIR_SWAP16(i) )
 
 /**********************/
 /** Profiling Macros **/
 /**********************/
-#if CC_ENABLE_PROFILERS
+#if LIR_ENABLE_PROFILERS
 
-#define CC_PROFILER_DISPLAY_TIMERS() NS_CC::Profiler::getInstance()->displayTimers()
-#define CC_PROFILER_PURGE_ALL() NS_CC::Profiler::getInstance()->releaseAllTimers()
+#define LIR_PROFILER_DISPLAY_TIMERS() NS_CC::Profiler::getInstance()->displayTimers()
+#define LIR_PROFILER_PURGE_ALL() NS_CC::Profiler::getInstance()->releaseAllTimers()
 
-#define CC_PROFILER_START(__name__) NS_CC::ProfilingBeginTimingBlock(__name__)
-#define CC_PROFILER_STOP(__name__) NS_CC::ProfilingEndTimingBlock(__name__)
-#define CC_PROFILER_RESET(__name__) NS_CC::ProfilingResetTimingBlock(__name__)
+#define LIR_PROFILER_START(__name__) NS_CC::ProfilingBeginTimingBlock(__name__)
+#define LIR_PROFILER_STOP(__name__) NS_CC::ProfilingEndTimingBlock(__name__)
+#define LIR_PROFILER_RESET(__name__) NS_CC::ProfilingResetTimingBlock(__name__)
 
-#define CC_PROFILER_START_CATEGORY(__cat__, __name__) do{ if(__cat__) NS_CC::ProfilingBeginTimingBlock(__name__); } while(0)
-#define CC_PROFILER_STOP_CATEGORY(__cat__, __name__) do{ if(__cat__) NS_CC::ProfilingEndTimingBlock(__name__); } while(0)
-#define CC_PROFILER_RESET_CATEGORY(__cat__, __name__) do{ if(__cat__) NS_CC::ProfilingResetTimingBlock(__name__); } while(0)
+#define LIR_PROFILER_START_CATEGORY(__cat__, __name__) do{ if(__cat__) NS_CC::ProfilingBeginTimingBlock(__name__); } while(0)
+#define LIR_PROFILER_STOP_CATEGORY(__cat__, __name__) do{ if(__cat__) NS_CC::ProfilingEndTimingBlock(__name__); } while(0)
+#define LIR_PROFILER_RESET_CATEGORY(__cat__, __name__) do{ if(__cat__) NS_CC::ProfilingResetTimingBlock(__name__); } while(0)
 
-#define CC_PROFILER_START_INSTANCE(__id__, __name__) do{ NS_CC::ProfilingBeginTimingBlock( NS_CC::String::createWithFormat("%08X - %s", __id__, __name__)->getCString() ); } while(0)
-#define CC_PROFILER_STOP_INSTANCE(__id__, __name__) do{ NS_CC::ProfilingEndTimingBlock(    NS_CC::String::createWithFormat("%08X - %s", __id__, __name__)->getCString() ); } while(0)
-#define CC_PROFILER_RESET_INSTANCE(__id__, __name__) do{ NS_CC::ProfilingResetTimingBlock( NS_CC::String::createWithFormat("%08X - %s", __id__, __name__)->getCString() ); } while(0)
+#define LIR_PROFILER_START_INSTANCE(__id__, __name__) do{ NS_CC::ProfilingBeginTimingBlock( NS_CC::String::createWithFormat("%08X - %s", __id__, __name__)->getCString() ); } while(0)
+#define LIR_PROFILER_STOP_INSTANCE(__id__, __name__) do{ NS_CC::ProfilingEndTimingBlock(    NS_CC::String::createWithFormat("%08X - %s", __id__, __name__)->getCString() ); } while(0)
+#define LIR_PROFILER_RESET_INSTANCE(__id__, __name__) do{ NS_CC::ProfilingResetTimingBlock( NS_CC::String::createWithFormat("%08X - %s", __id__, __name__)->getCString() ); } while(0)
 
 
 #else
 
-#define CC_PROFILER_DISPLAY_TIMERS() do {} while (0)
-#define CC_PROFILER_PURGE_ALL() do {} while (0)
+#define LIR_PROFILER_DISPLAY_TIMERS() do {} while (0)
+#define LIR_PROFILER_PURGE_ALL() do {} while (0)
 
-#define CC_PROFILER_START(__name__)  do {} while (0)
-#define CC_PROFILER_STOP(__name__) do {} while (0)
-#define CC_PROFILER_RESET(__name__) do {} while (0)
+#define LIR_PROFILER_START(__name__)  do {} while (0)
+#define LIR_PROFILER_STOP(__name__) do {} while (0)
+#define LIR_PROFILER_RESET(__name__) do {} while (0)
 
-#define CC_PROFILER_START_CATEGORY(__cat__, __name__) do {} while(0)
-#define CC_PROFILER_STOP_CATEGORY(__cat__, __name__) do {} while(0)
-#define CC_PROFILER_RESET_CATEGORY(__cat__, __name__) do {} while(0)
+#define LIR_PROFILER_START_CATEGORY(__cat__, __name__) do {} while(0)
+#define LIR_PROFILER_STOP_CATEGORY(__cat__, __name__) do {} while(0)
+#define LIR_PROFILER_RESET_CATEGORY(__cat__, __name__) do {} while(0)
 
-#define CC_PROFILER_START_INSTANCE(__id__, __name__) do {} while(0)
-#define CC_PROFILER_STOP_INSTANCE(__id__, __name__) do {} while(0)
-#define CC_PROFILER_RESET_INSTANCE(__id__, __name__) do {} while(0)
+#define LIR_PROFILER_START_INSTANCE(__id__, __name__) do {} while(0)
+#define LIR_PROFILER_STOP_INSTANCE(__id__, __name__) do {} while(0)
+#define LIR_PROFILER_RESET_INSTANCE(__id__, __name__) do {} while(0)
 
 #endif
 
@@ -236,23 +239,23 @@ It should work same as apples CFSwapInt32LittleToHost(..)
  * function calls.
  */
 #if defined(NDEBUG) || (defined(__APPLE__) && !defined(DEBUG))
-#define CC_GL_ASSERT( gl_code ) gl_code
+#define LIR_GL_ASSERT( gl_code ) gl_code
 #else
-#define CC_GL_ASSERT( gl_code ) do \
+#define LIR_GL_ASSERT( gl_code ) do \
 { \
 gl_code; \
 __gl_error_code = glGetError(); \
-CC_ASSERT(__gl_error_code == GL_NO_ERROR, "Error"); \
+LIR_ASSERT(__gl_error_code == GL_NO_ERROR, "Error"); \
 } while(0)
 #endif
 
 
-/** @def CC_INCREMENT_GL_DRAWS_BY_ONE
+/** @def LIR_INCREMENT_GL_DRAWS_BY_ONE
  Increments the GL Draws counts by one.
  The number of calls per frame are displayed on the screen when the Director's stats are enabled.
  */
-#define CC_INCREMENT_GL_DRAWS(__n__) cocos2d::Director::getInstance()->getRenderer()->addDrawnBatches(__n__)
-#define CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(__drawcalls__, __vertices__) \
+#define LIR_INCREMENT_GL_DRAWS(__n__) cocos2d::Director::getInstance()->getRenderer()->addDrawnBatches(__n__)
+#define LIR_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(__drawcalls__, __vertices__) \
     do {                                                                \
         auto __renderer__ = cocos2d::Director::getInstance()->getRenderer();     \
         __renderer__->addDrawnBatches(__drawcalls__);                   \
@@ -276,9 +279,9 @@ CC_ASSERT(__gl_error_code == GL_NO_ERROR, "Error"); \
 #define Animate3DDisplayedNotification "CCAnimate3DDisplayedNotification"
 
 // new callbacks based on C++11
-#define CC_CALLBACK_0(__selector__,__target__, ...) std::bind(&__selector__,__target__, ##__VA_ARGS__)
-#define CC_CALLBACK_1(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, ##__VA_ARGS__)
-#define CC_CALLBACK_2(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, std::placeholders::_2, ##__VA_ARGS__)
-#define CC_CALLBACK_3(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, ##__VA_ARGS__)
+#define L_CALLBACK_0(__selector__,__target__, ...) std::bind(&__selector__,__target__, ##__VA_ARGS__)
+#define L_CALLBACK_1(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, ##__VA_ARGS__)
+#define L_CALLBACK_2(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, std::placeholders::_2, ##__VA_ARGS__)
+#define L_CALLBACK_3(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, ##__VA_ARGS__)
 
 #endif // __BASE_CCMACROS_H__

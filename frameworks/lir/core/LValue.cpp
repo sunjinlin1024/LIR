@@ -22,10 +22,10 @@
  THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/LValue.h"
+#include "core/LValue.h"
 #include <sstream>
 #include <iomanip>
-#include "base/LUtils.h"
+#include "core/LUtils.h"
 
 NS_LIR_BEGIN
 

@@ -42,7 +42,7 @@ NS_LIR_BEGIN
  * @class RandomHelper
  * @brief A helper class for creating random number.
  */
-class CC_DLL RandomHelper {
+class LIR_DLL RandomHelper {
 public:
     template<typename T>
     static inline T random_real(T min, T max) {

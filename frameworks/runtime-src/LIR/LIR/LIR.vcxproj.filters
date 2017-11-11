@@ -57,25 +57,37 @@
     <ClInclude Include="..\..\..\lir\platform\win32\LPlatformDefine-win32.h">
       <Filter>LIR\platform\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\lir\io\LFileUtils.h">
-      <Filter>LIR\io</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\lir\core\LConfig.h">
       <Filter>LIR\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\lir\debug\LDebug.h">
       <Filter>LIR\debug</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\lir\core\LMacros.h">
+      <Filter>LIR\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\platform\LStdC.h">
+      <Filter>LIR\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\core\LRandom.h">
+      <Filter>LIR\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\io\LFileUtils.h">
+      <Filter>LIR\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="LIR.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="..\..\..\lir\core\LRandom.cpp">
+      <Filter>LIR\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\lir\io\LFileUtils.cpp">
       <Filter>LIR\io</Filter>
+    </ClCompile>
+    <ClCompile Include="LIR.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

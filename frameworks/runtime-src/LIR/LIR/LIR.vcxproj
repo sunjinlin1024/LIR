@@ -45,6 +45,7 @@
     <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
     <IncludePath>$(ENGINE_ROOT);$(ENGINE_ROOT)\debug;$(ENGINE_ROOT)\io;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -85,16 +86,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\lir\core\LConfig.h" />
+    <ClInclude Include="..\..\..\lir\core\LMacros.h" />
+    <ClInclude Include="..\..\..\lir\core\LRandom.h" />
     <ClInclude Include="..\..\..\lir\debug\LDebug.h" />
     <ClInclude Include="..\..\..\lir\io\LFileUtils.h" />
     <ClInclude Include="..\..\..\lir\platform\LPlatformConfig.h" />
     <ClInclude Include="..\..\..\lir\platform\LPlatformDefine.h" />
     <ClInclude Include="..\..\..\lir\platform\LPlatformMacros.h" />
+    <ClInclude Include="..\..\..\lir\platform\LStdC.h" />
     <ClInclude Include="..\..\..\lir\platform\win32\LPlatformDefine-win32.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\lir\core\LRandom.cpp" />
     <ClCompile Include="..\..\..\lir\io\LFileUtils.cpp" />
     <ClCompile Include="LIR.cpp" />
     <ClCompile Include="stdafx.cpp">

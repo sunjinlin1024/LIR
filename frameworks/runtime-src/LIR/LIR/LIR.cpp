@@ -4,20 +4,86 @@
 #include "stdafx.h"
 #include "stdarg.h"
 #include <string>
+#include <thread>
+#include <mutex>
 #include <Windows.h>
 
 #include "LDebug.h"
+#include "LFileUtils.h"
 
+
+USING_NS_LIR
+
+#define CC_CALLBACK_0(__selector__, ...) std::bind(&__selector__, ##__VA_ARGS__)
+
+
+
+static bool processing = false;
+
+//volatile int num(0);
+//std::mutex mtx;
+
+
+//void increase10kTimes()
+//{
+//	for (int k = 0; k < 100000; k++)
+//	{
+//		if (mtx.try_lock())
+//		{
+//			++num;
+//			mtx.unlock();
+//		}
+//		else
+//		{
+//
+//		}
+//		
+//		
+//	}
+//}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int count = 0;
-	while (true)
-	{
-		count++;
-		lir::log("count %d ,test %s\n", count,"a");
-		Sleep(1000);
+
+	//auto t = std::thread(CC_CALLBACK_0(networkThread));
+	//
+	//processing = true;
+	//t.detach();
+
+	////Sleep(1000);
+	//while (processing)
+	//{
+	//	count++;
+	//	lir::log("count %d \n", count);
+	//	Sleep(1000);
+	//}
+	//lir::log("complete");
+
+	//t.join();
+
+	//std::thread threads[10];
+	//for (int k = 0; k < 10; k++)
+	//{
+	//	threads[k] = std::thread(increase10kTimes);
+	//}
+
+	//for (int k = 0; k < 10; k++)
+	//{
+	//	threads[k].detach();
+	//}
+	//lir::log("test num %d \n", num);
 		
+	FileUtils::setDelegate(new FileUtils());
+
+	Buffer* buffer;
+	FileUtils::getInstance()->getContents("res.zip",buffer);
+
+	while (true){
+		count++;
+		lir::log("count %d \n", count);
+		//lir::log("test num %d \n", num);
+		Sleep(1000);
 	}
 	return 0;
 }
