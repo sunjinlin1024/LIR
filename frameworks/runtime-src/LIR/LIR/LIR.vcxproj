@@ -86,11 +86,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\lir\core\Buffer.h" />
     <ClInclude Include="..\..\..\lir\core\Config.h" />
     <ClInclude Include="..\..\..\lir\core\Macros.h" />
     <ClInclude Include="..\..\..\lir\core\Random.h" />
     <ClInclude Include="..\..\..\lir\debug\Debug.h" />
-    <ClInclude Include="..\..\..\lir\io\FileReader.h" />
+    <ClInclude Include="..\..\..\lir\io\FileHandler.h" />
     <ClInclude Include="..\..\..\lir\io\FileUtils.h" />
     <ClInclude Include="..\..\..\lir\platform\PlatformConfig.h" />
     <ClInclude Include="..\..\..\lir\platform\PlatformDefine.h" />
@@ -101,8 +102,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\lir\core\Buffer.cpp" />
     <ClCompile Include="..\..\..\lir\core\Random.cpp" />
-    <ClCompile Include="..\..\..\lir\io\FileReader.cpp" />
+    <ClCompile Include="..\..\..\lir\io\FileHandler.cpp" />
     <ClCompile Include="..\..\..\lir\io\FileUtils.cpp" />
     <ClCompile Include="LIR.cpp" />
     <ClCompile Include="stdafx.cpp">
