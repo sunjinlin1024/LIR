@@ -9,7 +9,8 @@
 #include <Windows.h>
 
 #include "Debug.h"
-#include "FileUtils.h"
+#include "io/FileHandler.h"
+#include "core/Buffer.h"
 
 
 USING_NS_LIR
@@ -74,13 +75,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	//}
 	//lir::log("test num %d \n", num);
 		
-	FileUtils* fileUtils = new FileUtils();
-	fileUtils->init();
-	FileUtils::setDelegate(fileUtils);
+	//FileUtils* fileUtils = new FileUtils();
+	//fileUtils->init();
+	//FileUtils::setDelegate(fileUtils);
 	
 
-	Buffer buffer;
-	FileUtils::getInstance()->getContents("res.zip",&buffer);
+	//Buffer buffer;
+	//FileUtils::getInstance()->getContents("res.zip",&buffer);
+
+	FileHandlerPack* pack = new FileHandlerPack();
+	pack->openByPack("./res.lrp","wb+");
+	
 
 	while (true){
 		count++;
