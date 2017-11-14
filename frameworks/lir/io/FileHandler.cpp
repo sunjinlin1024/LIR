@@ -3,6 +3,8 @@
 //#include <stack>
 #include <sys/stat.h>
 
+#include "debug/Debug.h"
+
 USING_NS_LIR
 
 FileStatus FileHandler::open(const std::string& fullPath, const char* mode, FILE* &file, size_t& size)
@@ -131,6 +133,10 @@ extern "C" {
 		else
 		{
 			endPos = nTableSize;
+		}
+		if (endPos <= blockPos)
+		{
+			return -1;
 		}
 		auto nHashA = HashString(lpszString, HASH_A);
 		auto nHashB = HashString(lpszString, HASH_B);
@@ -268,81 +274,144 @@ FileStatus FileHandlerPack::read(const std::string& fileName, Buffer* buffer)
 	return FileStatus::Success;
 }
 
-FileStatus FileHandlerPack::append(const std::string& fullPath, const std::string& fileName, void* buff, size_t size)
+int FileHandlerPack::getCount()
+{
+	return _header.fileCount;
+}
+
+FileStatus FileHandlerPack::resize(const int count)
+{
+	if (count>_header.fileCount)
+	{
+		auto totalHashSize = count*sizeof(MPQHASHTABLE);
+		_hashTable = (MPQHASHTABLE*)realloc(_hashTable, totalHashSize);
+		if (_hashTable == nullptr)
+		{
+			
+			return FileStatus::WriteFailed;
+		}
+		memset(_hashTable + _header.fileCount, 0, sizeof(MPQHASHTABLE)*(count - _header.fileCount));
+
+		auto totalBlockSize = count*sizeof(MPQBLOCKTABLE);
+		_blockTable = (MPQBLOCKTABLE*)realloc(_blockTable, totalBlockSize);
+		if (_blockTable == nullptr)
+		{
+			return FileStatus::WriteFailed;
+		}
+		memset(_blockTable + _header.fileCount, 0, sizeof(MPQBLOCKTABLE)*(count - _header.fileCount));
+	}
+	_header.fileCount = count;
+	if (_header.hashOffset == 0 || _header.blockOffset == 0)
+	{
+		_header.blockOffset = _header.hashOffset = MPQ_HEADER_SIZE + _header.contentSize;
+		fseek(_file, 0, 0);
+		fwrite(&_header, MPQ_HEADER_SIZE, 1, _file);
+	}
+	return FileStatus::Success;
+}
+
+FileStatus FileHandlerPack::append(const std::string& fullPath, const std::string& fileName, void* buff, size_t size,int index)
 {
 	const char* name = fileName.c_str();
 	auto nHash = HashString(name, HASH_OFFSET);
 	auto nHashA = HashString(name, HASH_A);
 	auto nHashB = HashString(name, HASH_B);
 
-	MPQBLOCKTABLE newBlock;
-	newBlock.fileOffset = 0;
-	newBlock.fileSize = size;
-	newBlock.nHash = nHash;
-	newBlock.nHashA = nHashA;
-	newBlock.nHashB = nHashB;
+	int blockIndex = index;
+	if (blockIndex < 0)
+	{
+		for (int i = _header.fileCount-1; i >= 0; i--)
+		{
+			if (_blockTable[i].fileSize == 0 && (i == 0 || _blockTable[i].fileSize>0))
+			{
+				blockIndex = i;
+				break;
+			}
+		}
+	}
+	if (blockIndex < 0 || blockIndex >= _header.fileCount)
+	{
+		return FileStatus::WriteFailed;
+	}
 
-	int newCount = _header.fileCount + 1;
+	_blockTable[blockIndex].fileOffset = MPQ_HEADER_SIZE + _header.contentSize;
+	_blockTable[blockIndex].fileSize = size;
+	_blockTable[blockIndex].nHash = nHash;
+	_blockTable[blockIndex].nHashA = nHashA;
+	_blockTable[blockIndex].nHashB = nHashB;
 
-	//reinit hashTable
-	auto totalHashSize = newCount*sizeof(MPQHASHTABLE);
-	_hashTable = (MPQHASHTABLE*)realloc(_hashTable, totalHashSize);
+	//fseek(_file, 0, 0);
+	//fwrite(&_header, MPQ_HEADER_SIZE, 1, _file);
 
-	auto totalBlockSize = newCount*sizeof(MPQBLOCKTABLE);
+	if (fseek(_file, MPQ_HEADER_SIZE + _header.contentSize, 0) != 0)
+	{
+		return FileStatus::ReadFailed;
+	}
+	if (fwrite(buff, size, 1, _file) < 1)
+	{
+		return FileStatus::WriteFailed;
+	}
+	
+	_header.contentSize += size;
+	//_header.hashOffset = MPQ_HEADER_SIZE + _header.contentSize;
+	//_header.blockOffset = _header.hashOffset + sizeof(MPQHASHTABLE)*_header.fileCount;
+	return FileStatus::Success;
+}
+
+FileStatus FileHandlerPack::flush()
+{
+	_header.hashOffset = MPQ_HEADER_SIZE + _header.contentSize;
+	_header.blockOffset = _header.hashOffset + sizeof(MPQHASHTABLE)*_header.fileCount;
+
+	auto totalBlockSize = _header.fileCount*sizeof(MPQBLOCKTABLE);
 	MPQBLOCKTABLE* newBlockTable = (MPQBLOCKTABLE*)malloc(totalBlockSize);
 	memset(newBlockTable, 0, totalBlockSize);
 
-	memset(_hashTable, 0, totalHashSize);
-	for (int i = 0; i < newCount-1; i++)
+	memset(_hashTable, 0, sizeof(MPQHASHTABLE)*_header.fileCount);
+	for (int i = 0; i < _header.fileCount; i++)
 	{
-		_hashTable[(_blockTable[i].nHash%newCount)].blockIndex++;
+		_hashTable[(_blockTable[i].nHash%_header.fileCount)].blockIndex++;
 	}
-	_hashTable[(nHash%newCount)].blockIndex++;
 
 	int totalIndex = 0;
-	for (int j = 0; j <newCount; j++)
+	for (int j = 0; j <_header.fileCount; j++)
 	{
-		if (_hashTable[j].blockIndex)
+		if (_hashTable[j].blockIndex>0)
 		{
 			_hashTable[j].blockIndex = totalIndex;
 			totalIndex += _hashTable[j].blockIndex;
 		}
 		else
 		{
-			_hashTable[j].blockIndex = newCount;
+			_hashTable[j].blockIndex = _header.fileCount;
 		}
-		
+		lir::log("hash data %u %u %u \n", _blockTable[j].nHash, _blockTable[j].nHashA, _blockTable[j].nHashB);
+		lir::log("_hashIndex %d = %d \n", j, _hashTable[j].blockIndex);
 	}
 
 	int startIndex = 0;
 	int endIndex = 1;
 	int index = 0;
 	MPQBLOCKTABLE block;
-	for (int l = 0; l < newCount; l++)
+	for (int l = 0; l < _header.fileCount; l++)
 	{
-		if (l == newCount-1)
-		{
-			block = newBlock;
-		}
-		else{
-			block = _blockTable[l];
-		}
-		index = block.nHash%newCount;
+		block = _blockTable[l];
+		index = block.nHash%_header.fileCount;
 		startIndex = _hashTable[index].blockIndex;
-		if (index < newCount - 1)
+		if (index < _header.fileCount - 1)
 		{
 			endIndex = _hashTable[index + 1].blockIndex;
 		}
 		else
 		{
-			endIndex = newCount;
+			endIndex = _header.fileCount;
 		}
 		for (int k = startIndex; k < endIndex; k++)
 		{
-			if (newBlockTable[k].fileSize<=0)
+			if (newBlockTable[k].fileSize <= 0)
 			{
 				//memcpy(newBlockTable + k, &block, sizeof(MPQBLOCKTABLE));
-				newBlockTable[k].fileOffset = MPQ_HEADER_SIZE + _header.contentSize;
+				newBlockTable[k].fileOffset = block.fileOffset;
 				newBlockTable[k].fileSize = block.fileSize;
 				newBlockTable[k].nHashA = block.nHashA;
 				newBlockTable[k].nHashB = block.nHashB;
@@ -354,19 +423,25 @@ FileStatus FileHandlerPack::append(const std::string& fullPath, const std::strin
 	free(_blockTable);
 	_blockTable = newBlockTable;
 
-	_header.fileCount = newCount;
-	_header.contentSize += size;
-	_header.hashOffset = MPQ_HEADER_SIZE + _header.contentSize;
-	_header.blockOffset = _header.hashOffset + sizeof(MPQHASHTABLE)*_header.fileCount;
-
 	fseek(_file, 0, 0);
-	fwrite(&_header, MPQ_HEADER_SIZE, 1, _file);
-
-	fseek(_file, MPQ_HEADER_SIZE+_header.contentSize-size, 0);
-	fwrite(buff, size, 1, _file);
-	fwrite(_hashTable, sizeof(MPQHASHTABLE), newCount, _file);
-	fwrite(_blockTable, sizeof(MPQBLOCKTABLE), newCount, _file);
-
+	if (fwrite(&_header, MPQ_HEADER_SIZE, 1, _file) < 1)
+	{
+		return FileStatus::WriteFailed;
+	}
+	if (fseek(_file, _header.hashOffset, 0) != 0)
+	{
+		return FileStatus::WriteFailed;
+	}
+	if (fwrite(_hashTable, sizeof(MPQHASHTABLE), _header.fileCount, _file) < _header.fileCount)
+	{
+		return FileStatus::WriteFailed;
+	}
+	if (fwrite(_blockTable, sizeof(MPQBLOCKTABLE), _header.fileCount, _file)<_header.fileCount)
+	{
+		return FileStatus::WriteFailed;
+	}
+	fclose(_file);
+	_file = nullptr;
 	return FileStatus::Success;
 }
 

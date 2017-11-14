@@ -95,10 +95,14 @@ public:
 	//FileStatus exists(const std::string& fileName);
 	FileStatus read(const std::string& fileName, Buffer* buffer);
 	FileStatus write(const std::string& fullPath,const std::string& fileName, void* buff, size_t size);
-	FileStatus append(const std::string& fullPath, const std::string& fileName, void* buff, size_t size);
 	FileStatus create(const std::string& fullPath, int version = 1);
 
 	
+	FileStatus append(const std::string& fullPath, const std::string& fileName, void* buff, size_t size,const int index=-1);
+	FileStatus flush();
+	FileStatus resize(const int count);
+
+	int getCount();
 
 	//FileStatus pack(const std::string& fullPath, const std::string& dirRoot);
 	//FileStatus unpack(const std::string& fullPach, const std::string& dirRoot);

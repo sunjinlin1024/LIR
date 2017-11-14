@@ -6,7 +6,7 @@
 
 namespace lir{
 	
-void log(const char* format)
+template<typename  T> void log(const char* format)
 {
 	printf(format);
 }
