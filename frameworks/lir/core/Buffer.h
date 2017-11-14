@@ -13,12 +13,12 @@ public:
 
 	void resize(size_t size);
 
-	unsigned char* buffer();
+	void* buffer();
 
 	size_t size();
 private:
 	size_t _size;
-	unsigned char* _buff;
+	void* _buff;
 };
 
 

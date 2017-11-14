@@ -24,12 +24,12 @@ void Buffer::resize(size_t size)
 	}
 	else if (size >_size)
 	{
-		realloc(_buff, size);
+		_buff=realloc(_buff, size);
 	}
 	_size = size;
 }
 
-unsigned char* Buffer::buffer()
+void* Buffer::buffer()
 {
 	return _buff;
 }

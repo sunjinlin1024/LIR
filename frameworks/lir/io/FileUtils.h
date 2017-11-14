@@ -7,7 +7,7 @@
 #include <type_traits>
 
 #include "platform/PlatformMacros.h"
-#include "io/FileReader.h"
+#include "io/FileHandler.h"
 //#include "base/ccTypes.h"
 //#include "base/CCValue.h"
 //#include "base/CCData.h"

@@ -33,24 +33,33 @@ enum LIR_DLL FileStatus
 };
 
 
+#define MPQ_HEADER 0xABCC
+#define MPQ_CURRENT_VERSION 1
+
+const int MPQ_HEADER_SIZE=208;
 
 typedef struct MPQHEADER
 {
-	UINT head = 0xABCC;
-	UINT version;
+	UINT head = MPQ_HEADER;
+	UINT version = MPQ_CURRENT_VERSION;
 	UINT fileCount;
-	UINT hashOffset;
 	UINT contentSize;
+	UINT hashOffset;
+	UINT blockOffset;
+	char extra[MPQ_HEADER_SIZE-sizeof(UINT)*6];
 };
+
+
 
 typedef struct MPQHASHTABLE
 {
-	UINT hash;
-	int blockIndex;
+	UINT blockIndex;
 }*LPMPQHASHTABLE;
 
 typedef struct MPQBLOCKTABLE
 {
+	
+	UINT nHash;
 	UINT nHashA;
 	UINT nHashB;
 	UINT fileOffset;
@@ -61,10 +70,10 @@ typedef struct MPQBLOCKTABLE
 class LIR_DLL FileHandler
 {
 public:
-	FileStatus open(const std::string& fullPath,const char* mode, FILE* file, size_t& size);
+	FileStatus open(const std::string& fullPath,const char* mode, FILE* &file, size_t& size);
 };
 
-class LIR_DLL FileHandlerSingle :FileHandler
+class LIR_DLL FileHandlerSingle :public FileHandler
 {
 public:
 	FileHandlerSingle();
@@ -76,25 +85,29 @@ protected:
 };
 
 
-class LIR_DLL FileHandlerPack :FileHandler
+class LIR_DLL FileHandlerPack :public FileHandler
 {
 public:
 	//FileHandlerPack(const char* mode);
 	FileHandlerPack();
 	virtual ~FileHandlerPack();
 	FileStatus openByPack(const std::string& fullPath, const char* mode);
-	FileStatus exists(const std::string& fileName);
+	//FileStatus exists(const std::string& fileName);
 	FileStatus read(const std::string& fileName, Buffer* buffer);
 	FileStatus write(const std::string& fullPath,const std::string& fileName, void* buff, size_t size);
+	FileStatus append(const std::string& fullPath, const std::string& fileName, void* buff, size_t size);
+	FileStatus create(const std::string& fullPath, int version = 1);
 
-	FileStatus pack(const std::string& fullPath, const std::string& dirRoot);
-	FileStatus unpack(const std::string& fullPach, const std::string& dirRoot);
+	
+
+	//FileStatus pack(const std::string& fullPath, const std::string& dirRoot);
+	//FileStatus unpack(const std::string& fullPach, const std::string& dirRoot);
 
 	void reset();
 protected:
 	
 
-	const static char HEADER_SIZE = 208;
+	
 
 	MPQHEADER _header;
 	MPQHASHTABLE* _hashTable;

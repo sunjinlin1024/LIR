@@ -7,6 +7,8 @@
 #include <thread>
 #include <mutex>
 #include <Windows.h>
+#include <ctime>
+#include <iostream>
 
 #include "Debug.h"
 #include "io/FileHandler.h"
@@ -83,9 +85,69 @@ int _tmain(int argc, _TCHAR* argv[])
 	//Buffer buffer;
 	//FileUtils::getInstance()->getContents("res.zip",&buffer);
 
+
 	FileHandlerPack* pack = new FileHandlerPack();
-	pack->openByPack("./res.lrp","wb+");
 	
+	//pack->create("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp");
+
+	
+	
+	Buffer buffer;
+
+	FILE* file;
+	size_t size = 0;
+
+	char* dir = "F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res/";
+	char* dir2 = "F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res2/";
+	char* name = "b/playerinfo_up.png";
+
+	//pack->openByPack("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "wb+");
+	//pack->open(std::string(dir).append(name), "rb+", file, size);
+	//buffer.resize(size);
+	//fseek(file, 0, 0);
+	//fread(buffer.buffer(),1,size,file);
+	//pack->append(dir, name, buffer.buffer(), size);
+	//pack->reset();
+
+	//pack = new FileHandlerPack();
+	pack->openByPack("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "rb+");
+
+	count = 100000;
+
+	auto startTime = clock();
+	for (int k = 0; k < count; k++)
+	{
+		auto status = pack->read(name, &buffer);
+	}
+	auto endTime = clock();
+	std::cout << "cost time 1,  " << endTime - startTime << std::endl;
+
+
+
+	std::string fullPath = std::string(dir).append(name);
+	startTime = clock();
+	//FILE* file;
+	size_t fileSize=0;
+	for (int k = 0; k < count; k++)
+	{
+		pack->open(fullPath, "rb", file, fileSize);
+		buffer.resize(fileSize);
+		fread(buffer.buffer(), 1, size, file);
+		fclose(file);
+	}
+	endTime = clock();
+	std::cout << "cost time 2, " << endTime - startTime << std::endl;
+
+	
+	
+	//if (status != FileStatus::Success){
+	//	lir::log("cannot find %s \n", name);
+	//}else{
+	//	FILE* nFile = fopen(std::string(dir2).append(name).c_str(), "wb+");
+	//	fseek(nFile, 0, 0);
+	//	fwrite(buffer.buffer(), buffer.size(), 1, nFile);
+	//	fclose(nFile);
+	//}
 
 	while (true){
 		count++;
