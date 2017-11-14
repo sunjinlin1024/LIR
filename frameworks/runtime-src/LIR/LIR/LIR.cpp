@@ -97,67 +97,67 @@ int _tmain(int argc, _TCHAR* argv[])
 	FILE* file;
 	size_t size = 0;
 
-	char* dir = "F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res/";
-	char* dir2 = "F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res2/";
+	char* dir = "D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res/";
+	char* dir2 = "D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res2/";
 	char* name = "b/playerinfo_up.png";
 
-	pack->openByPack("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "wb+");
+	//pack->openByPack("D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "wb+");
 
-	std::vector<std::string> list;
-	list.push_back(std::string(name));
-	list.push_back(std::string("Tutorial03.png"));
-	list.push_back(std::string("b/c/vip_previlege_item.png"));
-	list.push_back(std::string("a/bs.png"));
+	//std::vector<std::string> list;
+	//list.push_back(std::string(name));
+	//list.push_back(std::string("Turorial03.png"));
+	//list.push_back(std::string("b/c/vip_previlege_item.png"));
+	//list.push_back(std::string("a/bs.png"));
 
-	auto startTime = clock();
-	std::string curName;
+	//auto startTime = clock();
+	//std::string curName;
 
-	int appendSize = list.size();
-	int oldCount = pack->getCount();
-	pack->resize(oldCount + appendSize);
-	for (auto itr = list.begin(); itr != list.end(); itr++)
-	{
-		curName = *itr;
-		pack->open(std::string(dir).append(curName), "rb+", file, size);
-		buffer.resize(size);
-		fseek(file, 0, 0);
-		fread(buffer.buffer(), 1, size, file);
-		pack->append(dir, curName, buffer.buffer(), size, oldCount++);
-	}
-	pack->flush();
+	//int appendSize = list.size();
+	//int oldCount = pack->getCount();
+	//pack->resize(oldCount + appendSize);
+	//for (auto itr = list.begin(); itr != list.end(); itr++)
+	//{
+	//	curName = *itr;
+	//	pack->open(std::string(dir).append(curName), "rb+", file, size);
+	//	buffer.resize(size);
+	//	fseek(file, 0, 0);
+	//	fread(buffer.buffer(), 1, size, file);
+	//	pack->append(dir, curName, buffer.buffer(), size, oldCount++);
+	//}
+	//pack->flush();
 	
 
 	////pack = new FileHandlerPack();
-	//pack->openByPack("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "rb+");
+	pack->openByPack("D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "rb+");
 
-	//count = 100000;
+	count = 10000;
 
-	//auto startTime = clock();
-	//for (int k = 0; k < count; k++)
-	//{
-	//	auto status = pack->read(name, &buffer);
-	//}
-	//auto endTime = clock();
-	//std::cout << "cost time 1,  " << endTime - startTime << std::endl;
+	auto startTime = clock();
+	for (int k = 0; k < count; k++)
+	{
+		auto status = pack->read(name, &buffer);
+	}
+	auto endTime = clock();
+	std::cout << "cost time 1,  " << endTime - startTime << std::endl;
 
 
 
-	//std::string fullPath = std::string(dir).append(name);
-	//startTime = clock();
-	////FILE* file;
-	//size_t fileSize=0;
-	//for (int k = 0; k < count; k++)
-	//{
-	//	pack->open(fullPath, "rb", file, fileSize);
-	//	buffer.resize(fileSize);
-	//	fread(buffer.buffer(), 1, size, file);
-	//	fclose(file);
-	//}
-	//endTime = clock();
-	//std::cout << "cost time 2, " << endTime - startTime << std::endl;
+	std::string fullPath = std::string(dir).append(name);
+	startTime = clock();
+	//FILE* file;
+	size_t fileSize=0;
+	for (int k = 0; k < count; k++)
+	{
+		pack->open(fullPath, "rb", file, fileSize);
+		buffer.resize(fileSize);
+		fread(buffer.buffer(), 1, size, file);
+		fclose(file);
+	}
+	endTime = clock();
+	std::cout << "cost time 2, " << endTime - startTime << std::endl;
 
 	
-	
+	//auto status = pack->read(name, &buffer);
 	//if (status != FileStatus::Success){
 	//	lir::log("cannot find %s \n", name);
 	//}else{
@@ -166,6 +166,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	fwrite(buffer.buffer(), buffer.size(), 1, nFile);
 	//	fclose(nFile);
 	//}
+
+	delete pack;
+	buffer.clear();
+
 
 	while (true){
 		count++;

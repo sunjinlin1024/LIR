@@ -12,6 +12,11 @@ _buff(nullptr)
 
 Buffer::~Buffer()
 {
+	clear();
+}
+
+void Buffer :: clear()
+{
 	LIR_SAFE_FREE(_buff);
 	_size = 0;
 }

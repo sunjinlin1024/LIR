@@ -373,20 +373,15 @@ FileStatus FileHandlerPack::flush()
 		_hashTable[(_blockTable[i].nHash%_header.fileCount)].blockIndex++;
 	}
 
-	int totalIndex = 0;
+	int totalCount = 0;
+	int curCount = 0;
 	for (int j = 0; j <_header.fileCount; j++)
 	{
-		if (_hashTable[j].blockIndex>0)
-		{
-			_hashTable[j].blockIndex = totalIndex;
-			totalIndex += _hashTable[j].blockIndex;
-		}
-		else
-		{
-			_hashTable[j].blockIndex = _header.fileCount;
-		}
+		curCount = _hashTable[j].blockIndex;
+		totalCount += curCount;
+		_hashTable[j].blockIndex = totalCount-curCount;
 		lir::log("hash data %u %u %u \n", _blockTable[j].nHash, _blockTable[j].nHashA, _blockTable[j].nHashB);
-		lir::log("_hashIndex %d = %d \n", j, _hashTable[j].blockIndex);
+		lir::log("_hashIndex %d  count=%d  startIndex= %d\n", j, curCount, _hashTable[j].blockIndex);
 	}
 
 	int startIndex = 0;
@@ -398,25 +393,28 @@ FileStatus FileHandlerPack::flush()
 		block = _blockTable[l];
 		index = block.nHash%_header.fileCount;
 		startIndex = _hashTable[index].blockIndex;
-		if (index < _header.fileCount - 1)
+		if(startIndex<_header.fileCount)//index==filecoun NO FILE
 		{
-			endIndex = _hashTable[index + 1].blockIndex;
-		}
-		else
-		{
-			endIndex = _header.fileCount;
-		}
-		for (int k = startIndex; k < endIndex; k++)
-		{
-			if (newBlockTable[k].fileSize <= 0)
+			if (index < _header.fileCount - 1)
 			{
-				//memcpy(newBlockTable + k, &block, sizeof(MPQBLOCKTABLE));
-				newBlockTable[k].fileOffset = block.fileOffset;
-				newBlockTable[k].fileSize = block.fileSize;
-				newBlockTable[k].nHashA = block.nHashA;
-				newBlockTable[k].nHashB = block.nHashB;
-				newBlockTable[k].nHash = block.nHash;
-				break;
+				endIndex = _hashTable[index + 1].blockIndex;
+			}
+			else
+			{
+				endIndex = _header.fileCount;
+			}
+			for (int k = startIndex; k < endIndex; k++)
+			{
+				if (newBlockTable[k].fileSize <= 0)
+				{
+					//memcpy(newBlockTable + k, &block, sizeof(MPQBLOCKTABLE));
+					newBlockTable[k].fileOffset = block.fileOffset;
+					newBlockTable[k].fileSize = block.fileSize;
+					newBlockTable[k].nHashA = block.nHashA;
+					newBlockTable[k].nHashB = block.nHashB;
+					newBlockTable[k].nHash = block.nHash;
+					break;
+				}
 			}
 		}
 	}

@@ -11,6 +11,8 @@ public:
 	Buffer();
 	~Buffer();
 
+	void clear();
+
 	void resize(size_t size);
 
 	void* buffer();
