@@ -15,9 +15,15 @@ public:
 
 	void resize(size_t size);
 
-	void* buffer();
+	void fastSet(void* buff, size_t size);
 
-	size_t size();
+	inline void* buffer()const{
+		return _buff;
+	};
+
+	inline const size_t size()const{
+		return _size;
+	};
 private:
 	size_t _size;
 	void* _buff;

@@ -274,11 +274,6 @@ FileStatus FileHandlerPack::read(const std::string& fileName, Buffer* buffer)
 	return FileStatus::Success;
 }
 
-int FileHandlerPack::getCount()
-{
-	return _header.fileCount;
-}
-
 FileStatus FileHandlerPack::resize(const int count)
 {
 	if (count>_header.fileCount)

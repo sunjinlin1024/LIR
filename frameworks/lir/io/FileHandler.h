@@ -10,11 +10,12 @@
 NS_LIR_BEGIN
 
 
-
-#define UCHAR unsigned char
+#ifndef UCHAR
+typedef unsigned char UCHAR;
+#endif
 
 #ifndef UINT 
-#define UINT unsigned int
+typedef unsigned int UINT;
 #endif
 
 enum LIR_DLL FileStatus
@@ -102,17 +103,13 @@ public:
 	FileStatus flush();
 	FileStatus resize(const int count);
 
-	int getCount();
+	inline const int getCount()const{ return _header.fileCount; }
 
 	//FileStatus pack(const std::string& fullPath, const std::string& dirRoot);
 	//FileStatus unpack(const std::string& fullPach, const std::string& dirRoot);
 
 	void reset();
 protected:
-	
-
-	
-
 	MPQHEADER _header;
 	MPQHASHTABLE* _hashTable;
 	MPQBLOCKTABLE* _blockTable;

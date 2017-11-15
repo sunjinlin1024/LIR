@@ -1,6 +1,8 @@
 #include "core/Buffer.h"
 #include <stdlib.h>
 
+#include "core/Macros.h"
+
 USING_NS_LIR
 
 
@@ -34,14 +36,10 @@ void Buffer::resize(size_t size)
 	_size = size;
 }
 
-void* Buffer::buffer()
+void Buffer::fastSet(void* buff, size_t size)
 {
-	return _buff;
-}
-
-size_t Buffer::size()
-{
-	return _size;
+	_buff = buff;
+	_size = size;
 }
 
 
