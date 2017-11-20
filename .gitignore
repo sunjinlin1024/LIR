@@ -1,10 +1,17 @@
 #Windows:
+
 *.db
+
 Desktop.ini
+
+
 
 
 #python:
 
 
+
+
 #Visual Studio
-Debug.win32/
+
+frameworks/runtime-src/proj.win32/Debug.win32
