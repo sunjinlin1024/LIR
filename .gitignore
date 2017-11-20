@@ -15,4 +15,11 @@ Desktop.ini
 #Visual Studio
 
 frameworks/runtime-src/proj.win32/Debug.win32
+frameworks/runtime-src/proj.win32/ipch
 *.sdf
+*.filters
+*.opensdf
+*.suo
+*.pdb
+*.exp
+*.ilk
