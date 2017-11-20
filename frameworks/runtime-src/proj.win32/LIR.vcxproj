@@ -85,7 +85,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\lir\platform\win32\PlatformDefine-win32.h" />
     <ClInclude Include="..\..\lir\core\Buffer.h" />
     <ClInclude Include="..\..\lir\core\Config.h" />
     <ClInclude Include="..\..\lir\core\Macros.h" />
@@ -97,6 +96,7 @@
     <ClInclude Include="..\..\lir\platform\PlatformDefine.h" />
     <ClInclude Include="..\..\lir\platform\PlatformMacros.h" />
     <ClInclude Include="..\..\lir\platform\StdC.h" />
+    <ClInclude Include="..\..\lir\platform\win32\PlatformDefine-win32.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
