@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
+    <OutDir>$(ENGINE_ROOT)\..\..\simulator\win32</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
     <IncludePath>$(ENGINE_ROOT);$(ENGINE_ROOT)\debug;$(ENGINE_ROOT)\io;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
