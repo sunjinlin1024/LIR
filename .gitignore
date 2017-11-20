@@ -1,0 +1,10 @@
+#Windows:
+*.db
+Desktop.ini
+
+
+#python:
+
+
+#Visual Studio
+Debug.win32/
