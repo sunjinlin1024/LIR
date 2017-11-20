@@ -16,6 +16,7 @@ Desktop.ini
 
 frameworks/runtime-src/proj.win32/Debug.win32
 frameworks/runtime-src/proj.win32/ipch
+frameworks/runtime-src/proj.win32/LIR.vcxproj.filters
 *.sdf
 *.filters
 *.opensdf
