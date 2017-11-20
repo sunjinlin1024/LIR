@@ -812,7 +812,7 @@ std::string FileUtils::fullPathForFilename(const std::string &filename) const
 	}
 
 	if (isPopupNotify()){
-		CCLOG("cocos2d: fullPathForFilename: No file found at %s. Possible missing file.", filename.c_str());
+		//lir::log("cocos2d: fullPathForFilename: No file found at %s. Possible missing file.", filename.c_str());
 	}
 
 	// The file wasn't found, return empty string.
@@ -1519,7 +1519,7 @@ std::string FileUtils::getWritablePath()const
 
 bool FileUtils::isFileExistInternal(const std::string& filename)const
 {
-	return false;
+	return true;
 }
 
 NS_LIR_END

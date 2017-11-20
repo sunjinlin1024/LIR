@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="lir">
+      <UniqueIdentifier>{a9f204ad-e4ab-4659-a62b-e76f1e7734e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\core">
+      <UniqueIdentifier>{ec8b818f-8f08-4605-ba70-4e4cd64d8a34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\platform">
+      <UniqueIdentifier>{fbec4ef0-bfba-409e-ade7-53a7a94b6103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\platform\win32">
+      <UniqueIdentifier>{f3baf40d-2fe2-48e4-ad8b-9440eb6af3b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\tools">
+      <UniqueIdentifier>{9aa1b9ca-c535-4d83-82d0-a666d53791ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\debug">
+      <UniqueIdentifier>{2849100a-5828-4629-8682-10f5e43617a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\io">
+      <UniqueIdentifier>{7a638337-e226-4568-85f8-c6652c13950b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\util">
+      <UniqueIdentifier>{7c84aff2-0c82-422a-8281-8cb14c5369e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\external">
+      <UniqueIdentifier>{2135f196-7759-4b67-b120-86f6e90cd007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\test">
+      <UniqueIdentifier>{25d022ff-7003-4474-a34a-e67fce0d677d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lir\external\tinydir">
+      <UniqueIdentifier>{8bffbee2-c977-4a98-8954-fc7f387f852f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lir\platform\win32\PlatformDefine-win32.h">
+      <Filter>lir\platform\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\core\Macros.h">
+      <Filter>lir\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\core\Buffer.h">
+      <Filter>lir\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\core\Config.h">
+      <Filter>lir\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\debug\Debug.h">
+      <Filter>lir\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\external\tinydir\tinydir.h">
+      <Filter>lir\external\tinydir</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\io\FileHandler.h">
+      <Filter>lir\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\io\FileUtils.h">
+      <Filter>lir\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\platform\PlatformConfig.h">
+      <Filter>lir\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\platform\PlatformDefine.h">
+      <Filter>lir\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\platform\PlatformMacros.h">
+      <Filter>lir\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lir\platform\StdC.h">
+      <Filter>lir\platform</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LIR.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lir\core\Buffer.cpp">
+      <Filter>lir\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lir\io\FileHandler.cpp">
+      <Filter>lir\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lir\io\FileUtils.cpp">
+      <Filter>lir\io</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
