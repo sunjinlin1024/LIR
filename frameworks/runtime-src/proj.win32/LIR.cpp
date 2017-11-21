@@ -11,7 +11,7 @@
 #include <iostream>
 
 #include "Debug.h"
-#include "io/FileHandler.h"
+#include "io/LPQFile.h"
 #include "io/FileUtils.h"
 #include "core/Buffer.h"
 
@@ -94,7 +94,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	fileUtils->addSearchPath(engineRoot);
 	//fileUtils->addSearchResolutionsOrder("");
 
-	FileHandlerPack* pack = new FileHandlerPack();
+	LPQFile* pack = new LPQFile();
 	
 	//pack->create("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp");
 
@@ -109,7 +109,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::vector<std::string> list;
 
-	FileUtils::getInstance()->listFilesRecursively(engineRoot.append(dir), &list);
+	FileUtils::getInstance()->listFilesRecursively(engineRoot.append(dir), &list,1);
 
 
 	auto startTime = clock();

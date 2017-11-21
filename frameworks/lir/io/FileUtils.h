@@ -686,7 +686,7 @@ public:
 	*  @param dirPath The path of the directory, it could be a relative or an absolute path.
 	*  @return File paths in a string vector
 	*/
-	virtual void listFilesRecursively(const std::string& dirPath, std::vector<std::string> *files) const;
+	virtual void listFilesRecursively(const std::string& dirPath, std::vector<std::string> *files, const int& filter=0) const;
 
 	/** Returns the full path cache. */
 	const std::unordered_map<std::string, std::string>& getFullPathCache() const { return _fullPathCache; }

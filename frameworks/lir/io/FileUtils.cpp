@@ -1195,7 +1195,7 @@ std::vector<std::string> FileUtils::listFiles(const std::string& dirPath) const
 	return files;
 }
 
-void FileUtils::listFilesRecursively(const std::string& dirPath, std::vector<std::string> *files) const
+void FileUtils::listFilesRecursively(const std::string& dirPath, std::vector<std::string> *files, const int& filter) const
 {
 	std::string fullpath = fullPathForFilename(dirPath);
 	if (isDirectoryExist(fullpath))
@@ -1239,13 +1239,19 @@ void FileUtils::listFilesRecursively(const std::string& dirPath, std::vector<std
 				{
 					if (file.is_dir)
 					{
-						filepath.append("/");
-						files->push_back(filepath);
-						listFilesRecursively(filepath, files);
+						if (filter == 0 || filter == 2)
+						{
+							filepath.append("/");
+							files->push_back(filepath);
+						}
+						listFilesRecursively(filepath, files,filter);
 					}
 					else
 					{
-						files->push_back(filepath);
+						if (filter == 0 || filter == 1)
+						{
+							files->push_back(filepath);
+						}
 					}
 				}
 
