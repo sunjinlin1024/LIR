@@ -117,6 +117,9 @@ extern "C" {
 			seed1 = dwCryptTable[(dwHashType * 0xFF) + ch] ^ (seed1 + seed2);
 			seed2 = ch + seed1 + seed2 + (seed2 << 5) + 3;
 		}
+		if (seed1 == 0){
+			int a=1;
+		}
 		return seed1;
 	}
 

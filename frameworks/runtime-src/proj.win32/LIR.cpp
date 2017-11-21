@@ -12,6 +12,7 @@
 
 #include "Debug.h"
 #include "io/FileHandler.h"
+#include "io/FileUtils.h"
 #include "core/Buffer.h"
 
 
@@ -86,6 +87,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	//FileUtils::getInstance()->getContents("res.zip",&buffer);
 
 
+	std::string engineRoot("F:/LIR/");
+	std::string dir("res");
+
+	auto fileUtils = FileUtils::getInstance();
+	fileUtils->addSearchPath(engineRoot);
+	//fileUtils->addSearchResolutionsOrder("");
+
 	FileHandlerPack* pack = new FileHandlerPack();
 	
 	//pack->create("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp");
@@ -97,64 +105,69 @@ int _tmain(int argc, _TCHAR* argv[])
 	FILE* file;
 	size_t size = 0;
 
-	char* dir = "D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res/";
-	char* dir2 = "D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res2/";
-	char* name = "b/playerinfo_up.png";
+	pack->openByPack(engineRoot+"res.lrp", "wb+");
 
-	//pack->openByPack("D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "wb+");
+	std::vector<std::string> list;
 
-	//std::vector<std::string> list;
-	//list.push_back(std::string(name));
-	//list.push_back(std::string("Turorial03.png"));
-	//list.push_back(std::string("b/c/vip_previlege_item.png"));
-	//list.push_back(std::string("a/bs.png"));
+	FileUtils::getInstance()->listFilesRecursively(engineRoot.append(dir), &list);
 
-	//auto startTime = clock();
-	//std::string curName;
-
-	//int appendSize = list.size();
-	//int oldCount = pack->getCount();
-	//pack->resize(oldCount + appendSize);
-	//for (auto itr = list.begin(); itr != list.end(); itr++)
-	//{
-	//	curName = *itr;
-	//	pack->open(std::string(dir).append(curName), "rb+", file, size);
-	//	buffer.resize(size);
-	//	fseek(file, 0, 0);
-	//	fread(buffer.buffer(), 1, size, file);
-	//	pack->append(dir, curName, buffer.buffer(), size, oldCount++);
-	//}
-	//pack->flush();
-	
-
-	////pack = new FileHandlerPack();
-	pack->openByPack("D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "rb+");
-
-	count = 10000;
 
 	auto startTime = clock();
-	for (int k = 0; k < count; k++)
+	const char* curName;
+	int appendSize = list.size();
+	int oldCount = pack->getCount();
+	pack->resize(oldCount + appendSize);
+	for (auto itr = list.begin(); itr != list.end(); itr++)
 	{
-		auto status = pack->read(name, &buffer);
+		if (fileUtils->isFileExist(*itr))
+		{
+			curName = (*itr).c_str();	
+			if (pack->open(curName, "rb+", file, size) != FileStatus::Openend)
+			{
+				if (file)
+				{
+					fclose(file);
+				}
+				return 0;
+			}
+			buffer.resize(size);
+			fseek(file, 0, 0);
+			fread(buffer.buffer(), 1, size, file);
+			fclose(file);
+			pack->append(curName, curName + engineRoot.size() + 1, buffer.buffer(), size, oldCount++);
+		}
 	}
-	auto endTime = clock();
-	std::cout << "cost time 1,  " << endTime - startTime << std::endl;
+	pack->flush();
+	std::cout << "cost time 1,  " << clock() - startTime << std::endl;
+
+	//////pack = new FileHandlerPack();
+	//pack->openByPack("D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "rb+");
+
+	//count = 10000;
+
+	//auto startTime = clock();
+	//for (int k = 0; k < count; k++)
+	//{
+	//	auto status = pack->read(name, &buffer);
+	//}
+	//auto endTime = clock();
+	//std::cout << "cost time 1,  " << endTime - startTime << std::endl;
 
 
 
-	std::string fullPath = std::string(dir).append(name);
-	startTime = clock();
-	//FILE* file;
-	size_t fileSize=0;
-	for (int k = 0; k < count; k++)
-	{
-		pack->open(fullPath, "rb", file, fileSize);
-		buffer.resize(fileSize);
-		fread(buffer.buffer(), 1, size, file);
-		fclose(file);
-	}
-	endTime = clock();
-	std::cout << "cost time 2, " << endTime - startTime << std::endl;
+	//std::string fullPath = std::string(dir).append(name);
+	//startTime = clock();
+	////FILE* file;
+	//size_t fileSize=0;
+	//for (int k = 0; k < count; k++)
+	//{
+	//	pack->open(fullPath, "rb", file, fileSize);
+	//	buffer.resize(fileSize);
+	//	fread(buffer.buffer(), 1, size, file);
+	//	fclose(file);
+	//}
+	//endTime = clock();
+	//std::cout << "cost time 2, " << endTime - startTime << std::endl;
 
 	
 	//auto status = pack->read(name, &buffer);

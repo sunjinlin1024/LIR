@@ -1265,7 +1265,7 @@ void FileUtils::listFilesRecursively(const std::string& dirPath, std::vector<std
 bool FileUtils::isDirectoryExistInternal(const std::string& dirPath) const
 {
 	LASSERT(false, "FileUtils not support isDirectoryExistInternal");
-	return false;
+	return true;
 }
 
 bool FileUtils::createDirectory(const std::string& path)
@@ -1500,16 +1500,6 @@ std::string FileUtils::getFileExtension(const std::string& filePath) const
 	}
 
 	return fileExtension;
-}
-
-
-FileUtils* FileUtils::getInstance()
-{
-	if (s_sharedFileUtils = nullptr)
-	{
-		s_sharedFileUtils = new FileUtils();
-	}
-	return s_sharedFileUtils;
 }
 
 std::string FileUtils::getWritablePath()const

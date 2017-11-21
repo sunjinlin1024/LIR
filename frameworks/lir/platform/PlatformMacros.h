@@ -195,34 +195,34 @@ public: virtual void set##funName(varType var)   \
 #define LIR_BREAK_IF(cond)           if(cond) break
 
 #define __LIRLOGWITHFUNCTION(s, ...) \
-    lir::log("%s : %s",__FUNCTION__, cocos2d::StringUtils::format(s, ##__VA_ARGS__).c_str())
+    lir::log("%s : %s",__FUNCTION__, lir::StringUtils::format(s, ##__VA_ARGS__).c_str())
 
 /// @name Cocos2d debug
 /// @{
-#if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0
-#define CCLOG(...)       do {} while (0)
-#define CCLOGINFO(...)   do {} while (0)
-#define CCLOGERROR(...)  do {} while (0)
-#define CCLOGWARN(...)   do {} while (0)
+#if !defined(LIR_DEBUG) || LIR_DEBUG == 0
+#define LIRLOG(...)       do {} while (0)
+#define LIRLOGINFO(...)   do {} while (0)
+#define LIRLOGERROR(...)  do {} while (0)
+#define LIRLOGWARN(...)   do {} while (0)
 
-#elif COCOS2D_DEBUG == 1
-#define CCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
-#define CCLOGERROR(format,...)  cocos2d::log(format, ##__VA_ARGS__)
-#define CCLOGINFO(format,...)   do {} while (0)
-#define CCLOGWARN(...) __LIRLOGWITHFUNCTION(__VA_ARGS__)
+#elif LIR_DEBUG == 1
+#define LIRLOG(format, ...)      lir::log(format, ##__VA_ARGS__)
+#define LIRLOGERROR(format,...)  lir::log(format, ##__VA_ARGS__)
+#define LIRLOGINFO(format,...)   do {} while (0)
+#define LIRLOGWARN(...) __LIRLOGWITHFUNCTION(__VA_ARGS__)
 
-#elif COCOS2D_DEBUG > 1
-#define CCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
-#define CCLOGERROR(format,...)  cocos2d::log(format, ##__VA_ARGS__)
-#define CCLOGINFO(format,...)   cocos2d::log(format, ##__VA_ARGS__)
-#define CCLOGWARN(...) __LIRLOGWITHFUNCTION(__VA_ARGS__)
-#endif // COCOS2D_DEBUG
+#elif LIR_DEBUG > 1
+#define LIRLOG(format, ...)      lir::log(format, ##__VA_ARGS__)
+#define LIRLOGERROR(format,...)  lir::log(format, ##__VA_ARGS__)
+#define LIRLOGINFO(format,...)   lir::log(format, ##__VA_ARGS__)
+#define LIRLOGWARN(...) __LIRLOGWITHFUNCTION(__VA_ARGS__)
+#endif // LIR_DEBUG
 
 /** Lua engine debug */
-#if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0 || LIR_LUA_ENGINE_DEBUG == 0
+#if !defined(LIR_DEBUG) || LIR_DEBUG == 0 || LIR_LUA_ENGINE_DEBUG == 0
 #define LUALOG(...)
 #else
-#define LUALOG(format, ...)     cocos2d::log(format, ##__VA_ARGS__)
+#define LUALOG(format, ...)     lir::log(format, ##__VA_ARGS__)
 #endif // Lua engine debug
 
 //  end of debug group
