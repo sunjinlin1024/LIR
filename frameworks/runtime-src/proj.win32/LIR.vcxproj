@@ -92,6 +92,7 @@
     <ClInclude Include="..\..\lir\external\tinydir\tinydir.h" />
     <ClInclude Include="..\..\lir\io\FileHandler.h" />
     <ClInclude Include="..\..\lir\io\FileUtils.h" />
+    <ClInclude Include="..\..\lir\io\LPQFile.h" />
     <ClInclude Include="..\..\lir\platform\Common.h" />
     <ClInclude Include="..\..\lir\platform\PlatformConfig.h" />
     <ClInclude Include="..\..\lir\platform\PlatformDefine.h" />
@@ -108,6 +109,7 @@
     <ClCompile Include="..\..\lir\core\Buffer.cpp" />
     <ClCompile Include="..\..\lir\io\FileHandler.cpp" />
     <ClCompile Include="..\..\lir\io\FileUtils.cpp" />
+    <ClCompile Include="..\..\lir\io\LPQFile.cpp" />
     <ClCompile Include="..\..\lir\platform\win32\Common-win32.cpp" />
     <ClCompile Include="..\..\lir\platform\win32\FileUtils-win32.cpp" />
     <ClCompile Include="..\..\lir\platform\win32\StdC-win32.cpp" />
