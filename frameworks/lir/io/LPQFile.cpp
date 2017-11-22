@@ -58,7 +58,7 @@ extern "C" {
 		return seed1;
 	}
 
-	int GetHashTablePos(const char *lpszString, LPQHASHTABLE *lpHash, LPQBLOCKTABLE* lpBlock, int nTableSize)
+	int GetHashTablePos(const char *lpszString, LP_LPQ_HASH_TABLE lpHash, LP_LPQ_OFFSET_TABLE lpBlock, int nTableSize)
 	{
 		auto nHash = HashString(lpszString, HASH_OFFSET);
 		int hashPos = nHash%nTableSize;
@@ -113,6 +113,7 @@ void LPQFile::reset()
 	}
 	LIR_SAFE_FREE(_hashTable);
 	LIR_SAFE_DELETE(_blockTable);
+	LIR_SAFE_DELETE(_emptyTable);
 }
 
 FileStatus LPQFile::create(const std::string& packname, int version)
@@ -124,13 +125,15 @@ FileStatus LPQFile::create(const std::string& packname, int version)
 	{
 		return status;
 	}
-	LPQHEADER header;
+	LPQ_HEADER header;
 	header.head = LPQHEAD;
 	header.version = version;
 	header.fileCount = 0;
 	header.contentSize = 0;
 	header.hashOffset = LPQ_HEADER_SIZE;
-	header.blockOffset = header.hashOffset+header.fileCount*sizeof(LPQHASHTABLE);
+	header.blockOffset = header.hashOffset+header.fileCount*sizeof(LPQ_HASH_BLOCK);
+	header.emptyCount = 0;
+	header.emptyOffset = header.blockOffset + header.fileCount*sizeof(LPQ_OFFSET_BLOCK);
 
 	fseek(file, 0, 0);
 	int writeCount = fwrite(&_header, LPQ_HEADER_SIZE, 1, file);
@@ -143,7 +146,7 @@ FileStatus LPQFile::create(const std::string& packname, int version)
 	return FileStatus::Success;
 }
 
-FileStatus LPQFile::openByPack(const std::string& packname, const char* mode)
+FileStatus LPQFile::openLPQ(const std::string& packname, const char* mode)
 {
 	size_t size = 0;
 	auto status = open(packname, mode, _file, size);
@@ -155,6 +158,8 @@ FileStatus LPQFile::openByPack(const std::string& packname, const char* mode)
 	_header.contentSize = 0;
 	_header.hashOffset = 0;
 	_header.blockOffset = 0;
+	_header.emptyCount = 0;
+	_header.emptyOffset = 0;
 
 	fseek(_file, 0, 0);
 	if (size < LPQ_HEADER_SIZE)
@@ -163,7 +168,7 @@ FileStatus LPQFile::openByPack(const std::string& packname, const char* mode)
 		//_file = nullptr;
 		return FileStatus::NotInitialized;
 	}
-	if (fread(&_header, sizeof(LPQHEADER), 1, _file) < 1)
+	if (fread(&_header, sizeof(LPQ_HEADER), 1, _file) < 1)
 	{
 		//fclose(_file);
 		//_file = nullptr;
@@ -172,16 +177,16 @@ FileStatus LPQFile::openByPack(const std::string& packname, const char* mode)
 	if (_header.fileCount>0)
 	{
 		fseek(_file,_header.hashOffset,0);
-		size_t hashSize = sizeof(LPQHASHTABLE);
+		size_t hashSize = sizeof(LPQ_HASH_BLOCK);
 		size_t totoalHashSize = hashSize*_header.fileCount;
-		_hashTable = (LPQHASHTABLE*)malloc(totoalHashSize);
+		_hashTable = (LP_LPQ_HASH_TABLE)malloc(totoalHashSize);
 		if (fread(_hashTable, hashSize, _header.fileCount, _file) < _header.fileCount)
 		{
 			return FileStatus::ReadFailed;
 		}
-		size_t blockSize = sizeof(LPQBLOCKTABLE);
+		size_t blockSize = sizeof(LPQ_OFFSET_BLOCK);
 		size_t totalBlockSize = blockSize*_header.fileCount;
-		_blockTable = (LPQBLOCKTABLE*)malloc(totalBlockSize);
+		_blockTable = (LP_LPQ_OFFSET_TABLE)malloc(totalBlockSize);
 		if (fread(_blockTable, blockSize, _header.fileCount, _file) < _header.fileCount)
 		{
 			return FileStatus::ReadFailed;
@@ -201,7 +206,7 @@ FileStatus LPQFile::read(const std::string& fileName, Buffer* buffer)
 	{
 		return FileStatus::NotExists;
 	}
-	LPQBLOCKTABLE table = _blockTable[index];
+	LPQ_OFFSET_BLOCK table = _blockTable[index];
 	fseek(_file, table.fileOffset, 0);
 
 	buffer->resize(table.fileSize);
@@ -216,25 +221,25 @@ FileStatus LPQFile::resize(const int count)
 {
 	if (count>_header.fileCount)
 	{
-		auto totalHashSize = count*sizeof(LPQHASHTABLE);
-		_hashTable = (LPQHASHTABLE*)realloc(_hashTable, totalHashSize);
+		auto totalHashSize = count*sizeof(LPQ_HASH_BLOCK);
+		_hashTable = (LP_LPQ_HASH_TABLE)realloc(_hashTable, totalHashSize);
 		if (_hashTable == nullptr)
 		{
 			
 			return FileStatus::WriteFailed;
 		}
-		memset(_hashTable + _header.fileCount, 0, sizeof(LPQHASHTABLE)*(count - _header.fileCount));
+		memset(_hashTable + _header.fileCount, 0, sizeof(LPQ_HASH_BLOCK)*(count - _header.fileCount));
 
-		auto totalBlockSize = count*sizeof(LPQBLOCKTABLE);
-		_blockTable = (LPQBLOCKTABLE*)realloc(_blockTable, totalBlockSize);
+		auto totalBlockSize = count*sizeof(LPQ_OFFSET_BLOCK);
+		_blockTable = (LP_LPQ_OFFSET_TABLE)realloc(_blockTable, totalBlockSize);
 		if (_blockTable == nullptr)
 		{
 			return FileStatus::WriteFailed;
 		}
-		memset(_blockTable + _header.fileCount, 0, sizeof(LPQBLOCKTABLE)*(count - _header.fileCount));
+		memset(_blockTable + _header.fileCount, 0, sizeof(LPQ_OFFSET_BLOCK)*(count - _header.fileCount));
 	}
 	_header.fileCount = count;
-	if (_header.hashOffset == 0 || _header.blockOffset == 0)
+	if (_header.hashOffset == 0 || _header.blockOffset == 0||_header.emptyOffset==0)
 	{
 		_header.blockOffset = _header.hashOffset = LPQ_HEADER_SIZE + _header.contentSize;
 		fseek(_file, 0, 0);
@@ -243,7 +248,7 @@ FileStatus LPQFile::resize(const int count)
 	return FileStatus::Success;
 }
 
-FileStatus LPQFile::append(const std::string& fullPath, const std::string& fileName, void* buff, size_t size,int index)
+FileStatus LPQFile::append(const std::string& fileName, void* buff, size_t size,int index)
 {
 	const char* name = fileName.c_str();
 	auto nHash = HashString(name, HASH_OFFSET);
@@ -294,13 +299,13 @@ FileStatus LPQFile::append(const std::string& fullPath, const std::string& fileN
 FileStatus LPQFile::flush()
 {
 	_header.hashOffset = LPQ_HEADER_SIZE + _header.contentSize;
-	_header.blockOffset = _header.hashOffset + sizeof(LPQHASHTABLE)*_header.fileCount;
+	_header.blockOffset = _header.hashOffset + sizeof(LPQ_HASH_BLOCK)*_header.fileCount;
 
-	auto totalBlockSize = _header.fileCount*sizeof(LPQBLOCKTABLE);
-	LPQBLOCKTABLE* newBlockTable = (LPQBLOCKTABLE*)malloc(totalBlockSize);
+	auto totalBlockSize = _header.fileCount*sizeof(LPQ_OFFSET_BLOCK);
+	LP_LPQ_OFFSET_TABLE newBlockTable = (LP_LPQ_OFFSET_TABLE)malloc(totalBlockSize);
 	memset(newBlockTable, 0, totalBlockSize);
 
-	memset(_hashTable, 0, sizeof(LPQHASHTABLE)*_header.fileCount);
+	memset(_hashTable, 0, sizeof(LPQ_HASH_BLOCK)*_header.fileCount);
 	for (int i = 0; i < _header.fileCount; i++)
 	{
 		_hashTable[(_blockTable[i].nHash%_header.fileCount)].blockIndex++;
@@ -320,7 +325,7 @@ FileStatus LPQFile::flush()
 	int startIndex = 0;
 	int endIndex = 1;
 	int index = 0;
-	LPQBLOCKTABLE block;
+	LPQ_OFFSET_BLOCK block;
 	for (int l = 0; l < _header.fileCount; l++)
 	{
 		block = _blockTable[l];
@@ -359,33 +364,122 @@ FileStatus LPQFile::flush()
 	{
 		return FileStatus::WriteFailed;
 	}
-	if (fseek(_file, _header.hashOffset, 0) != 0)
+	if (_header.fileCount>0)
 	{
-		return FileStatus::WriteFailed;
-	}
-	if (fwrite(_hashTable, sizeof(LPQHASHTABLE), _header.fileCount, _file) < _header.fileCount)
-	{
-		return FileStatus::WriteFailed;
-	}
-	if (fwrite(_blockTable, sizeof(LPQBLOCKTABLE), _header.fileCount, _file)<_header.fileCount)
-	{
-		return FileStatus::WriteFailed;
+		if (fseek(_file, _header.hashOffset, 0) != 0)
+		{
+			return FileStatus::WriteFailed;
+		}
+		if (fwrite(_hashTable, sizeof(LPQ_HASH_BLOCK), _header.fileCount, _file) < _header.fileCount)
+		{
+			return FileStatus::WriteFailed;
+		}
+		if (fwrite(_blockTable, sizeof(LPQ_OFFSET_BLOCK), _header.fileCount, _file)<_header.fileCount)
+		{
+			return FileStatus::WriteFailed;
+		}
+		if (_header.emptyCount>0)
+		{
+			if (fwrite(_emptyTable, sizeof(LPQ_EMPTY_BLOCK), _header.emptyCount, _file) < _header.emptyCount)
+			{
+				return FileStatus::WriteFailed;
+			}
+		}
 	}
 	fclose(_file);
 	_file = nullptr;
 	return FileStatus::Success;
 }
 
-FileStatus LPQFile::write(const std::string& fullPath, const std::string& fileName, void* buff, size_t size)
+FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 {
 	const char* name = fileName.c_str();
 	int index = GetHashTablePos(name,_hashTable,_blockTable,_header.fileCount);
 	if (index < 0)
 	{	
-		return append(fullPath, fileName, buff, size);
+		auto result = this->resize(_header.fileCount + 1);
+		if (result != FileStatus::Success)
+		{
+			return result;
+		}
+		result=append( fileName, buff, size);
+		if (result != FileStatus::Success)
+		{
+			return result;
+		}
+		return flush();
 	}
 	else{
-		return FileStatus::WriteFailed;
+		LPQ_OFFSET_BLOCK block = _blockTable[index];
+		UINT oldSize = block.fileSize;
+		UINT oldFileOffset = block.fileOffset;
+
+		UINT offset = 0;
+		if (oldSize == size)//写在原来位置
+		{
+			offset = oldFileOffset;
+		}
+		else//写在空白处
+		{
+			block.fileSize = size;
+
+			int emptyIndex = -1;
+			int curDiff = 999999999;
+			for (int i = 0; i < _header.emptyCount; i++)
+			{
+				if (_emptyTable[i].size >= size)
+				{
+					if (_emptyTable[i].size - size < curDiff)
+					{
+						emptyIndex = i;
+						curDiff = _emptyTable[i].size - size;
+						if (curDiff == 0)
+						{
+							break;
+						}
+					}
+				}
+			}
+			if (curDiff == 0)
+			{
+				offset = block.fileOffset = _emptyTable[emptyIndex].offset;
+
+				_emptyTable[emptyIndex].offset = oldFileOffset;
+				_emptyTable[emptyIndex].size = oldSize;
+			}
+			else{
+				_header.emptyCount++;
+				_emptyTable = (LP_LPQ_EMPTY_TABLE)realloc(_emptyTable, _header.emptyCount*sizeof(LPQ_EMPTY_BLOCK));
+				_emptyTable[_header.emptyCount - 1].offset = oldFileOffset;
+				_emptyTable[_header.emptyCount - 1].size = oldSize;
+
+				if (emptyIndex >= 0)
+				{
+					offset = block.fileOffset = _emptyTable[emptyIndex].offset;
+
+					_emptyTable[emptyIndex].offset += size;
+					_emptyTable[emptyIndex].size -= size;
+				}
+				else//写在尾巴上
+				{
+					offset = LPQ_HEADER_SIZE + _header.contentSize;
+					_header.contentSize += size;
+					_header.hashOffset = LPQ_HEADER_SIZE + _header.contentSize;
+					_header.blockOffset = _header.hashOffset + _header.fileCount*sizeof(LPQ_HASH_BLOCK);
+					_header.emptyOffset = _header.blockOffset + _header.fileCount*sizeof(LPQ_OFFSET_BLOCK);
+				}
+			}
+		}
+
+		if (fseek(_file, offset, 0) != 0)
+		{
+			return FileStatus::ReadFailed;
+		}
+		if (fwrite(buff, size, 1, _file) < 1)
+		{
+			return FileStatus::WriteFailed;
+		}
+		return flush();
 	}
 
 }

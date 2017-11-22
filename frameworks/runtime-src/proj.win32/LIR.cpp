@@ -105,7 +105,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	FILE* file;
 	size_t size = 0;
 
-	pack->openByPack(engineRoot+"res.lrp", "wb+");
+	pack->openLPQ(engineRoot + "res.lpq", "wb+");
 
 	std::vector<std::string> list;
 
@@ -134,7 +134,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			fseek(file, 0, 0);
 			fread(buffer.buffer(), 1, size, file);
 			fclose(file);
-			pack->append(curName, curName + engineRoot.size() + 1, buffer.buffer(), size, oldCount++);
+			pack->append(curName + engineRoot.size() + 1, buffer.buffer(), size, oldCount++);
 		}
 	}
 	pack->flush();

@@ -27,7 +27,7 @@ typedef unsigned int UINT;
 
 const int LPQ_HEADER_SIZE = 208;
 
-typedef struct LPQHEADER
+typedef struct LPQ_HEADER
 {
 	UINT head = LPQHEAD;
 	UINT version = LPQCURRENT_VERSION;
@@ -35,17 +35,19 @@ typedef struct LPQHEADER
 	UINT contentSize;
 	UINT hashOffset;
 	UINT blockOffset;
-	char extra[LPQ_HEADER_SIZE - sizeof(UINT)* 6];
+	UINT emptyCount;
+	UINT emptyOffset;
+	UINT extra[LPQ_HEADER_SIZE / sizeof(UINT)-8];
 };
 
 
 
-typedef struct LPQHASHTABLE
+typedef struct LPQ_HASH_BLOCK
 {
 	UINT blockIndex;
-}*LPLPQHASHTABLE;
+}*LP_LPQ_HASH_TABLE;
 
-typedef struct LPQBLOCKTABLE
+typedef struct LPQ_OFFSET_BLOCK
 {
 	
 	UINT nHash;
@@ -53,8 +55,13 @@ typedef struct LPQBLOCKTABLE
 	UINT nHashB;
 	UINT fileOffset;
 	UINT fileSize;
-}*LPLPLPQHASHTABLE;
+}*LP_LPQ_OFFSET_TABLE;
 
+typedef struct LPQ_EMPTY_BLOCK
+{
+	UINT offset;
+	UINT size;
+}*LP_LPQ_EMPTY_TABLE;
 
 class LIR_DLL LPQFile :public FileHandler
 {
@@ -62,14 +69,14 @@ public:
 	//LPQFile(const char* mode);
 	LPQFile();
 	virtual ~LPQFile();
-	FileStatus openByPack(const std::string& fullPath, const char* mode);
+	FileStatus openLPQ(const std::string& fullPath, const char* mode);
 	//FileStatus exists(const std::string& fileName);
 	FileStatus read(const std::string& fileName, Buffer* buffer);
-	FileStatus write(const std::string& fullPath,const std::string& fileName, void* buff, size_t size);
+	FileStatus write(const std::string& fileName, void* buff, size_t size);
 	FileStatus create(const std::string& fullPath, int version = 1);
 
 	
-	FileStatus append(const std::string& fullPath, const std::string& fileName, void* buff, size_t size,const int index=-1);
+	FileStatus append(const std::string& fileName, void* buff, size_t size,const int index=-1);
 	FileStatus flush();
 	FileStatus resize(const int count);
 
@@ -80,9 +87,10 @@ public:
 
 	void reset();
 protected:
-	LPQHEADER _header;
-	LPQHASHTABLE* _hashTable;
-	LPQBLOCKTABLE* _blockTable;
+	LPQ_HEADER _header;
+	LP_LPQ_HASH_TABLE _hashTable;
+	LP_LPQ_OFFSET_TABLE _blockTable;
+	LP_LPQ_EMPTY_TABLE _emptyTable;
 	FILE *_file;
 	
 };
