@@ -19,9 +19,6 @@ typedef unsigned char UCHAR;
 typedef unsigned int UINT;
 #endif
 
-
-
-
 #define LPQHEAD 0xABCC
 #define LPQCURRENT_VERSION 1
 
@@ -70,7 +67,7 @@ public:
 	LPQFile();
 	virtual ~LPQFile();
 	FileStatus openLPQ(const std::string& fullPath, const char* mode);
-	//FileStatus exists(const std::string& fileName);
+	FileStatus exists(const std::string& fileName);
 	FileStatus read(const std::string& fileName, Buffer* buffer);
 	FileStatus write(const std::string& fileName, void* buff, size_t size);
 	FileStatus create(const std::string& fullPath, int version = 1);

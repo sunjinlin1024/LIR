@@ -11,7 +11,7 @@ USING_NS_LIR
 extern "C" {
 #endif
 
-
+	bool inited = false;
 	unsigned long dwCryptTable[0x500];
 	const int HASH_OFFSET = 0, HASH_A = 1, HASH_B = 2;
 
@@ -96,7 +96,11 @@ extern "C" {
 LPQFile::LPQFile() :
 _file(nullptr)
 {
-	InitializeCryptTable();
+	if (!inited)
+	{
+		InitializeCryptTable();
+		inited = true;
+	}
 }
 
 LPQFile::~LPQFile()
@@ -193,6 +197,19 @@ FileStatus LPQFile::openLPQ(const std::string& packname, const char* mode)
 		}
 	}
 	return FileStatus::Openend;
+}
+FileStatus LPQFile::exists(const std::string& fileName)
+{
+	if (_header.fileCount < 1)
+	{
+		return FileStatus::NotExists;
+	}
+	int index = GetHashTablePos(fileName.c_str(), _hashTable, _blockTable, _header.fileCount);
+	if (index < 0)
+	{
+		return FileStatus::NotExists;
+	}
+	return FileStatus::Success;
 }
 
 FileStatus LPQFile::read(const std::string& fileName, Buffer* buffer)
@@ -394,7 +411,11 @@ FileStatus LPQFile::flush()
 FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 {
 	const char* name = fileName.c_str();
-	int index = GetHashTablePos(name,_hashTable,_blockTable,_header.fileCount);
+	int index = -1;
+	if (_header.fileCount > 0)
+	{
+		index=GetHashTablePos(name, _hashTable, _blockTable, _header.fileCount);
+	}
 	if (index < 0)
 	{	
 		auto result = this->resize(_header.fileCount + 1);

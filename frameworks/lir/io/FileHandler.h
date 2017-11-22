@@ -13,8 +13,8 @@ NS_LIR_BEGIN
 #define LFILE FILE
 #define LPFILE FILE*
 #elif LIR_TARGET_PLATFORM == LIR_PLATFORM_ANDROID
-#define  LFILE AASET 
-#define  LPFILE AASET*
+#define  LFILE AAsset 
+#define  LPFILE AAsset*
 #endif
 
 enum LIR_DLL FileStatus
