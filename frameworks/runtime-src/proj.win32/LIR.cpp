@@ -102,7 +102,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	Buffer buffer;
 
-	FILE* file;
+	LPFILE file;
 	size_t size = 0;
 
 	pack->openLPQ(engineRoot + "res.lpq", "wb+");
@@ -122,7 +122,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		if (fileUtils->isFileExist(*itr))
 		{
 			curName = (*itr).c_str();	
-			if (pack->open(curName, "rb+", file, size) != FileStatus::Openend)
+			if (pack->fopen(curName, "rb+", file, size) != FileStatus::Openend)
 			{
 				if (file)
 				{
@@ -157,7 +157,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//std::string fullPath = std::string(dir).append(name);
 	//startTime = clock();
-	////FILE* file;
+	////LPFILE file;
 	//size_t fileSize=0;
 	//for (int k = 0; k < count; k++)
 	//{
@@ -174,7 +174,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//if (status != FileStatus::Success){
 	//	lir::log("cannot find %s \n", name);
 	//}else{
-	//	FILE* nFile = fopen(std::string(dir2).append(name).c_str(), "wb+");
+	//	LPFILE nFile = fopen(std::string(dir2).append(name).c_str(), "wb+");
 	//	fseek(nFile, 0, 0);
 	//	fwrite(buffer.buffer(), buffer.size(), 1, nFile);
 	//	fclose(nFile);

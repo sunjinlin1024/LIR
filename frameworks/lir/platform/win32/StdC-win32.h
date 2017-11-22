@@ -146,7 +146,11 @@ inline errno_t strcpy_s(char *strDestination, size_t numberOfElements,
 #undef min
 #undef max
 
+
+
 #endif // LIR_TARGET_PLATFORM == LIR_PLATFORM_WIN32
+
+
 
 #endif  // __STD_C_H__
 

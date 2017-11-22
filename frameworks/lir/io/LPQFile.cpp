@@ -108,7 +108,7 @@ void LPQFile::reset()
 {
 	if (_file != nullptr)
 	{
-		fclose(_file);
+		this->fclose(_file);
 		_file = nullptr;
 	}
 	LIR_SAFE_FREE(_hashTable);
@@ -120,7 +120,7 @@ FileStatus LPQFile::create(const std::string& packname, int version)
 {
 	FILE* file = nullptr;
 	size_t size = 0;
-	auto status = open(packname, "wb", file, size);
+	auto status = this->fopen(packname, "wb", file, size);
 	if (status != FileStatus::Openend)
 	{
 		return status;
@@ -149,7 +149,7 @@ FileStatus LPQFile::create(const std::string& packname, int version)
 FileStatus LPQFile::openLPQ(const std::string& packname, const char* mode)
 {
 	size_t size = 0;
-	auto status = open(packname, mode, _file, size);
+	auto status = this->fopen(packname, mode, _file, size);
 	if (status != FileStatus::Openend)
 	{
 		return status;
@@ -318,8 +318,8 @@ FileStatus LPQFile::flush()
 		curCount = _hashTable[j].blockIndex;
 		totalCount += curCount;
 		_hashTable[j].blockIndex = totalCount-curCount;
-		lir::log("hash data %d %d %d \n", _blockTable[j].nHash, _blockTable[j].nHashA, _blockTable[j].nHashB);
-		lir::log("_hashIndex %d  count=%d  startIndex= %d\n", j, curCount, _hashTable[j].blockIndex);
+		//lir::log("hash data %d %d %d \n", _blockTable[j].nHash, _blockTable[j].nHashA, _blockTable[j].nHashB);
+		//lir::log("_hashIndex %d  count=%d  startIndex= %d\n", j, curCount, _hashTable[j].blockIndex);
 	}
 
 	int startIndex = 0;
@@ -424,8 +424,8 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 			block.fileSize = size;
 
 			int emptyIndex = -1;
-			int curDiff = 999999999;
-			for (int i = 0; i < _header.emptyCount; i++)
+			UINT curDiff = 999999999;
+			for (UINT i = 0; i < _header.emptyCount; i++)
 			{
 				if (_emptyTable[i].size >= size)
 				{

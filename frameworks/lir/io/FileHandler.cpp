@@ -7,9 +7,50 @@
 
 USING_NS_LIR
 
-FileStatus FileHandler::open(const std::string& fullPath, const char* mode, FILE* &file, size_t& size)
+int FileHandler::fclose(LPFILE file)
 {
-	file = fopen(fullPath.c_str(), mode);
+#if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
+	return ::fclose(file);
+#elif LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+	return 1;
+#endif
+	return 1;
+}
+
+
+int FileHandler::fseek(LPFILE file, long _Offset, int _Origin)
+{
+#if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
+	return ::fseek(file, _Offset, _Origin);
+#elif LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+	return 1;
+#endif
+		return 1;
+}
+int FileHandler::fwrite(const void* buff, size_t size, int count, LPFILE file)
+{
+#if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
+	return ::fwrite(buff, size, count, file);
+#elif LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+	return 0;
+#endif
+	return 0;
+}
+int FileHandler::fread(void* buff, size_t size, int count, LPFILE file)
+{
+#if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
+	return ::fread(buff, size, count, file);
+#elif LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+	return 0;
+#endif
+	return 0;
+}
+
+FileStatus FileHandler::fopen(const std::string& fullPath, const char* mode, LPFILE &file, size_t& size)
+{
+
+#if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
+	file = ::fopen(fullPath.c_str(), mode);
 	if (!file)
 		return FileStatus::OpenFailed;
 #if defined(_MSC_VER)
@@ -25,6 +66,10 @@ FileStatus FileHandler::open(const std::string& fullPath, const char* mode, FILE
 	}
 	size = statBuf.st_size;
 	return FileStatus::Openend;
+#elif LIR_TARGET_PLATFORM == LIR_PLATFORM_ANDROID
+		
+#endif
+	return FileStatus::ReadFailed;
 }
 
 
@@ -43,30 +88,23 @@ FileHandlerSingle::~FileHandlerSingle()
 	//}
 }
 
-FileStatus FileHandlerSingle::read(const std::string& filename, Buffer* buffer)
+FileStatus FileHandlerSingle::read(const std::string& filename, Buffer* &buffer)
 {
 	size_t size = 0;
-	FILE* _file=nullptr;
-	auto status=open(filename,"rb", _file, size);
+	LPFILE _file=nullptr;
+	auto status=this->fopen(filename,"rb", _file, size);
 	if (status != FileStatus::Openend)
 	{
 		return status;
 	}
 	buffer->resize(size);
-	size_t readsize = fread(buffer->buffer(), 1, size, _file);
-	fclose(_file);
+	size_t readsize = this->fread(buffer->buffer(), 1, size, _file);
+	this->fclose(_file);
 	_file = nullptr;
 
 	if (readsize < size) {
 		buffer->resize(readsize);
 		return FileStatus::ReadFailed;
 	}
-	return FileStatus::Success;
-}
-
-
-FileStatus FileHandlerSingle::write(const std::string& fullPath, void* buff, size_t size)
-{
-	//todo
 	return FileStatus::Success;
 }

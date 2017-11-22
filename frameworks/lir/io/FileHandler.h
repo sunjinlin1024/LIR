@@ -9,6 +9,14 @@
 
 NS_LIR_BEGIN
 
+#if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
+#define LFILE FILE
+#define LPFILE FILE*
+#elif LIR_TARGET_PLATFORM == LIR_PLATFORM_ANDROID
+#define  LFILE AASET 
+#define  LPFILE AASET*
+#endif
+
 enum LIR_DLL FileStatus
 {
 	Success = 0,
@@ -27,7 +35,12 @@ enum LIR_DLL FileStatus
 class LIR_DLL FileHandler
 {
 public:
-	FileStatus open(const std::string& fullPath,const char* mode, FILE* &file, size_t& size);
+	FileStatus fopen(const std::string& fullPath, const char* mode, LPFILE &file, size_t& size);
+protected:
+	int fclose(LPFILE file);
+	int fseek(LPFILE file,long _Offset, int _Origin);
+	int fwrite(const void* buff, size_t size, int count, LPFILE file);
+	int fread(void* buff, size_t size, int count, LPFILE file);
 };
 
 class LIR_DLL FileHandlerSingle :public FileHandler
@@ -35,8 +48,7 @@ class LIR_DLL FileHandlerSingle :public FileHandler
 public:
 	FileHandlerSingle();
 	~FileHandlerSingle();
-	virtual FileStatus read(const std::string& fullPath, Buffer* buffer);
-	virtual FileStatus write(const std::string& fullPath, void* buff, size_t size);
+	virtual FileStatus read(const std::string& fullPath, Buffer* &buffer);
 protected:
 	//FILE *_file;
 };

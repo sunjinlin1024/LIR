@@ -27,7 +27,7 @@ typedef unsigned int UINT;
 
 const int LPQ_HEADER_SIZE = 208;
 
-typedef struct LPQ_HEADER
+struct LIR_DLL LPQ_HEADER
 {
 	UINT head = LPQHEAD;
 	UINT version = LPQCURRENT_VERSION;
@@ -42,12 +42,12 @@ typedef struct LPQ_HEADER
 
 
 
-typedef struct LPQ_HASH_BLOCK
+typedef struct LIR_DLL LPQ_HASH_BLOCK
 {
 	UINT blockIndex;
 }*LP_LPQ_HASH_TABLE;
 
-typedef struct LPQ_OFFSET_BLOCK
+typedef struct LIR_DLL LPQ_OFFSET_BLOCK
 {
 	
 	UINT nHash;
@@ -57,7 +57,7 @@ typedef struct LPQ_OFFSET_BLOCK
 	UINT fileSize;
 }*LP_LPQ_OFFSET_TABLE;
 
-typedef struct LPQ_EMPTY_BLOCK
+typedef struct LIR_DLL LPQ_EMPTY_BLOCK
 {
 	UINT offset;
 	UINT size;
@@ -91,7 +91,7 @@ protected:
 	LP_LPQ_HASH_TABLE _hashTable;
 	LP_LPQ_OFFSET_TABLE _blockTable;
 	LP_LPQ_EMPTY_TABLE _emptyTable;
-	FILE *_file;
+	LPFILE _file;
 	
 };
 
