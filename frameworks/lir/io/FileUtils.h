@@ -8,7 +8,7 @@
 
 #include "core/Macros.h"
 #include "platform/PlatformMacros.h"
-#include "io/FileHandler.h"
+#include "io/BaseFile.h"
 #include "core/Buffer.h"
 
 NS_LIR_BEGIN

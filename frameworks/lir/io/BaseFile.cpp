@@ -1,4 +1,4 @@
-#include "io/FileHandler.h"
+#include "io/BaseFile.h"
 
 //#include <stack>
 #include <sys/stat.h>
@@ -7,7 +7,7 @@
 
 USING_NS_LIR
 
-int FileHandler::fclose(LPFILE file)
+int BaseFile::fclose(LPFILE file)
 {
 #if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
 	return ::fclose(file);
@@ -18,7 +18,7 @@ int FileHandler::fclose(LPFILE file)
 }
 
 
-int FileHandler::fseek(LPFILE file, long _Offset, int _Origin)
+int BaseFile::fseek(LPFILE file, long _Offset, int _Origin)
 {
 #if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
 	return ::fseek(file, _Offset, _Origin);
@@ -27,7 +27,7 @@ int FileHandler::fseek(LPFILE file, long _Offset, int _Origin)
 #endif
 		return 1;
 }
-int FileHandler::fwrite(const void* buff, size_t size, int count, LPFILE file)
+int BaseFile::fwrite(const void* buff, size_t size, int count, LPFILE file)
 {
 #if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
 	return ::fwrite(buff, size, count, file);
@@ -36,7 +36,7 @@ int FileHandler::fwrite(const void* buff, size_t size, int count, LPFILE file)
 #endif
 	return 0;
 }
-int FileHandler::fread(void* buff, size_t size, int count, LPFILE file)
+int BaseFile::fread(void* buff, size_t size, int count, LPFILE file)
 {
 #if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
 	return ::fread(buff, size, count, file);
@@ -46,7 +46,7 @@ int FileHandler::fread(void* buff, size_t size, int count, LPFILE file)
 	return 0;
 }
 
-FileStatus FileHandler::fopen(const std::string& fullPath, const char* mode, LPFILE &file, size_t& size)
+FileStatus BaseFile::fopen(const std::string& fullPath, const char* mode, LPFILE &file, size_t& size)
 {
 
 #if LIR_TARGET_PLATFORM==LIR_PLATFORM_WIN32
@@ -74,12 +74,12 @@ FileStatus FileHandler::fopen(const std::string& fullPath, const char* mode, LPF
 
 
 
-FileHandlerSingle::FileHandlerSingle()
+SingleFile::SingleFile()
 {
 	//_file = nullptr;
 }
 
-FileHandlerSingle::~FileHandlerSingle()
+SingleFile::~SingleFile()
 {
 	//if (_file!=nullptr)
 	//{
@@ -88,7 +88,7 @@ FileHandlerSingle::~FileHandlerSingle()
 	//}
 }
 
-FileStatus FileHandlerSingle::read(const std::string& filename, Buffer* &buffer)
+FileStatus SingleFile::read(const std::string& filename, Buffer* &buffer)
 {
 	size_t size = 0;
 	LPFILE _file=nullptr;

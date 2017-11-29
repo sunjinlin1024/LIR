@@ -6,7 +6,7 @@
 
 #include "platform/PlatformMacros.h"
 #include "core/Buffer.h"
-#include "io/FileHandler.h"
+#include "io/BaseFile.h"
 
 NS_LIR_BEGIN
 
@@ -60,7 +60,7 @@ typedef struct LIR_DLL LPQ_EMPTY_BLOCK
 	UINT size;
 }*LP_LPQ_EMPTY_TABLE;
 
-class LIR_DLL LPQFile :public FileHandler
+class LIR_DLL LPQFile :public BaseFile
 {
 public:
 	//LPQFile(const char* mode);

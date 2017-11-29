@@ -1,5 +1,5 @@
-#ifndef __LIR_FILEHANDLER_H__
-#define __LIR_FILEHANDLER_H__
+#ifndef __LIR_BaseFile_H__
+#define __LIR_BaseFile_H__
 
 #include <string>
 #include <unordered_map>
@@ -32,7 +32,7 @@ enum LIR_DLL FileStatus
 	Downloading,//Downloading
 };
 
-class LIR_DLL FileHandler
+class LIR_DLL BaseFile
 {
 public:
 	FileStatus fopen(const std::string& fullPath, const char* mode, LPFILE &file, size_t& size);
@@ -43,11 +43,11 @@ protected:
 	int fread(void* buff, size_t size, int count, LPFILE file);
 };
 
-class LIR_DLL FileHandlerSingle :public FileHandler
+class LIR_DLL SingleFile :public BaseFile
 {
 public:
-	FileHandlerSingle();
-	~FileHandlerSingle();
+	SingleFile();
+	~SingleFile();
 	virtual FileStatus read(const std::string& fullPath, Buffer* &buffer);
 protected:
 	//FILE *_file;
@@ -55,4 +55,4 @@ protected:
 
 NS_LIR_END
 
-#endif    // __LIR_FILEHANDLER_H__
+#endif    // __LIR_BaseFile_H__

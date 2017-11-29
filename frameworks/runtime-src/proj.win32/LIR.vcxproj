@@ -90,7 +90,7 @@
     <ClInclude Include="..\..\lir\core\Macros.h" />
     <ClInclude Include="..\..\lir\debug\Debug.h" />
     <ClInclude Include="..\..\lir\external\tinydir\tinydir.h" />
-    <ClInclude Include="..\..\lir\io\FileHandler.h" />
+    <ClInclude Include="..\..\lir\io\BaseFile.h" />
     <ClInclude Include="..\..\lir\io\FileUtils.h" />
     <ClInclude Include="..\..\lir\io\LPQFile.h" />
     <ClInclude Include="..\..\lir\platform\Common.h" />
@@ -107,7 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\lir\core\Buffer.cpp" />
-    <ClCompile Include="..\..\lir\io\FileHandler.cpp" />
+    <ClCompile Include="..\..\lir\io\BaseFile.cpp" />
     <ClCompile Include="..\..\lir\io\FileUtils.cpp" />
     <ClCompile Include="..\..\lir\io\LPQFile.cpp" />
     <ClCompile Include="..\..\lir\platform\win32\Common-win32.cpp" />
