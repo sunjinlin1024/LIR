@@ -46,9 +46,14 @@ static bool processing = false;
 //	}
 //}
 
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int count = 0;
+
+	SingleFileC* file = new SingleFileC();
+	LPQFile* lpq = new LPQFile(file);
+	delete lpq;
 
 	//auto t = std::thread(CC_CALLBACK_0(networkThread));
 	//
@@ -87,58 +92,58 @@ int _tmain(int argc, _TCHAR* argv[])
 	//FileUtils::getInstance()->getContents("res.zip",&buffer);
 
 
-	std::string engineRoot("F:/LIR/");
-	std::string dir("res");
+	//std::string engineRoot("F:/LIR/");
+	//std::string dir("res");
 
-	auto fileUtils = FileUtils::getInstance();
-	fileUtils->addSearchPath(engineRoot);
-	//fileUtils->addSearchResolutionsOrder("");
+	//auto fileUtils = FileUtils::getInstance();
+	//fileUtils->addSearchPath(engineRoot);
+	////fileUtils->addSearchResolutionsOrder("");
 
-	LPQFile* pack = new LPQFile();
-	
-	//pack->create("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp");
+	//LPQFile<FILE>* pack = new LPQFile<FILE>();
+	//
+	////pack->create("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp");
 
-	
-	
-	Buffer buffer;
+	//
+	//
+	//Buffer buffer;
 
-	LPFILE file;
-	size_t size = 0;
+	//FILE file;
+	//size_t size = 0;
 
-	pack->openLPQ(engineRoot + "res.lpq", "wb+");
+	//pack->openLPQ(engineRoot + "res.lpq", "wb+");
 
-	std::vector<std::string> list;
+	//std::vector<std::string> list;
 
-	FileUtils::getInstance()->listFilesRecursively(engineRoot.append(dir), &list,1);
+	//FileUtils::getInstance()->listFilesRecursively(engineRoot.append(dir), &list,1);
 
 
-	auto startTime = clock();
-	const char* curName;
-	int appendSize = list.size();
-	int oldCount = pack->getCount();
-	pack->resize(oldCount + appendSize);
-	for (auto itr = list.begin(); itr != list.end(); itr++)
-	{
-		if (fileUtils->isFileExist(*itr))
-		{
-			curName = (*itr).c_str();	
-			if (pack->fopen(curName, "rb+", file, size) != FileStatus::Openend)
-			{
-				if (file)
-				{
-					fclose(file);
-				}
-				return 0;
-			}
-			buffer.resize(size);
-			fseek(file, 0, 0);
-			fread(buffer.buffer(), 1, size, file);
-			fclose(file);
-			pack->append(curName + engineRoot.size() + 1, buffer.buffer(), size, oldCount++);
-		}
-	}
-	pack->flush();
-	std::cout << "cost time 1,  " << clock() - startTime << std::endl;
+	//auto startTime = clock();
+	//const char* curName;
+	//int appendSize = list.size();
+	//int oldCount = pack->getCount();
+	//pack->resize(oldCount + appendSize);
+	//for (auto itr = list.begin(); itr != list.end(); itr++)
+	//{
+	//	if (fileUtils->isFileExist(*itr))
+	//	{
+	//		curName = (*itr).c_str();	
+	//		if (pack->fopen(curName, "rb+", file, size) != FileStatus::Success)
+	//		{
+	//			if (file)
+	//			{
+	//				fclose(file);
+	//			}
+	//			return 0;
+	//		}
+	//		buffer.resize(size);
+	//		fseek(file, 0, 0);
+	//		fread(buffer.buffer(), 1, size, file);
+	//		fclose(file);
+	//		pack->append(curName + engineRoot.size() + 1, buffer.buffer(), size, oldCount++);
+	//	}
+	//}
+	//pack->flush();
+	//std::cout << "cost time 1,  " << clock() - startTime << std::endl;
 
 	//////pack = new FileHandlerPack();
 	//pack->openByPack("D:/work/lir/frameworks/runtime-src/LIR/Debug.win32/res.lrp", "rb+");
@@ -180,8 +185,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	fclose(nFile);
 	//}
 
-	delete pack;
-	buffer.clear();
+	//delete pack;
+	//buffer.clear();
 
 
 	while (true){
