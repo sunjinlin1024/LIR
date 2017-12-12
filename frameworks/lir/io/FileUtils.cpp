@@ -656,7 +656,7 @@ FileStatus FileUtils::getContents(const std::string& filename, Buffer* buffer)
 		fclose(fp);
 		return FileStatus::ReadFailed;
 	}
-	size_t size = statBuf.st_size;
+	size_t size = (size_t)statBuf.st_size;
 
 	buffer->resize(size);
 	size_t readsize = fread(buffer->buffer(), 1, size, fp);
