@@ -8,6 +8,8 @@
 //#include "platform/CCSAXParser.h"
 //#include "base/ccUtils.h"
 
+#
+
 //#include "tinyxml2/tinyxml2.h"
 #include "external/tinydir/tinydir.h"
 //#ifdef MINIZIP_FROM_SYSTEM
@@ -17,7 +19,7 @@
 //#endif
 #include <sys/stat.h>
 
-NS_LIR_BEGIN
+USING_NS_LIR
 
 // Implement DictMaker
 
@@ -1518,4 +1520,3 @@ bool FileUtils::isFileExistInternal(const std::string& filename)const
 	return true;
 }
 
-NS_LIR_END

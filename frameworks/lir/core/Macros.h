@@ -1,6 +1,6 @@
 
-#ifndef __BASE_LMACROS_H__
-#define __BASE_LMACROS_H__
+#ifndef __LIR_MACROS_H__
+#define __LIR_MACROS_H__
 
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
@@ -24,7 +24,7 @@
    // #define LASSERT(cond, msg) LIR_ASSERT(cond)
    // #endif
 	#define LASSERT(cond,msg) if(!cond)\
-		lir::log("Assert failed: %s", msg);\
+		//lir::log("Assert failed: %s", msg);\
 	}
 #else
     #define LASSERT(cond, msg)
@@ -33,7 +33,7 @@
 #define GP_ASSERT(cond) LASSERT(cond, "")
 
 // FIXME:: Backward compatible
-#define L_ASSERT LASSERT
+//#define L_ASSERT(cond,msg) LASSERT(cond,msg)
 #endif  // LASSERT
 
 #include "core/Config.h"

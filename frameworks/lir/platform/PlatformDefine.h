@@ -1,6 +1,6 @@
 
-#ifndef __PLATFORM_LPLATFORMDEFINE_H__
-#define __PLATFORM_LPLATFORMDEFINE_H__
+#ifndef __LIR_PLATFORM_DEFINE_H__
+#define __LIR_PLATFORM_DEFINE_H__
 /// @cond DO_NOT_SHOW
 
 #include "platform/PlatformConfig.h"
@@ -8,9 +8,9 @@
 #if LIR_TARGET_PLATFORM == LIR_PLATFORM_MAC
 #include "platform/mac/CCPlatformDefine-mac.h"
 #elif LIR_TARGET_PLATFORM == LIR_PLATFORM_IOS
-#include "platform/ios/CCPlatformDefine-ios.h"
+#include "platform/ios/PlatformDefine-ios.h"
 #elif LIR_TARGET_PLATFORM == LIR_PLATFORM_ANDROID
-#include "platform/android/CCPlatformDefine-android.h"
+#include "platform/android/PlatformDefine-android.h"
 #elif LIR_TARGET_PLATFORM == LIR_PLATFORM_WIN32
 #include "platform/win32/PlatformDefine-win32.h"
 #elif LIR_TARGET_PLATFORM == LIR_PLATFORM_WINRT
@@ -22,4 +22,4 @@
 #endif
 
 /// @endcond
-#endif /* __PLATFORM_LPLATFORMDEFINE_H__*/
+#endif /* __LIR_PLATFORM_DEFINE_H__*/

@@ -3,7 +3,7 @@
 #define __LIR_VALUE__
 
 #include "platform/PlatformMacros.h"
-#include "base/Macros.h"
+#include "core/Macros.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -21,14 +21,14 @@ typedef std::vector<Value> ValueVector;
 typedef std::unordered_map<std::string, Value> ValueMap;
 typedef std::unordered_map<int, Value> ValueMapIntKey;
 
-CC_DLL extern const ValueVector ValueVectorNull;
-CC_DLL extern const ValueMap ValueMapNull;
-CC_DLL extern const ValueMapIntKey ValueMapIntKeyNull;
+LIR_DLL extern const ValueVector ValueVectorNull;
+LIR_DLL extern const ValueMap ValueMapNull;
+LIR_DLL extern const ValueMapIntKey ValueMapIntKeyNull;
 
 /*
  * This class is provide as a wrapper of basic types, such as int and bool.
  */
-class CC_DLL Value
+class LIR_DLL Value
 {
 public:
     /** A predefined Value that has not value. */
@@ -222,7 +222,7 @@ private:
 
 /** @} */
 
-NS_CC_END
+NS_LIR_END
 
 
 #endif /* defined(__cocos2d_libs__CCValue__) */
