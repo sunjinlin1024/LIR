@@ -13,21 +13,21 @@ extern "C" {
 #endif
 
 	bool inited = false;
-	unsigned long dwCryptTable[0x500];
+	unsigned int dwCryptTable[0x500];
 	const int HASH_OFFSET = 0, HASH_A = 1, HASH_B = 2;
 
 	void InitializeCryptTable()
 	{
-		unsigned long seed = 0x00100001;
-		unsigned long index1 = 0;
-		unsigned long index2 = 0;
+		unsigned int seed = 0x00100001;
+		unsigned int index1 = 0;
+		unsigned int index2 = 0;
 		int   i;
 
 		for (index1 = 0; index1 < 0x100; index1++)
 		{
 			for (index2 = index1, i = 0; i < 5; i++, index2 += 0x100)
 			{
-				unsigned long temp1, temp2;
+				unsigned int temp1, temp2;
 
 				seed = (seed * 125 + 3) % 0x2AAAAB;
 				temp1 = (seed & 0xFFFF) << 0x10;
@@ -40,7 +40,7 @@ extern "C" {
 		}
 	}
 
-	unsigned int HashString(const char *lpszString, unsigned long dwHashType)
+	unsigned int HashString(const char *lpszString, unsigned int dwHashType)
 	{
 		unsigned int seed1 = 0x7FED7FED;
 		unsigned int seed2 = 0xEEEEEEEE;
@@ -306,7 +306,7 @@ FileStatus LPQFile::append(const std::string& fileName, void* buff, size_t size,
 	}
 
 	_blockTable[blockIndex].fileOffset = LPQ_HEADER_SIZE + _header.contentSize;
-	_blockTable[blockIndex].fileSize = size;
+	_blockTable[blockIndex].fileSize = (UINT)size;
 	_blockTable[blockIndex].nHash = nHash;
 	_blockTable[blockIndex].nHashA = nHashA;
 	_blockTable[blockIndex].nHashB = nHashB;
@@ -454,13 +454,13 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 		UINT oldFileOffset = block.fileOffset;
 
 		UINT offset = 0;
-		if (oldSize == size)//写在原来位置
+		if (oldSize == size)
 		{
 			offset = oldFileOffset;
 		}
-		else//写在空白处
+		else
 		{
-			block.fileSize = size;
+			block.fileSize = (UINT)size;
 
 			int emptyIndex = -1;
 			UINT curDiff = 999999999;
@@ -471,7 +471,7 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 					if (_emptyTable[i].size - size < curDiff)
 					{
 						emptyIndex = i;
-						curDiff = _emptyTable[i].size - size;
+						curDiff = _emptyTable[i].size - (UINT)size;
 						if (curDiff == 0)
 						{
 							break;

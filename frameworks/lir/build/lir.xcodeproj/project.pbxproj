@@ -41,7 +41,7 @@
 		1672FB8E1FDFC7E2002E9BE3 /* BaseFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFile.h; sourceTree = "<group>"; };
 		1672FB911FDFC7E2002E9BE3 /* FileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtils.cpp; sourceTree = "<group>"; };
 		1672FB921FDFC7E2002E9BE3 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
-		1672FB931FDFC7E2002E9BE3 /* LPQFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LPQFile.cpp; sourceTree = "<group>"; };
+		1672FB931FDFC7E2002E9BE3 /* LPQFile.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = LPQFile.cpp; sourceTree = "<group>"; };
 		1672FB941FDFC7E2002E9BE3 /* LPQFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPQFile.h; sourceTree = "<group>"; };
 		1672FB9B1FDFC7E2002E9BE3 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		1672FB9D1FDFC7E2002E9BE3 /* lir-prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "lir-prefix.pch"; sourceTree = "<group>"; };

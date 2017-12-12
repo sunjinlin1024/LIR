@@ -112,7 +112,7 @@ FileStatus SingleFileC::read(Buffer* &buffer)
 	size_t size=0;
 	this->getSize(size);
 	buffer->resize(size);
-	if (size < 0){
+	if (size <= 0){
 		return FileStatus::NotExists;
 	}
 	return this->read(buffer->buffer(), size, 1);
