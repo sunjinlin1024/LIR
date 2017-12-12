@@ -31,7 +31,7 @@ public:
 	virtual FileStatus write(const void* buff, const size_t& size, const size_t& count)=0;
 	virtual FileStatus read(void* buff, const size_t& size, const size_t& count)=0;
 	virtual void getSize(size_t& size)=0;
-	~BaseFile();
+	virtual ~BaseFile();
 protected:
 	BaseFile();
 	
@@ -41,7 +41,7 @@ class LIR_DLL SingleFileC:public BaseFile
 {
 public:
 	SingleFileC();
-	~SingleFileC();
+	virtual ~SingleFileC();
 	virtual FileStatus open(const std::string& fullPath, const char* mode) override;
 	virtual FileStatus close() override;
 	virtual FileStatus seek(const long& offset, const int& origin) override;
