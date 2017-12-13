@@ -57,7 +57,7 @@ static AppDelegate s_sharedApplication;
         [window setRootViewController:viewController];
     }
     [window makeKeyAndVisible];
-    [window setBackgroundColor:[UIColor redColor]];
+ 
     
 //    [GameLuaOCBridge setRootView:viewController];
 //    [GameLuaOCBridge setNotification:nullptr];
@@ -74,8 +74,22 @@ static AppDelegate s_sharedApplication;
 
     app->run();
     
-    
-    
+//    auto fileUtils = lir::FileUtils::getInstance();
+//    fileUtils->addSearchPath("res");
+//
+//    lir::Buffer buffer;
+//    fileUtils->getContents("res.lpq", &buffer);
+//
+//    lir::LPQFile file(new lir::SingleFileC());
+//    std::string fullLpqPath=fileUtils->fullPathForFilename("res.lpq");
+//    file.openLPQ(fullLpqPath, "rb");
+//    
+//
+//    file.read("gameres/bg/share.png", &buffer);
+//    
+//    NSData* data=[[NSData alloc]initWithBytes:buffer.buffer() length:buffer.size()];
+//    UIImageView* view=[[UIImageView alloc]initWithImage:[[UIImage alloc] initWithData:data]];
+//    viewController.view=view;
     
     return YES;
 }

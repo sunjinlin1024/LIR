@@ -106,6 +106,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     
 //    LPQFile::testInit("res", "res.lpq");
     
+    LPQFile::testRead("res.lpq");
+    
 //    auto fullPath=FileUtils::getInstance()->fullPathForFilename("res/Tutorial03.png");
 //    SingleFileC c;
 //    c.open(fullPath,"rb+");

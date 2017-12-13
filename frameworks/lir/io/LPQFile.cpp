@@ -95,7 +95,12 @@ extern "C" {
 
 
 
-LPQFile::LPQFile(BaseFile* file){
+LPQFile::LPQFile(BaseFile* file)
+:_hashTable(nullptr),
+_blockTable(nullptr),
+_emptyTable(nullptr),
+_file(nullptr)
+{
 	if (!inited)
 	{
 		InitializeCryptTable();
@@ -257,7 +262,12 @@ FileStatus LPQFile::resize(const int count)
 	if (count>_header.fileCount)
 	{
 		auto totalHashSize = count*sizeof(LPQ_HASH_BLOCK);
-		_hashTable = (LP_LPQ_HASH_TABLE)realloc(_hashTable, totalHashSize);
+        void* newTable=realloc(_hashTable, totalHashSize);
+        if(!newTable)
+        {
+            return FileStatus::ObtainSizeFailed;
+        }
+        _hashTable = (LP_LPQ_HASH_TABLE)newTable;
 		if (_hashTable == nullptr)
 		{
 
@@ -528,26 +538,19 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 
 
 
- unsigned int getLocationTime()
+ double getLocationTime()
  {
- 	struct tm *tm;
- 	time_t timep;
+ 	
  #if (LIR_TARGET_PLATFORM == LIR_PLATFORM_WIN32)
- 	time(&timep);
+//     struct tm *tm;
+//     time_t timep;
+// 	time(&timep);
+     return 0;
  #else
- 	struct timeval tv;
- 	gettimeofday(&tv, NULL);
- 	timep = tv.tv_sec;
+ 	timeval now;
+     gettimeofday(&now,NULL);
+ 	return now.tv_sec+now.tv_usec*0.000001;
  #endif
-
- 	tm = localtime(&timep);
-// 	int year = tm->tm_year + 1900;
-// 	int month = tm->tm_mon + 1;
-// 	int day = tm->tm_mday;
- 	int hour = tm->tm_hour;
- 	int minute = tm->tm_min;
- 	int second = tm->tm_sec;
- 	return hour * 3600 + minute * 60 + second;
  }
 
 
@@ -567,14 +570,14 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
  	Buffer buffer;
 
  	
- 	size_t size = 0;
 
  	pack->openLPQ(engineRoot + dest, "wb+");
 
  	std::vector<std::string> list;
 
- 	fileUtils->listFilesRecursively(engineRoot.append(dir), &list, 1);
-
+    std::string full_dir=fileUtils->fullPathForFilename(dir);
+ 	fileUtils->listFilesRecursively(full_dir, &list, 1);
+    int fullSize=full_dir.size();
 
  	const char* curName;
  	int appendSize = list.size();
@@ -598,7 +601,7 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
  			buffer.resize(fileSize);
             file.read(&buffer);
             file.close();
- 			pack->append(curName + engineRoot.size() + 1, buffer.buffer(), size, oldCount++);
+            pack->append(std::string(curName + fullSize + 1), buffer.buffer(), fileSize, oldCount++);
  		}
  	}
  	pack->flush();
@@ -615,31 +618,18 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
  {
 
  	auto fileUtils = FileUtils::getInstance();
+     fileUtils->addSearchPath("res");
  	auto wpath = fileUtils->getWritablePath();
  	#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
  		LOGD("WRITE PATH =%s",(wpath+lpqFile).c_str());
  	#endif
-
- 	std::string lpqPath=(wpath+lpqFile);
-
- 	if(!fileUtils->isFileExist(lpqPath))
- 	{
-
- 		Buffer data;
- 		fileUtils->getContents(lpqFile, &data);
- #if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
- 		LOGD("WRITE LPQ =%s %d", lpqPath.c_str(), data.getSize());
- #endif
- 		fileUtils->writeDataToFile(data, lpqPath);
-
- 	}
-
+     std::string lpqPath=fileUtils->fullPathForFilename(lpqFile);
  #if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
  	LOGD("OPEN LPQ ");
  #endif
 
  	LPQFile pack(new SingleFileC());
- 	if (pack.openLPQ(lpqPath, "rb+") != FileStatus::Success)
+ 	if (pack.openLPQ(lpqPath, "rb") != FileStatus::Success)
  	{
  		#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
  			LOGD("LPQ NOT EXIST =%s",lpqPath.c_str());
@@ -649,45 +639,18 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
  	std::vector<std::string> testList;
  	testList.push_back("config/APIMapConfig.lua");
  	testList.push_back("config/FirstNameConfig.lua");
+     size_t listCount = testList.size();
 
-
-
- #if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
- 	LOGD("START CHECK SINGLE ");
- #endif
- 	size_t listCount = testList.size();
-
- 	std::string singleFilepath;
- 	for (int i = 0; i < listCount; i++)
- 	{
- 		singleFilepath = wpath +"res/"+ testList[i];
- 		if (!fileUtils->isFileExist(singleFilepath))
- 		{
- 			Buffer data;
- 			fileUtils->getContents(testList[i], &data);
- 			fileUtils->writeDataToFile(data, singleFilepath);
- #if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
- 			LOGD("WRITE single file =%s", singleFilepath.c_str());
- #endif
- 		}
- 	}
 
 
 
  	Buffer buffer;
 
- 	int costTime1 = 1;
- 	int costTime2 = 1;
- 	int testCount = 100;
+ 	int testCount = 100000;
 
 
 
- 	while (abs(costTime2-costTime1)<20)
- 	{
- 		#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
- 			LOGD("testCount =%d \n",testCount);
- 		#endif
- 		testCount = testCount * 2;
+// 		testCount = testCount * 2;
  		auto startTime = getLocationTime();
  		for (int i = 0; i < testCount; i++)
  		{
@@ -699,7 +662,7 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
  				continue;
  			}
  		}
- 		costTime1 = getLocationTime()-startTime;
+ 		auto costTime1 = getLocationTime()-startTime;
  		#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
  			LOGD("cost time1 =%d \n",costTime1);
  		#endif
@@ -723,12 +686,12 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
  			//pack.fread(buffer.buffer(), size, 1, file);
  			//pack.fclose(file);
  		}
- 		costTime2 = getLocationTime() - startTime;
+ 		auto costTime2 = getLocationTime() - startTime;
  		//CCLOG("write file count %d,cost time %d:%d seconds \n", testCount, costTime1, costTime2);
  		#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
  			LOGD("cost time2,%d seconds \n", costTime2);
+        #elif LIR_TARGET_PLATFORM==LIR_PLATFORM_MAC || LIR_PLATFORM_IOS
  		#endif
- 	}
 
  	return FileStatus::Success;
  }

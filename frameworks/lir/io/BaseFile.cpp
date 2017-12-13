@@ -61,7 +61,8 @@ FileStatus SingleFileC::seek(const long& offset,const int& origin)
 }
 FileStatus SingleFileC::write(const void* buff, const size_t& size, const size_t& count)
 {
-	if (fwrite(buff, size, count, _file) / size == count){
+    auto result=fwrite(buff, size, count, _file);
+	if ( result== count){
 		return FileStatus::Success;
 	}
 	else{
