@@ -11,6 +11,7 @@
 //#import "manual/CCLuaEngine.h"
 //#import "util/ProjectMgr/ProjectMgr.h"
 
+
 @implementation AppController
 
 #pragma mark -
@@ -72,6 +73,9 @@ static AppDelegate s_sharedApplication;
 //    cocos2d::Director::getInstance()->setOpenGLView(glview);
 
     app->run();
+    
+    
+    
     
     return YES;
 }

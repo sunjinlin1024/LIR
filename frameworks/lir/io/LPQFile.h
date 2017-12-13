@@ -83,7 +83,9 @@ public:
 
 	//FileStatus pack(const std::string& fullPath, const std::string& dirRoot);
 	//FileStatus unpack(const std::string& fullPach, const std::string& dirRoot);
-
+    
+    static FileStatus testRead(const std::string& lpqFile);
+    static FileStatus testInit(const std::string& dir, const std::string& dest);
 	
 protected:
 	LPQ_HEADER _header;

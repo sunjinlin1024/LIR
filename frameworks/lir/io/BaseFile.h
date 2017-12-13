@@ -48,7 +48,7 @@ public:
 	virtual FileStatus write(const void* buff, const size_t& size, const size_t& count) override;
 	virtual FileStatus read(void* buff, const size_t& size, const size_t& count) override;
 	virtual void getSize(size_t& size) override;
-	virtual FileStatus read(Buffer* &buffer);
+	virtual FileStatus read(Buffer* buffer);
 protected:
 	FILE* _file;
 };

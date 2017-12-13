@@ -5,6 +5,8 @@
 
 #include "debug/Debug.h"
 
+#include "io/FileUtils.h"
+
 USING_NS_LIR
 
 
@@ -526,212 +528,210 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 
 
 
-// unsigned int getLocationTime()
-// {
-// 	struct tm *tm;
-// 	time_t timep;
-// #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-// 	time(&timep);
-// #else
-// 	struct timeval tv;
-// 	gettimeofday(&tv, NULL);
-// 	timep = tv.tv_sec;
-// #endif
+ unsigned int getLocationTime()
+ {
+ 	struct tm *tm;
+ 	time_t timep;
+ #if (LIR_TARGET_PLATFORM == LIR_PLATFORM_WIN32)
+ 	time(&timep);
+ #else
+ 	struct timeval tv;
+ 	gettimeofday(&tv, NULL);
+ 	timep = tv.tv_sec;
+ #endif
 
-// 	tm = localtime(&timep);
+ 	tm = localtime(&timep);
 // 	int year = tm->tm_year + 1900;
 // 	int month = tm->tm_mon + 1;
 // 	int day = tm->tm_mday;
-// 	int hour = tm->tm_hour;
-// 	int minute = tm->tm_min;
-// 	int second = tm->tm_sec;
-// 	return hour * 3600 + minute * 60 + second;
-// }
+ 	int hour = tm->tm_hour;
+ 	int minute = tm->tm_min;
+ 	int second = tm->tm_sec;
+ 	return hour * 3600 + minute * 60 + second;
+ }
 
 
-// FileStatus LPQFile::testInit(const std::string& dir, const std::string& dest)
-// {
-// 	auto fileUtils = FileUtils::getInstance();
-// 	//fileUtils->addSearchPath(engineRoot);
-// 	//fileUtils->addSearchResolutionsOrder("");
+ FileStatus LPQFile::testInit(const std::string& dir, const std::string& dest)
+ {
+ 	auto fileUtils = FileUtils::getInstance();
+ 	//fileUtils->addSearchPath(engineRoot);
+ 	//fileUtils->addSearchResolutionsOrder("");
 
-// 	LPQFile* pack = new LPQFile();
+ 	LPQFile* pack = new LPQFile(new SingleFileC());
 
-// 	//pack->create("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp");
+ 	//pack->create("F:/LIR/frameworks/runtime-src/LIR/Debug.win32/res.lrp");
 
-// 	std::string engineRoot = fileUtils->getWritablePath();
-
-
-// 	Buffer buffer;
-
-// 	LPFILE file;
-// 	size_t size = 0;
-
-// 	pack->openLPQ(engineRoot + dest, "wb+");
-
-// 	std::vector<std::string> list;
-
-// 	pack->listFilesRecursively(engineRoot.append(dir), &list, 1);
+ 	std::string engineRoot = fileUtils->getWritablePath();
 
 
-// 	const char* curName;
-// 	int appendSize = list.size();
-// 	int oldCount = pack->getCount();
+ 	Buffer buffer;
 
-// 	auto startTime = getLocationTime();
-// 	pack->resize(appendSize);
-// 	for (auto itr = list.begin(); itr != list.end(); itr++)
-// 	{
-// 		if (fileUtils->isFileExist(*itr))
-// 		{
-// 			curName = (*itr).c_str();
-// 			if (pack->fopen(curName, "rb+", file, size) != FileStatus::Success)
-// 			{
-// 				if (file)
-// 				{
-// 					pack->fclose(file);
-// 				}
-// 				delete pack;
-// 				return FileStatus::OpenFailed;
-// 			}
-// 			buffer.resize(size);
-// 			pack->fseek(file, 0, 0);
-// 			pack->fread(buffer.buffer(), 1, size, file);
-// 			pack->fclose(file);
-// 			pack->append(curName + engineRoot.size() + 1, buffer.buffer(), size, oldCount++);
-// 		}
-// 	}
-// 	pack->flush();
-// 	auto endTime = getLocationTime();
+ 	
+ 	size_t size = 0;
+
+ 	pack->openLPQ(engineRoot + dest, "wb+");
+
+ 	std::vector<std::string> list;
+
+ 	fileUtils->listFilesRecursively(engineRoot.append(dir), &list, 1);
+
+
+ 	const char* curName;
+ 	int appendSize = list.size();
+ 	int oldCount = pack->getCount();
+
+     size_t fileSize=0;
+ 	auto startTime = getLocationTime();
+ 	pack->resize(appendSize);
+ 	for (auto itr = list.begin(); itr != list.end(); itr++)
+ 	{
+ 		if (fileUtils->isFileExist(*itr))
+ 		{
+            SingleFileC file;
+ 			curName = (*itr).c_str();
+ 			if (file.open(curName, "rb+") != FileStatus::Success)
+ 			{
+                file.close();
+ 				return FileStatus::OpenFailed;
+ 			}
+            file.getSize(fileSize);
+ 			buffer.resize(fileSize);
+            file.read(&buffer);
+            file.close();
+ 			pack->append(curName + engineRoot.size() + 1, buffer.buffer(), size, oldCount++);
+ 		}
+ 	}
+ 	pack->flush();
+ 	auto endTime = getLocationTime();
 // 	CCLOG("write file count %d,cost time %d seconds \n", appendSize, endTime - startTime);
-// 	delete pack;
-// 	//std::cout << "cost time 1,  " << clock() - startTime << std::endl;
-// 	return FileStatus::Success;
-// }
+ 	delete pack;
+ 	//std::cout << "cost time 1,  " << clock() - startTime << std::endl;
+ 	return FileStatus::Success;
+ }
 
 
 
-// FileStatus LPQFile::testRead(const std::string& lpqFile)
-// {
+ FileStatus LPQFile::testRead(const std::string& lpqFile)
+ {
 
-// 	auto fileUtils = FileUtils::getInstance();
-// 	auto wpath = fileUtils->getWritablePath();
-// 	#if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 		LOGD("WRITE PATH =%s",(wpath+lpqFile).c_str());
-// 	#endif
+ 	auto fileUtils = FileUtils::getInstance();
+ 	auto wpath = fileUtils->getWritablePath();
+ 	#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 		LOGD("WRITE PATH =%s",(wpath+lpqFile).c_str());
+ 	#endif
 
-// 	std::string lpqPath=(wpath+lpqFile);
+ 	std::string lpqPath=(wpath+lpqFile);
 
-// 	if(!fileUtils->isFileExist(lpqPath))
-// 	{
+ 	if(!fileUtils->isFileExist(lpqPath))
+ 	{
 
-// 		Data data;
-// 		fileUtils->getContents(lpqFile, &data);
-// #if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 		LOGD("WRITE LPQ =%s %d", lpqPath.c_str(), data.getSize());
-// #endif
-// 		fileUtils->writeDataToFile(data, lpqPath);
+ 		Buffer data;
+ 		fileUtils->getContents(lpqFile, &data);
+ #if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 		LOGD("WRITE LPQ =%s %d", lpqPath.c_str(), data.getSize());
+ #endif
+ 		fileUtils->writeDataToFile(data, lpqPath);
 
-// 	}
+ 	}
 
-// #if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 	LOGD("OPEN LPQ ");
-// #endif
+ #if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 	LOGD("OPEN LPQ ");
+ #endif
 
-// 	LPQFile pack;
-// 	if (pack.openLPQ(lpqPath, "rb+") != FileStatus::Success)
-// 	{
-// 		#if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 			LOGD("LPQ NOT EXIST =%s",lpqPath.c_str());
-// 		#endif
-// 		return FileStatus::NotExists;
-// 	}
-// 	std::vector<std::string> testList;
-// 	testList.push_back("config/APIMapConfig.lua");
-// 	testList.push_back("config/FirstNameConfig.lua");
-
-
-
-// #if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 	LOGD("START CHECK SINGLE ");
-// #endif
-// 	int listCount = testList.size();
-
-// 	std::string singleFilepath;
-// 	for (int i = 0; i < listCount; i++)
-// 	{
-// 		singleFilepath = wpath +"res/"+ testList[i];
-// 		if (!fileUtils->isFileExist(singleFilepath))
-// 		{
-// 			Data data;
-// 			fileUtils->getContents(testList[i], &data);
-// 			fileUtils->writeDataToFile(data, singleFilepath);
-// #if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 			LOGD("WRITE single file =%s", singleFilepath.c_str());
-// #endif
-// 		}
-// 	}
+ 	LPQFile pack(new SingleFileC());
+ 	if (pack.openLPQ(lpqPath, "rb+") != FileStatus::Success)
+ 	{
+ 		#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 			LOGD("LPQ NOT EXIST =%s",lpqPath.c_str());
+ 		#endif
+ 		return FileStatus::NotExists;
+ 	}
+ 	std::vector<std::string> testList;
+ 	testList.push_back("config/APIMapConfig.lua");
+ 	testList.push_back("config/FirstNameConfig.lua");
 
 
 
-// 	Buffer buffer;
+ #if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 	LOGD("START CHECK SINGLE ");
+ #endif
+ 	size_t listCount = testList.size();
 
-// 	int costTime1 = 1;
-// 	int costTime2 = 1;
-// 	int testCount = 100;
+ 	std::string singleFilepath;
+ 	for (int i = 0; i < listCount; i++)
+ 	{
+ 		singleFilepath = wpath +"res/"+ testList[i];
+ 		if (!fileUtils->isFileExist(singleFilepath))
+ 		{
+ 			Buffer data;
+ 			fileUtils->getContents(testList[i], &data);
+ 			fileUtils->writeDataToFile(data, singleFilepath);
+ #if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 			LOGD("WRITE single file =%s", singleFilepath.c_str());
+ #endif
+ 		}
+ 	}
 
 
 
-// 	while (abs(costTime2-costTime1)<20)
-// 	{
-// 		#if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 			LOGD("testCount =%d \n",testCount);
-// 		#endif
-// 		testCount = testCount * 2;
-// 		auto startTime = getLocationTime();
-// 		for (int i = 0; i < testCount; i++)
-// 		{
-// 			if (pack.read(testList[i%listCount], &buffer) != FileStatus::Success)
-// 			{
-// 				#if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 					LOGD("LPQ NOT found =%s",testList[i%listCount].c_str());
-// 				#endif
-// 				continue;
-// 			}
-// 		}
-// 		costTime1 = getLocationTime()-startTime;
-// 		#if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 			LOGD("cost time1 =%d \n",costTime1);
-// 		#endif
-// 		LPFILE file;
-// 		size_t size;
+ 	Buffer buffer;
 
-// 		Data data;
-// 		startTime = getLocationTime();
-// 		for (int i = 0; i < testCount; i++)
-// 		{
-// 			fileUtils->getContents(testList[i%listCount], &data);
-// 			//auto result=pack.fopen(wpath+"res/"+(testList[i%listCount]), "rb", file, size);
-// 			//if(result != FileStatus::Success || size == 0)
-// 			//{
-// 			////#if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 			////	LOGD("singleFile not found =%d \n",costTime1);
-// 			////#endif
-// 			//	continue;
-// 			//}
-// 			//buffer.resize(size);
-// 			//pack.fread(buffer.buffer(), size, 1, file);
-// 			//pack.fclose(file);
-// 		}
-// 		costTime2 = getLocationTime() - startTime;
-// 		//CCLOG("write file count %d,cost time %d:%d seconds \n", testCount, costTime1, costTime2);
-// 		#if CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID
-// 			LOGD("cost time2,%d seconds \n", costTime2);
-// 		#endif
-// 	}
+ 	int costTime1 = 1;
+ 	int costTime2 = 1;
+ 	int testCount = 100;
 
-// 	return FileStatus::Success;
-// }
+
+
+ 	while (abs(costTime2-costTime1)<20)
+ 	{
+ 		#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 			LOGD("testCount =%d \n",testCount);
+ 		#endif
+ 		testCount = testCount * 2;
+ 		auto startTime = getLocationTime();
+ 		for (int i = 0; i < testCount; i++)
+ 		{
+ 			if (pack.read(testList[i%listCount], &buffer) != FileStatus::Success)
+ 			{
+ 				#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 					LOGD("LPQ NOT found =%s",testList[i%listCount].c_str());
+ 				#endif
+ 				continue;
+ 			}
+ 		}
+ 		costTime1 = getLocationTime()-startTime;
+ 		#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 			LOGD("cost time1 =%d \n",costTime1);
+ 		#endif
+ 	//	LPFILE file;
+ 		//size_t size=0;
+
+ 		Buffer data;
+ 		startTime = getLocationTime();
+ 		for (int i = 0; i < testCount; i++)
+ 		{
+ 			fileUtils->getContents(testList[i%listCount], &data);
+ 			//auto result=pack.fopen(wpath+"res/"+(testList[i%listCount]), "rb", file, size);
+ 			//if(result != FileStatus::Success || size == 0)
+ 			//{
+ 			////#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 			////	LOGD("singleFile not found =%d \n",costTime1);
+ 			////#endif
+ 			//	continue;
+ 			//}
+ 			//buffer.resize(size);
+ 			//pack.fread(buffer.buffer(), size, 1, file);
+ 			//pack.fclose(file);
+ 		}
+ 		costTime2 = getLocationTime() - startTime;
+ 		//CCLOG("write file count %d,cost time %d:%d seconds \n", testCount, costTime1, costTime2);
+ 		#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
+ 			LOGD("cost time2,%d seconds \n", costTime2);
+ 		#endif
+ 	}
+
+ 	return FileStatus::Success;
+ }
 
 
 

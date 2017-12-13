@@ -11,6 +11,7 @@
 		160E2B381FE0C2E400DB37D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 160E2B371FE0C2E400DB37D4 /* Foundation.framework */; };
 		160E2B501FE0CE1900DB37D4 /* liblir ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 160E2B4F1FE0CE1900DB37D4 /* liblir ios.a */; };
 		160E2B531FE0CF5A00DB37D4 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 160E2B521FE0CF5A00DB37D4 /* AppController.mm */; };
+		160E2B6B1FE0DBB700DB37D4 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 160E2B6A1FE0DBB700DB37D4 /* res */; };
 		16F9E7CA1FDFF3A1000144E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16F9E7C01FDFF3A1000144E0 /* Assets.xcassets */; };
 		16F9E7CB1FDFF3A1000144E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16F9E7C11FDFF3A1000144E0 /* LaunchScreen.storyboard */; };
 		16F9E7CC1FDFF3A1000144E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16F9E7C31FDFF3A1000144E0 /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		160E2B4F1FE0CE1900DB37D4 /* liblir ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "liblir ios.a"; path = "../../../../../Library/Developer/Xcode/DerivedData/LIRTest-garlmpnywpxvpvhgfyefdvhgimpi/Build/Products/Debug-iphoneos/liblir ios.a"; sourceTree = "<group>"; };
 		160E2B511FE0CF5A00DB37D4 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		160E2B521FE0CF5A00DB37D4 /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppController.mm; sourceTree = "<group>"; };
+		160E2B6A1FE0DBB700DB37D4 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = ../../../res; sourceTree = "<group>"; };
 		16F9E7871FDFF32B000144E0 /* LIRTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LIRTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F9E7C01FDFF3A1000144E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16F9E7C21FDFF3A1000144E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		160E2B541FE0D0BE00DB37D4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				160E2B6A1FE0DBB700DB37D4 /* res */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 				16F9E7831FDFF32B000144E0 /* Sources */,
 				16F9E7841FDFF32B000144E0 /* Frameworks */,
 				16F9E7851FDFF32B000144E0 /* Resources */,
+				160E2B6D1FE0E0B900DB37D4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -235,11 +239,28 @@
 				16F9E7DC1FDFF4B7000144E0 /* Info.plist in Resources */,
 				16F9E7CC1FDFF3A1000144E0 /* Main.storyboard in Resources */,
 				16F9E7CA1FDFF3A1000144E0 /* Assets.xcassets in Resources */,
+				160E2B6B1FE0DBB700DB37D4 /* res in Resources */,
 				16F9E7CB1FDFF3A1000144E0 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		160E2B6D1FE0E0B900DB37D4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#find ${SRCROOT}/../../../src/ -name \"*\" -exec touch -cm {} \\;\nfind ${SRCROOT}/../../../res/ -name \"*\" -exec touch -cm {} \\;";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		16F9E7831FDFF32B000144E0 /* Sources */ = {

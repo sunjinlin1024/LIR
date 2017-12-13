@@ -28,6 +28,7 @@ using namespace std;
 
 AppDelegate::AppDelegate()
 {
+    
 }
 
 AppDelegate::~AppDelegate()
@@ -102,7 +103,14 @@ bool AppDelegate::applicationDidFinishLaunching()
 //        return false;
 //    }
 //#endif
-
+    
+//    LPQFile::testInit("res", "res.lpq");
+    
+//    auto fullPath=FileUtils::getInstance()->fullPathForFilename("res/Tutorial03.png");
+//    SingleFileC c;
+//    c.open(fullPath,"rb+");
+//    size_t size=0;
+//    c.getSize(size);
     return true;
 }
 

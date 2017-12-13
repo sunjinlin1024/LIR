@@ -9,6 +9,9 @@
 #include "platform/StdC.h"
 
 
+#include "io/LPQFile.h"
+#include "io/FileUtils.h"
+
 #if (LIR_TARGET_PLATFORM == LIR_PLATFORM_IOS)
 #include "platform/ios/Application-ios.h"
 //#include "platform/ios/CCGLViewImpl-ios.h"

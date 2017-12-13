@@ -87,11 +87,11 @@ void SingleFileC::getSize(size_t& size)
 		size = 0;
 		return;
 	}
-#if LIR_TARGET_PLATFORM ==LIR_PLATFORM_WIN32 
+#if LIR_TARGET_PLATFORM ==LIR_PLATFORM_WIN32 || LIR_TARGET_PLATFORM == LIR_PLATFORM_IOS
 #if defined(_MSC_VER)
 	auto descriptor = _fileno(_file);
 #else
-	auto descriptor = fileno(fp);
+	auto descriptor = fileno(_file);
 #endif
 	struct stat statBuf;
 	if (fstat(descriptor, &statBuf) == -1) {
@@ -107,7 +107,7 @@ void SingleFileC::getSize(size_t& size)
 
 
 
-FileStatus SingleFileC::read(Buffer* &buffer)
+FileStatus SingleFileC::read(Buffer* buffer)
 {
 	size_t size=0;
 	this->getSize(size);

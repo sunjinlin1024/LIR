@@ -17,6 +17,8 @@
 		160E2B411FE0C4AA00DB37D4 /* LPQFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1672FB931FDFC7E2002E9BE3 /* LPQFile.cpp */; };
 		160E2B431FE0C4AA00DB37D4 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 160E2B331FE0BFD500DB37D4 /* GameController.framework */; };
 		160E2B441FE0C4AA00DB37D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1672FBBC1FDFCF6C002E9BE3 /* Foundation.framework */; };
+		160E2B681FE0D99500DB37D4 /* FileUtils-apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 160E2B611FE0D99400DB37D4 /* FileUtils-apple.mm */; };
+		160E2B691FE0D99500DB37D4 /* FileUtils-apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 160E2B611FE0D99400DB37D4 /* FileUtils-apple.mm */; };
 		1672FBAB1FDFC7E2002E9BE3 /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1672FB7F1FDFC7E2002E9BE3 /* Buffer.cpp */; };
 		1672FBAC1FDFC7E2002E9BE3 /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1672FB831FDFC7E2002E9BE3 /* Random.cpp */; };
 		1672FBAE1FDFC7E2002E9BE3 /* BaseFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1672FB8D1FDFC7E2002E9BE3 /* BaseFile.cpp */; };
@@ -51,6 +53,8 @@
 /* Begin PBXFileReference section */
 		160E2B331FE0BFD500DB37D4 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		160E2B491FE0C4AA00DB37D4 /* liblir mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "liblir mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		160E2B601FE0D99400DB37D4 /* FileUtils-apple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FileUtils-apple.h"; sourceTree = "<group>"; };
+		160E2B611FE0D99400DB37D4 /* FileUtils-apple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "FileUtils-apple.mm"; sourceTree = "<group>"; };
 		1672FB241FDFB86B002E9BE3 /* liblir ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "liblir ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1672FB7F1FDFC7E2002E9BE3 /* Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
 		1672FB801FDFC7E2002E9BE3 /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
@@ -105,6 +109,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		160E2B5A1FE0D99400DB37D4 /* apple */ = {
+			isa = PBXGroup;
+			children = (
+				160E2B601FE0D99400DB37D4 /* FileUtils-apple.h */,
+				160E2B611FE0D99400DB37D4 /* FileUtils-apple.mm */,
+			);
+			path = apple;
+			sourceTree = "<group>";
+		};
 		1672FB1B1FDFB86B002E9BE3 = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +204,7 @@
 		1672FB951FDFC7E2002E9BE3 /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				160E2B5A1FE0D99400DB37D4 /* apple */,
 				16CEBCC31FE0039A0034DC6D /* ApplicationProtocol.h */,
 				16CEBCC21FE002E70034DC6D /* Application.h */,
 				1672FB9B1FDFC7E2002E9BE3 /* Common.h */,
@@ -305,6 +319,7 @@
 				160E2B3E1FE0C4AA00DB37D4 /* Application-ios.mm in Sources */,
 				160E2B3F1FE0C4AA00DB37D4 /* lir.cpp in Sources */,
 				160E2B401FE0C4AA00DB37D4 /* FileUtils.cpp in Sources */,
+				160E2B691FE0D99500DB37D4 /* FileUtils-apple.mm in Sources */,
 				160E2B411FE0C4AA00DB37D4 /* LPQFile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +334,7 @@
 				16CEBCC11FE002940034DC6D /* Application-ios.mm in Sources */,
 				16CEBCBE1FE000540034DC6D /* lir.cpp in Sources */,
 				1672FBB01FDFC7E2002E9BE3 /* FileUtils.cpp in Sources */,
+				160E2B681FE0D99500DB37D4 /* FileUtils-apple.mm in Sources */,
 				1672FBB11FDFC7E2002E9BE3 /* LPQFile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
