@@ -60,14 +60,6 @@ typedef struct LIR_DLL LPQ_EMPTY_BLOCK
 	UINT size;
 }*LP_LPQ_EMPTY_TABLE;
 
-
-
-
-
-
-
-
-
 class LIR_DLL LPQFile
 {
 public:

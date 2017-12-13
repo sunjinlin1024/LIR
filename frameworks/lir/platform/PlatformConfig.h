@@ -1,4 +1,3 @@
-
 #ifndef __LIR_PLATFORM_CONFIG_H__
 #define __LIR_PLATFORM_CONFIG_H__
 

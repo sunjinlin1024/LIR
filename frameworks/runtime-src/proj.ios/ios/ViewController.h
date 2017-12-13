@@ -2,7 +2,7 @@
 //  ViewController.h
 //  LIRTest
 //
-//  Created by x-men on 2017/12/12.
+//  Created by lynn on 2017/12/12.
 //  Copyright © 2017年 lynn. All rights reserved.
 //
 
@@ -10,6 +10,6 @@
 
 @interface ViewController : UIViewController
 
-
+- (BOOL)prefersStatusBarHidden;
 @end
 

@@ -4,14 +4,24 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>lir.xcscheme</key>
+		<key>lir ios.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>lir mac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>160E2B391FE0C4AA00DB37D4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1672FB231FDFB86B002E9BE3</key>
 		<dict>
 			<key>primary</key>

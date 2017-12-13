@@ -1,27 +1,106 @@
-//
-//  ViewController.m
-//  LIRTest
-//
-//  Created by x-men on 2017/12/12.
-//  Copyright © 2017年 lynn. All rights reserved.
-//
-
 #import "ViewController.h"
-
-@interface ViewController ()
-
-@end
+//#import "platform/ios/EAGLView-ios.h"
+//#include "ide-support/SimpleConfigParser.h"
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+/*
+ // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+ - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+ if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+ // Custom initialization
+ }
+ return self;
+ }
+ */
+
+/*
+ // Implement loadView to create a view hierarchy programmatically, without using a nib.
+ - (void)loadView {
+ }
+ */
+
+/*
+ // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+ - (void)viewDidLoad {
+ [super viewDidLoad];
+ }
+ 
+ */
+// Override to allow orientations other than the default portrait orientation.
+// This method is deprecated on ios6
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    //todo
+//    if (SimpleConfigParser::getInstance()->isLanscape()) {
+//        return UIInterfaceOrientationIsLandscape( interfaceOrientation );
+//    }else{
+//        return UIInterfaceOrientationIsPortrait( interfaceOrientation );
+//    }
+    return YES;
+}
+
+// For ios6, use supportedInterfaceOrientations & shouldAutorotate instead
+- (NSUInteger) supportedInterfaceOrientations{
+//#ifdef __IPHONE_6_0
+//    if (SimpleConfigParser::getInstance()->isLanscape()) {
+//        return UIInterfaceOrientationMaskLandscape;
+//    }else{
+//        return UIInterfaceOrientationMaskPortrait;
+//    }
+//#endif
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+- (BOOL) shouldAutorotate {
+//    if (SimpleConfigParser::getInstance()->isLanscape()) {
+//        return YES;
+//    }else{
+//        return NO;
+//    }
+    
+    return YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+//    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+//    
+//    cocos2d::GLView *glview = cocos2d::Director::getInstance()->getOpenGLView();
+//    
+//    if (glview)
+//    {
+//        CCEAGLView *eaglview = (CCEAGLView*) glview->getEAGLView();
+//        
+//        if (eaglview)
+//        {
+//            CGSize s = CGSizeMake([eaglview getWidth], [eaglview getHeight]);
+//            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) s.width, (int) s.height);
+//        }
+//    }
+}
+
+//fix not hide status on ios7
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    // Release any cached data, images, etc that aren't in use.
 }
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+//- (void)dealloc {
+//    [super dealloc];
+//}
+
 
 @end

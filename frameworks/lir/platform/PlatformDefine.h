@@ -6,7 +6,7 @@
 #include "platform/PlatformConfig.h"
 
 #if LIR_TARGET_PLATFORM == LIR_PLATFORM_MAC
-#include "platform/mac/CCPlatformDefine-mac.h"
+#include "platform/mac/PlatformDefine-mac.h"
 #elif LIR_TARGET_PLATFORM == LIR_PLATFORM_IOS
 #include "platform/ios/PlatformDefine-ios.h"
 #elif LIR_TARGET_PLATFORM == LIR_PLATFORM_ANDROID

@@ -3,10 +3,10 @@
 
 #include <string>
 #include <vector>
-#include "cocos2d.h"
+#include "lir.h"
 #include "json/document.h"
 using namespace std;
-USING_NS_CC;
+USING_NS_LIR;
 
 #define CONFIG_FILE "config.json"
 

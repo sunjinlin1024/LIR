@@ -10,7 +10,7 @@
 #include "CodeIDESupport.h"
 #include "cocos2d.h"
 
-#if (COCOS2D_DEBUG > 0) && (CC_CODE_IDE_DEBUG_SUPPORT > 0)
+#if (LIR_DEBUG > 0) && (LIR_CODE_IDE_DEBUG_SUPPORT > 0)
 
 #include "runtime/RuntimeProtocol.h"
 
