@@ -511,7 +511,7 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 					_emptyTable[emptyIndex].offset += size;
 					_emptyTable[emptyIndex].size -= size;
 				}
-				else//Ð´ÔÚÎ²°ÍÉÏ
+				else//
 				{
 					offset = LPQ_HEADER_SIZE + _header.contentSize;
 					_header.contentSize += size;
@@ -577,15 +577,15 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 
     std::string full_dir=fileUtils->fullPathForFilename(dir);
  	fileUtils->listFilesRecursively(full_dir, &list, 1);
-    int fullSize=full_dir.size();
+    auto fullSize=full_dir.size();
 
  	const char* curName;
- 	int appendSize = list.size();
+ 	auto appendSize = list.size();
  	int oldCount = pack->getCount();
 
      size_t fileSize=0;
- 	auto startTime = getLocationTime();
- 	pack->resize(appendSize);
+// 	auto startTime = getLocationTime();
+ 	pack->resize((int)appendSize);
  	for (auto itr = list.begin(); itr != list.end(); itr++)
  	{
  		if (fileUtils->isFileExist(*itr))
@@ -605,7 +605,7 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
  		}
  	}
  	pack->flush();
- 	auto endTime = getLocationTime();
+// 	auto endTime = getLocationTime();
 // 	CCLOG("write file count %d,cost time %d seconds \n", appendSize, endTime - startTime);
  	delete pack;
  	//std::cout << "cost time 1,  " << clock() - startTime << std::endl;
@@ -645,6 +645,7 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
 
 
  	Buffer buffer;
+     buffer.resize(11111111);
 
  	int testCount = 100000;
 
@@ -691,6 +692,7 @@ FileStatus LPQFile::write(const std::string& fileName, void* buff, size_t size)
  		#if LIR_TARGET_PLATFORM==LIR_PLATFORM_ANDROID
  			LOGD("cost time2,%d seconds \n", costTime2);
         #elif LIR_TARGET_PLATFORM==LIR_PLATFORM_MAC || LIR_PLATFORM_IOS
+//            NSLog(@"cost time2,%d",costTime2);
  		#endif
 
  	return FileStatus::Success;
