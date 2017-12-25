@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 #include "platform/PlatformMacros.h"
-#include "core/Buffer.h"
+#include "base/Buffer.h"
 #include "io/BaseFile.h"
 
 NS_LIR_BEGIN

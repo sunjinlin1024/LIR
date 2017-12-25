@@ -36,7 +36,7 @@
 //#define L_ASSERT(cond,msg) LASSERT(cond,msg)
 #endif  // LASSERT
 
-#include "core/Config.h"
+#include "base/Config.h"
 
 /** @def LIR_SWAP
 simple macro that swaps 2 variables
@@ -47,7 +47,7 @@ simple macro that swaps 2 variables
     x = y; y = temp;        \
 }
 
-#include "core/Random.h"
+#include "base/Random.h"
 
 /** @def CCRANDOM_MINUS1_1
  returns a random float between -1 and 1

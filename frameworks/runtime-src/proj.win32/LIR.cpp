@@ -13,7 +13,7 @@
 #include "Debug.h"
 #include "io/LPQFile.h"
 #include "io/FileUtils.h"
-#include "core/Buffer.h"
+#include "base/Buffer.h"
 
 
 USING_NS_LIR

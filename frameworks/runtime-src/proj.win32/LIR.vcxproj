@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -14,18 +14,19 @@
     <ProjectGuid>{0251A7F4-16E4-4C2A-BB4F-3AEDA45BCEC8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LIR</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -85,15 +86,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\lir\core\Buffer.h" />
-    <ClInclude Include="..\..\lir\core\Config.h" />
-    <ClInclude Include="..\..\lir\core\Macros.h" />
+    <ClInclude Include="..\..\lir\base\Buffer.h" />
+    <ClInclude Include="..\..\lir\base\Config.h" />
+    <ClInclude Include="..\..\lir\base\Macros.h" />
     <ClInclude Include="..\..\lir\debug\Debug.h" />
     <ClInclude Include="..\..\lir\external\tinydir\tinydir.h" />
     <ClInclude Include="..\..\lir\io\BaseFile.h" />
     <ClInclude Include="..\..\lir\io\FileUtils.h" />
     <ClInclude Include="..\..\lir\io\LPQFile.h" />
-    <ClInclude Include="..\..\lir\platform\Common.h" />
+    <ClInclude Include="..\..\lir\lir.h" />
     <ClInclude Include="..\..\lir\platform\PlatformConfig.h" />
     <ClInclude Include="..\..\lir\platform\PlatformDefine.h" />
     <ClInclude Include="..\..\lir\platform\PlatformMacros.h" />
@@ -106,10 +107,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\lir\core\Buffer.cpp" />
+    <ClCompile Include="..\..\lir\base\Buffer.cpp" />
     <ClCompile Include="..\..\lir\io\BaseFile.cpp" />
     <ClCompile Include="..\..\lir\io\FileUtils.cpp" />
     <ClCompile Include="..\..\lir\io\LPQFile.cpp" />
+    <ClCompile Include="..\..\lir\lir.cpp" />
     <ClCompile Include="..\..\lir\platform\win32\Common-win32.cpp" />
     <ClCompile Include="..\..\lir\platform\win32\FileUtils-win32.cpp" />
     <ClCompile Include="..\..\lir\platform\win32\StdC-win32.cpp" />

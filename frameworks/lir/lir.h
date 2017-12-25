@@ -4,8 +4,8 @@
 #include "platform/platformConfig.h"
 
 
-#include "core/config.h"
-#include "core/Macros.h"
+#include "base/config.h"
+#include "base/Macros.h"
 #include "platform/StdC.h"
 
 
@@ -21,7 +21,10 @@
 
 NS_LIR_BEGIN
 
-inline const char* getLIRVersion();
+inline const char* getLIRVersion()
+{
+	return "";
+};
 
 NS_LIR_END
 

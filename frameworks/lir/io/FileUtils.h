@@ -6,10 +6,10 @@
 #include <unordered_map>
 #include <type_traits>
 
-#include "core/Macros.h"
+#include "base/Macros.h"
 #include "platform/PlatformMacros.h"
 #include "io/BaseFile.h"
-#include "core/Buffer.h"
+#include "base/Buffer.h"
 
 NS_LIR_BEGIN
 

@@ -4,7 +4,7 @@
 #include <string>
 
 #include "platform/PlatformMacros.h"
-#include "core/Buffer.h"
+#include "base/Buffer.h"
 
 NS_LIR_BEGIN
 

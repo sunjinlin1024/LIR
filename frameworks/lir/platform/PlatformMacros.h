@@ -4,7 +4,7 @@
 /**
  * Define some platform specific macros.
  */
-#include "core/Config.h"
+#include "base/Config.h"
 #include "platform/PlatformConfig.h"
 #include "platform/PlatformDefine.h"
 

@@ -1,7 +1,7 @@
-#include "core/Buffer.h"
+#include "base/Buffer.h"
 #include <stdlib.h>
 
-#include "core/Macros.h"
+#include "base/Macros.h"
 
 USING_NS_LIR
 
