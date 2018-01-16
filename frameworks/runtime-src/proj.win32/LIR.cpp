@@ -15,6 +15,9 @@
 #include "io/FileUtils.h"
 #include "base/Buffer.h"
 
+#include "core/CFileSystem.h"
+using namespace irr;
+
 
 USING_NS_LIR
 
@@ -51,9 +54,22 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	int count = 0;
 
-	SingleFileC* file = new SingleFileC();
-	LPQFile* lpq = new LPQFile(file);
-	delete lpq;
+	//SingleFileC* file = new SingleFileC();
+	//LPQFile* lpq = new LPQFile(file);
+	//delete lpq;
+
+
+	io::CFileSystem system;
+	//system.addFileArchive("res.lpq", false, true, io::EFAT_LPQ);
+
+	auto reader=system.createAndOpenFile("config/HallFuncConfig.lua");
+	auto size=reader->getSize();
+	char* buff = new char[size];
+	reader->read(buff, size);
+	auto file=fopen("test.lua", "wb+");
+	fwrite(buff, size, 1, file);
+	fclose(file);
+	delete buff;
 
 	//auto t = std::thread(CC_CALLBACK_0(networkThread));
 	//
