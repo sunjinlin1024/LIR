@@ -56,7 +56,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_USRDLL;_DEBUG;_WINDOWS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_USRDLL;_DEBUG;_WINDOWS;_LIB;NO_IRR_COMPILE_WITH_ZIP_ENCRYPTION_;NO__IRR_COMPILE_WITH_ZIP_ARCHIVE_LOADER_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -89,6 +89,42 @@
     <ClInclude Include="..\..\lir\base\Buffer.h" />
     <ClInclude Include="..\..\lir\base\Config.h" />
     <ClInclude Include="..\..\lir\base\Macros.h" />
+    <ClInclude Include="..\..\lir\core\CAttributeImpl.h" />
+    <ClInclude Include="..\..\lir\core\CAttributes.h" />
+    <ClInclude Include="..\..\lir\core\CFileList.h" />
+    <ClInclude Include="..\..\lir\core\CFileSystem.h" />
+    <ClInclude Include="..\..\lir\core\CLimitReadFile.h" />
+    <ClInclude Include="..\..\lir\core\CLpqReader.h" />
+    <ClInclude Include="..\..\lir\core\CMemoryFile.h" />
+    <ClInclude Include="..\..\lir\core\CMountPointReader.h" />
+    <ClInclude Include="..\..\lir\core\CNPKReader.h" />
+    <ClInclude Include="..\..\lir\core\CPakReader.h" />
+    <ClInclude Include="..\..\lir\core\CReadFile.h" />
+    <ClInclude Include="..\..\lir\core\CTarReader.h" />
+    <ClInclude Include="..\..\lir\core\CWADReader.h" />
+    <ClInclude Include="..\..\lir\core\CWriteFile.h" />
+    <ClInclude Include="..\..\lir\core\CXMLReader.h" />
+    <ClInclude Include="..\..\lir\core\CXMLReaderImpl.h" />
+    <ClInclude Include="..\..\lir\core\CXMLWriter.h" />
+    <ClInclude Include="..\..\lir\core\CZipReader.h" />
+    <ClInclude Include="..\..\lir\core\fast_atof.h" />
+    <ClInclude Include="..\..\lir\core\IFileArchive.h" />
+    <ClInclude Include="..\..\lir\core\IFileList.h" />
+    <ClInclude Include="..\..\lir\core\IFileSystem.h" />
+    <ClInclude Include="..\..\lir\core\IReadFile.h" />
+    <ClInclude Include="..\..\lir\core\IReferenceCounted.h" />
+    <ClInclude Include="..\..\lir\core\irrAllocator.h" />
+    <ClInclude Include="..\..\lir\core\irrArray.h" />
+    <ClInclude Include="..\..\lir\core\IrrCompileConfig.h" />
+    <ClInclude Include="..\..\lir\core\irrlicht.h" />
+    <ClInclude Include="..\..\lir\core\irrList.h" />
+    <ClInclude Include="..\..\lir\core\irrMath.h" />
+    <ClInclude Include="..\..\lir\core\irrString.h" />
+    <ClInclude Include="..\..\lir\core\irrTypes.h" />
+    <ClInclude Include="..\..\lir\core\irrunpack.h" />
+    <ClInclude Include="..\..\lir\core\IXMLReader.h" />
+    <ClInclude Include="..\..\lir\core\os.h" />
+    <ClInclude Include="..\..\lir\core\path.h" />
     <ClInclude Include="..\..\lir\debug\Debug.h" />
     <ClInclude Include="..\..\lir\external\tinydir\tinydir.h" />
     <ClInclude Include="..\..\lir\io\BaseFile.h" />
@@ -108,6 +144,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\lir\base\Buffer.cpp" />
+    <ClCompile Include="..\..\lir\core\CAttributes.cpp" />
+    <ClCompile Include="..\..\lir\core\CFileList.cpp" />
+    <ClCompile Include="..\..\lir\core\CFileSystem.cpp" />
+    <ClCompile Include="..\..\lir\core\CLimitReadFile.cpp" />
+    <ClCompile Include="..\..\lir\core\CLpqReader.cpp" />
+    <ClCompile Include="..\..\lir\core\CMemoryFile.cpp" />
+    <ClCompile Include="..\..\lir\core\CMountPointReader.cpp" />
+    <ClCompile Include="..\..\lir\core\CNPKReader.cpp" />
+    <ClCompile Include="..\..\lir\core\CPakReader.cpp" />
+    <ClCompile Include="..\..\lir\core\CReadFile.cpp" />
+    <ClCompile Include="..\..\lir\core\CTarReader.cpp" />
+    <ClCompile Include="..\..\lir\core\CWADReader.cpp" />
+    <ClCompile Include="..\..\lir\core\CWriteFile.cpp" />
+    <ClCompile Include="..\..\lir\core\CXMLReader.cpp" />
+    <ClCompile Include="..\..\lir\core\CXMLWriter.cpp" />
+    <ClCompile Include="..\..\lir\core\CZipReader.cpp" />
+    <ClCompile Include="..\..\lir\core\Irrlicht.cpp" />
+    <ClCompile Include="..\..\lir\core\os.cpp" />
     <ClCompile Include="..\..\lir\io\BaseFile.cpp" />
     <ClCompile Include="..\..\lir\io\FileUtils.cpp" />
     <ClCompile Include="..\..\lir\io\LPQFile.cpp" />
