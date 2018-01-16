@@ -62,6 +62,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	io::CFileSystem system;
 	//system.addFileArchive("res.lpq", false, true, io::EFAT_LPQ);
 
+	system.addFileArchive("res/", false, false, io::EFAT_FOLDER);
+	system.addFileArchive("src/", false, false, io::EFAT_FOLDER);
+
 	auto reader=system.createAndOpenFile("config/HallFuncConfig.lua");
 	auto size=reader->getSize();
 	char* buff = new char[size];
