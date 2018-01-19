@@ -99,7 +99,7 @@ namespace io
 	};
 
 
-	//! reads from pak
+	//! reads from lpq
 	class CLpqReader : public virtual IFileArchive, virtual IFileList
 	{
 	public:

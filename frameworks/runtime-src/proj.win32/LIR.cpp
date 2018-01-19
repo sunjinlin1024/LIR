@@ -15,7 +15,7 @@
 #include "io/FileUtils.h"
 #include "base/Buffer.h"
 
-#include "core/CFileSystem.h"
+#include "CFileSystem.h"
 using namespace irr;
 
 
@@ -65,7 +65,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	system.addFileArchive("res/", false, false, io::EFAT_FOLDER);
 	system.addFileArchive("src/", false, false, io::EFAT_FOLDER);
 
-	auto reader=system.createAndOpenFile("config/HallFuncConfig.lua");
+	auto reader = system.createAndOpenFile("aaa.txt");//config/HallFuncConfig.lua");
 	auto size=reader->getSize();
 	char* buff = new char[size];
 	reader->read(buff, size);

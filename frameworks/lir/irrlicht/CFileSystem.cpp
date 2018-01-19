@@ -236,6 +236,7 @@ bool CFileSystem::addFileArchive(const io::path& filename, bool ignoreCase,
 	// do we know what type it should be?
 	if (archiveType == EFAT_UNKNOWN || archiveType == EFAT_FOLDER)
 	{
+
 		// try to load archive based on file name
 		for (i = ArchiveLoader.size()-1; i >=0 ; --i)
 		{
