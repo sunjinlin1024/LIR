@@ -27,7 +27,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		//int a = 1;
 		const char* str = result.c_str();
-		lir::log("[test result]:%s\n", str);
+		const char* name = typeid(test).name();
+		lir::log("[%s] test result:[%s]\n", name, str);
 	}
 	while (true){
 		//count++;
