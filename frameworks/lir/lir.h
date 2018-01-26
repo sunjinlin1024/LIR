@@ -12,10 +12,6 @@
 #include "irrlicht/irrlicht.h"
 
 
-#include "io/LPQFile.h"
-#include "io/FileUtils.h"
-
-
 
 #if (LIR_TARGET_PLATFORM == LIR_PLATFORM_IOS)
 #include "platform/ios/Application-ios.h"

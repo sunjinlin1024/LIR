@@ -14,8 +14,6 @@
 
 #include "test/FileSystemTest.h"
 
-USING_NS_LIR
-
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -28,7 +26,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		//int a = 1;
 		const char* str = result.c_str();
 		const char* name = typeid(test).name();
-		lir::log("[%s] test result:[%s]\n", name, str);
+		lir::log("%s -----> [%s]\n", name, str);
 	}
 	while (true){
 		//count++;
