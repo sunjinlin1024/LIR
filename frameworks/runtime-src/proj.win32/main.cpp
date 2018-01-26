@@ -23,13 +23,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	int count = 0;
 	FileSystemTest test;
 	auto result=test.test();
-	if (result.empty())
+	if (!result.empty())
 	{
-		int a = 1;
+		//int a = 1;
+		const char* str = result.c_str();
+		lir::log("[test result]:%s\n", str);
 	}
 	while (true){
-		count++;
-		lir::log("count %d \n", count);
+		//count++;
+		//lir::log("\ncount %d", count);
 		//lir::log("test num %d \n", num);
 		Sleep(1000);
 	}
