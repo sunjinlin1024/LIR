@@ -44,7 +44,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ENGINE_ROOT)\..\..\simulator\win32</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
-    <IncludePath>$(ENGINE_ROOT);$(ENGINE_ROOT)\debug;$(ENGINE_ROOT)\io;$(ENGINE_ROOT)\irrlicht;$(IncludePath)</IncludePath>
+    <IncludePath>$(ENGINE_ROOT);$(ENGINE_ROOT)\debug;$(ENGINE_ROOT)\io;$(ENGINE_ROOT)\irrlicht;$(ENGINE_ROOT)\..\runtime-src\Classes;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -56,7 +56,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_USRDLL;_DEBUG;_WINDOWS;_LIB;NO_IRR_COMPILE_WITH_ZIP_ENCRYPTION_;NO__IRR_COMPILE_WITH_ZIP_ARCHIVE_LOADER_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_USRDLL;_DEBUG;_WINDOWS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -103,6 +103,7 @@
     <ClInclude Include="..\..\lir\irrlicht\CMemoryFile.h" />
     <ClInclude Include="..\..\lir\irrlicht\CMountPointReader.h" />
     <ClInclude Include="..\..\lir\irrlicht\CNPKReader.h" />
+    <ClInclude Include="..\..\lir\irrlicht\config.h" />
     <ClInclude Include="..\..\lir\irrlicht\coreutil.h" />
     <ClInclude Include="..\..\lir\irrlicht\CPakReader.h" />
     <ClInclude Include="..\..\lir\irrlicht\CReadFile.h" />
@@ -145,6 +146,9 @@
     <ClInclude Include="..\..\lir\platform\win32\PlatformDefine-win32.h" />
     <ClInclude Include="..\..\lir\platform\win32\StdC-win32.h" />
     <ClInclude Include="..\..\lir\platform\win32\Utils-win32.h" />
+    <ClInclude Include="..\Classes\test\LirTest.h" />
+    <ClInclude Include="..\Classes\test\LPQTest.h" />
+    <ClInclude Include="..\Classes\test\MutexTest.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -177,7 +181,8 @@
     <ClCompile Include="..\..\lir\platform\win32\FileUtils-win32.cpp" />
     <ClCompile Include="..\..\lir\platform\win32\StdC-win32.cpp" />
     <ClCompile Include="..\..\lir\platform\win32\Utils-win32.cpp" />
-    <ClCompile Include="LIR.cpp" />
+    <ClCompile Include="..\Classes\test\FileSystemTest.h" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

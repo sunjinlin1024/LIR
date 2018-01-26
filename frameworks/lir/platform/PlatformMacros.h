@@ -8,50 +8,50 @@
 #include "platform/PlatformConfig.h"
 #include "platform/PlatformDefine.h"
 
-/** @def CREATE_FUNC(__TYPE__)
- * Define a create function for a specific type, such as Layer.
- *
- * @param __TYPE__  class type to add create(), such as Layer.
- */
-#define CREATE_FUNC(__TYPE__) \
-static __TYPE__* create() \
-{ \
-    __TYPE__ *pRet = new(std::nothrow) __TYPE__(); \
-    if (pRet && pRet->init()) \
-    { \
-        pRet->autorelease(); \
-        return pRet; \
-    } \
-    else \
-    { \
-        delete pRet; \
-        pRet = nullptr; \
-        return nullptr; \
-    } \
-}
+///** @def CREATE_FUNC(__TYPE__)
+// * Define a create function for a specific type, such as Layer.
+// *
+// * @param __TYPE__  class type to add create(), such as Layer.
+// */
+//#define CREATE_FUNC(__TYPE__) \
+//static __TYPE__* create() \
+//{ \
+//    __TYPE__ *pRet = new(std::nothrow) __TYPE__(); \
+//    if (pRet && pRet->init()) \
+//    { \
+//        pRet->autorelease(); \
+//        return pRet; \
+//    } \
+//    else \
+//    { \
+//        delete pRet; \
+//        pRet = nullptr; \
+//        return nullptr; \
+//    } \
+//}
 
-/** @def NODE_FUNC(__TYPE__)
- * Define a node function for a specific type, such as Layer.
- *
- * @param __TYPE__  class type to add node(), such as Layer.
- * @deprecated  This interface will be deprecated sooner or later.
- */
-#define NODE_FUNC(__TYPE__) \
-LIR_DEPRECATED_ATTRIBUTE static __TYPE__* node() \
-{ \
-    __TYPE__ *pRet = new(std::nothrow) __TYPE__(); \
-    if (pRet && pRet->init()) \
-    { \
-        pRet->autorelease(); \
-        return pRet; \
-    } \
-    else \
-    { \
-        delete pRet; \
-        pRet = NULL; \
-        return NULL; \
-    } \
-}
+///** @def NODE_FUNC(__TYPE__)
+// * Define a node function for a specific type, such as Layer.
+// *
+// * @param __TYPE__  class type to add node(), such as Layer.
+// * @deprecated  This interface will be deprecated sooner or later.
+// */
+//#define NODE_FUNC(__TYPE__) \
+//LIR_DEPRECATED_ATTRIBUTE static __TYPE__* node() \
+//{ \
+//    __TYPE__ *pRet = new(std::nothrow) __TYPE__(); \
+//    if (pRet && pRet->init()) \
+//    { \
+//        pRet->autorelease(); \
+//        return pRet; \
+//    } \
+//    else \
+//    { \
+//        delete pRet; \
+//        pRet = NULL; \
+//        return NULL; \
+//    } \
+//}
 
 /** @def LIR_ENABLE_CACHE_TEXTURE_DATA
  * Enable it if you want to cache the texture data.

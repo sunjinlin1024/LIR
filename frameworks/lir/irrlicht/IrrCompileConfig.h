@@ -2,8 +2,12 @@
 // This file is part of the "Irrlicht Engine".
 // For conditions of distribution and use, see copyright notice in irrlicht.h
 
+
 #ifndef __IRR_COMPILE_CONFIG_H_INCLUDED__
 #define __IRR_COMPILE_CONFIG_H_INCLUDED__
+
+
+
 
 //! Irrlicht SDK Version
 #define IRRLICHT_VERSION_MAJOR 1
@@ -13,6 +17,8 @@
 // it undefined
 //#define IRRLICHT_VERSION_SVN -alpha
 #define IRRLICHT_SDK_VERSION "1.8.4"
+
+#include "config.h"
 
 #include <stdio.h> // TODO: Although included elsewhere this is required at least for mingw
 

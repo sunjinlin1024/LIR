@@ -7,6 +7,9 @@
 
 #include "IrrCompileConfig.h"
 
+#if defined(NO__IRR_COMPILE_WITH_ZIP_ARCHIVE_LOADER_)
+#endif
+
 #ifdef __IRR_COMPILE_WITH_ZIP_ARCHIVE_LOADER_
 
 #include "IReadFile.h"

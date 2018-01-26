@@ -39,7 +39,7 @@
 #endif
 
 // win32
-#if defined(WIN32)
+#if defined(WIN32) || defined(_WIN32)||defined(WINDOWS)
     #undef  LIR_TARGET_PLATFORM
     #define LIR_TARGET_PLATFORM         LIR_PLATFORM_WIN32
 #endif

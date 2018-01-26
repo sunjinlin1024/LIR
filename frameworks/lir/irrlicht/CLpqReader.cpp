@@ -9,8 +9,8 @@
 
 #ifdef __IRR_COMPILE_WITH_PAK_ARCHIVE_LOADER_
 //#include <sys/stat.h>
-#include "os.h"
-#include "coreutil.h"
+//#include "os.h"
+//#include "coreutil.h"
 
 
 namespace irr

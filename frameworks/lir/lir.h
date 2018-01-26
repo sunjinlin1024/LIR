@@ -1,16 +1,21 @@
 #ifndef __LIR_H__
 #define __LIR_H__
 /// @cond DO_NOT_SHOW
-#include "platform/platformConfig.h"
+#include "platform/PlatformConfig.h"
 
 
 #include "base/config.h"
 #include "base/Macros.h"
 #include "platform/StdC.h"
+#include "platform/PlatformDefine.h"
+
+#include "irrlicht/irrlicht.h"
 
 
 #include "io/LPQFile.h"
 #include "io/FileUtils.h"
+
+
 
 #if (LIR_TARGET_PLATFORM == LIR_PLATFORM_IOS)
 #include "platform/ios/Application-ios.h"

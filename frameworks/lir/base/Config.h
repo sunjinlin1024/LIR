@@ -372,4 +372,8 @@
 # define LIR_ENABLE_PREMULTIPLIED_ALPHA 1
 #endif
 
+
+
+
+
 #endif // __LIR_CONFIG_H__
