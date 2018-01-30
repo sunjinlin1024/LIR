@@ -39,7 +39,7 @@ using namespace irr;
 class FileSystemTest :lir::test::LirTest
 {
 public:
-	std::string test() {
+	std::string run() {
 		//auto t = std::thread(LIR_CALLBACK_0(networkThread));
 		//
 		//processing = true;

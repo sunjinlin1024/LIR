@@ -609,6 +609,20 @@ public:
 	}
 
 
+	//reverse objects
+	void reverse()
+	{
+		u32 i;
+		T obj;
+		u32 to = (used >>1);
+		for (i = 0; i<to; ++i)
+		{
+			obj = data[i];
+			data[i] = data[used - i - 1];
+			data[used - i - 1] = obj;
+		}
+	}
+
 private:
 	T* data;
 	u32 allocated;

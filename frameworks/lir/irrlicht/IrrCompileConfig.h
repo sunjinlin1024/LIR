@@ -840,5 +840,13 @@ precision will be lower but speed higher. currently X86 only
 	#endif
 #endif
 
+#define IRR_SAFE_DELETE(p)           do { delete (p); (p) = nullptr; } while(0)
+#define IRR_SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = nullptr; } } while(0)
+#define IRR_SAFE_FREE(p)             do { if(p) { free(p); (p) = nullptr; } } while(0)
+#define IRR_SAFE_RELEASE(p)          do { if(p) { (p)->drop(); } } while(0)
+#define IRR_SAFE_RELEASE_NULL(p)     do { if(p) { (p)->drop(); (p) = nullptr; } } while(0)
+#define IRR_SAFE_RETAIN(p)           do { if(p) { (p)->grab(); } } while(0)
+#define IRR_BREAK_IF(cond)           if(cond) break
+
 #endif // __IRR_COMPILE_CONFIG_H_INCLUDED__
 

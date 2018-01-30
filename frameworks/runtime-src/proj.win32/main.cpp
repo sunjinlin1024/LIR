@@ -3,37 +3,42 @@
 
 #include "stdafx.h"
 #include "stdarg.h"
-#include <string>
-#include <thread>
-#include <mutex>
+// C RunTime Header Files
+#include <stdlib.h>
+#include <malloc.h>
+#include <memory.h>
+#include <tchar.h>
+
 #include <Windows.h>
-#include <ctime>
-#include <iostream>
+#include <shellapi.h>
+
 
 #include "Debug.h"
 
-#include "test/FileSystemTest.h"
+#include "SimulatorWin.h"
 
 
 
-int _tmain(int argc, _TCHAR* argv[])
+
+
+int APIENTRY _tWinMain(HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	LPTSTR    lpCmdLine,
+	int       nCmdShow)
 {
+
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+
 	int count = 0;
-	FileSystemTest test;
-	auto result=test.test();
-	if (!result.empty())
-	{
-		//int a = 1;
-		const char* str = result.c_str();
-		const char* name = typeid(test).name();
-		lir::log("%s -----> [%s]\n", name, str);
-	}
-	while (true){
-		//count++;
-		//lir::log("\ncount %d", count);
-		//lir::log("test num %d \n", num);
-		Sleep(1000);
-	}
+	auto test = SimulatorWin::getInstance();
+	auto result=test->run();
+	//if (!result.empty())
+	//{
+	//	const char* str = result.c_str();
+		//const char* name = typeid(test).name();
+		//lir::log("%s -----> [%s]\n", name, result);
+	//}
 	return 0;
 }
 

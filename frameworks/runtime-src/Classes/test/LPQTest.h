@@ -11,7 +11,7 @@ USING_NS_LIR
 class LPQTest :lir::test::LirTest
 {
 public:
-	std::string test() {
+	std::string run() {
 		//FileUtils* fileUtils = new FileUtils();
 		//fileUtils->init();
 		//FileUtils::setDelegate(fileUtils);

@@ -16,7 +16,7 @@ using namespace irr;
 class FileSystemTest :lir::test::LirTest
 {
 public:
-	std::string test() {
+	std::string run() {
 		io::CFileSystem system;
 		//system.addFileArchive("res.lpq", false, true, io::EFAT_LPQ);
 

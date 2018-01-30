@@ -42,6 +42,7 @@ CIrrDeviceStub::CIrrDeviceStub(const SIrrlichtCreationParameters& params)
 	Randomizer = createDefaultRandomizer();
 
 	FileSystem = io::createFileSystem();
+	FileSystem->init();
 	VideoModeList = new video::CVideoModeList();
 
 	core::stringc s = "Irrlicht Engine version ";

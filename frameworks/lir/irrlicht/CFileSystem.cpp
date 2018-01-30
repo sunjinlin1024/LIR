@@ -33,6 +33,10 @@
 		#include <direct.h> // for _chdir
 		#include <io.h> // for _access
 		#include <tchar.h>
+		#include <Shlobj.h>
+		#include <cstdlib>
+		#include <regex>
+		#include <sstream>
 	#endif
 #else
 	#if (defined(_IRR_POSIX_API_) || defined(_IRR_OSX_PLATFORM_))
@@ -54,6 +58,7 @@ namespace io
 
 //! constructor
 CFileSystem::CFileSystem()
+	:WritablePath("")
 {
 	#ifdef _DEBUG
 	setDebugName("CFileSystem");
@@ -1082,6 +1087,83 @@ IAttributes* CFileSystem::createEmptyAttributes(video::IVideoDriver* driver)
 	return new CAttributes(driver);
 }
 
+
+bool CFileSystem::init()
+{
+	//WritablePath = initWritablePath();
+
+	IFileArchive* archive;
+
+	auto workingPath = this->getWorkingDirectory();
+	//this->addFileArchive(workingPath + _IRR_TEXT("/../../../src/"), false, false, io::EFAT_FOLDER, "", &archive);
+	this->addFileArchive(workingPath + _IRR_TEXT("/../../../res/"), false, false, io::EFAT_FOLDER, "", &archive);
+	
+
+	//!test
+	//io::path lpqPath = _IRR_TEXT("res.lpq");
+	//if (this->existFile(lpqPath))
+	//{
+	//	this->addFileArchive(lpqPath, false, false, io::EFAT_LPQ,"", &archive);
+	//}
+
+	//todo
+	//for hot update 
+	//WritablePath = workingPath+_IRR_TEXT("/../../../update/");
+	//if (!existDirectory(WritablePath))
+	//{
+	//	auto ret=this->createDirectory(WritablePath);
+	//	if (!ret)
+	//		return false;
+	//}
+	//this->addFileArchive(WritablePath, false, false, io::EFAT_FOLDER);
+
+	FileArchives.reverse();
+	return true;
+}
+
+io::path CFileSystem::initWritablePath()
+{
+	//auto packPath = this->getWorkingDirectory();
+	//WritablePath =packPath.append("/update/");
+	//if (this->existFile(WritablePath))
+	//{
+	//	//this->createdir
+	//	int a = 1;
+	//}
+	return WritablePath;
+}
+
+io::path CFileSystem::getWritablePath()
+{
+	return WritablePath;
+}
+
+bool CFileSystem::existDirectory(const io::path dirPath)
+{
+#if defined(_IRR_WINDOWS_API_)
+	return false;
+#endif
+	return false;
+}
+
+bool CFileSystem::createDirectory(const io::path dirPath)
+{
+	if (dirPath.size())
+	{
+		return false;
+	}
+
+	if (existDirectory(dirPath))
+		return true;
+#if defined(_IRR_WINDOWS_API_)
+	auto ret=CreateDirectory(dirPath.c_str(), NULL);
+	if (!ret && ERROR_ALREADY_EXISTS != GetLastError())
+	{
+		return true;
+	}
+#endif
+	return false;
+}
 
 } // end namespace irr
 } // end namespace io

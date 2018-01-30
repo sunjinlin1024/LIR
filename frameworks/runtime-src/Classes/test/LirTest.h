@@ -8,7 +8,7 @@ class LirTest
 {
 public:
 	LirTest() {};
-	virtual std::string test()=0;
+	virtual std::string run()=0;
 protected:
 	~LirTest() {};
 };

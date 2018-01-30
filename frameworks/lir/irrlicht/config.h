@@ -7,8 +7,17 @@
 
 
 //******************************** for irrlicht*****************************************
-#define NO_IRR_COMPILE_WITH_ZIP_ENCRYPTION_
-#define NO__IRR_COMPILE_WITH_ZIP_ARCHIVE_LOADER_
+//#define NO_IRR_COMPILE_WITH_ZIP_ENCRYPTION_
+//#define NO__IRR_COMPILE_WITH_ZIP_ARCHIVE_LOADER_
+//#define NO_IRR_COMPILE_WITH_LIBJPEG_
+#define NO_IRR_COMPILE_WITH_LIBPNG_
+#define NO_IRR_COMPILE_WITH_X11_
+#define NO_IRR_COMPILE_WITH_JOYSTICK_EVENTS_
+
+//some where defined unicode ,need to find out
+#if defined(UNICODE)
+#undef UNICODE
+#endif
 //**************************************************************************************
 
 #endif

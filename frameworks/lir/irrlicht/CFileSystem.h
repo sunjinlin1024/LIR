@@ -149,6 +149,16 @@ public:
 	//! Creates a new empty collection of attributes, usable for serialization and more.
 	virtual IAttributes* createEmptyAttributes(video::IVideoDriver* driver);
 
+	//! Init File system;
+	virtual bool init();
+	virtual io::path getWritablePath();
+
+
+	virtual bool createDirectory(const io::path dirPath);
+
+	virtual bool existDirectory(const io::path dirPath);
+protected:
+	virtual io::path initWritablePath();
 private:
 
 	// don't expose, needs refactoring
@@ -164,6 +174,9 @@ private:
 	core::array<IArchiveLoader*> ArchiveLoader;
 	//! currently attached Archives
 	core::array<IFileArchive*> FileArchives;
+
+	//writablePath
+	io::path WritablePath;
 };
 
 

@@ -180,7 +180,7 @@ namespace io
 		virtual s32 findFile(const io::path& filename, bool isFolder = false) const;
 
 		//! Returns the base path of the file list
-		virtual const io::path& getPath() const { return io::path(""); };
+		virtual const io::path& getPath() const { return File->getFileName();};
 
 		//! Add as a file or folder to the list
 		virtual u32 addItem(const io::path& fullPath, u32 offset, u32 size, bool isDirectory, u32 id = 0) { return 0; };
@@ -195,6 +195,7 @@ namespace io
 		u32 hash(const io::path& lpszString, u32 drawType=0)const;
 
 		IReadFile* File;
+		io::path Path;
 
 		LPQ_HEADER _header;
 		LP_LPQ_HASH_TABLE _hashTable;

@@ -114,6 +114,7 @@ IFileArchive* CArchiveLoaderLPQ::createArchive(io::IReadFile* file, bool ignoreC
 	{
 		file->seek ( 0 );
 		archive = new CLpqReader(file, ignoreCase, ignorePaths);
+
 	}
 	return archive;
 }
@@ -154,11 +155,21 @@ CLpqReader::~CLpqReader()
 	if (File)
 		File->drop();
 	if (_hashTable)
+	{
 		free(_hashTable);
-	if (_blockTable)
-		free(_hashTable);
-	if (_emptyTable)
+		_hashTable = nullptr;
+	}
+		
+	if (_blockTable) {
+		free(_blockTable);
+		_blockTable = nullptr;
+	}
+		
+	if (_emptyTable) {
 		free(_emptyTable);
+		_emptyTable = nullptr;
+	}
+		
 }
 
 
