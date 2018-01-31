@@ -79,8 +79,9 @@ bool CSceneNodeAnimatorCameraFPS::OnEvent(const SEvent& evt)
 		}
 		break;
 
-	case EET_MOUSE_INPUT_EVENT:
-		if (evt.MouseInput.Event == EMIE_MOUSE_MOVED)
+	case EET_TOUCH_EVENT://EET_MOUSE_INPUT_EVENT:
+		//if (evt.MouseInput.Event == EMIE_MOUSE_MOVED)
+		if(evt.TouchEvent.Event==ETSM_MOVED)
 		{
 			CursorPos = CursorControl->getRelativePosition();
 			return true;

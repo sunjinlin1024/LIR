@@ -13,6 +13,8 @@
 #define NO_IRR_COMPILE_WITH_LIBPNG_
 #define NO_IRR_COMPILE_WITH_X11_
 #define NO_IRR_COMPILE_WITH_JOYSTICK_EVENTS_
+#define NO_IRR_COMPILE_WITH_DIRECT3D_9_
+#define NO_IRR_COMPILE_WITH_BURNINGSVIDEO_
 
 //some where defined unicode ,need to find out
 #if defined(UNICODE)

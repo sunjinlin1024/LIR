@@ -29,6 +29,9 @@ namespace irr
 		*/
 		EET_MOUSE_INPUT_EVENT,
 
+		//! touch event on windows mouse will trigger touch
+		EET_TOUCH_EVENT,
+
 		//! A key input event.
 		/** Like mouse events, keyboard events are created by the device and passed to
 		IrrlichtDevice::postEventFromUser. They take the same path as mouse events. */
@@ -140,6 +143,13 @@ namespace irr
 		EMBSM_EXTRA2  = 0x10,
 
 		EMBSM_FORCE_32_BIT = 0x7fffffff
+	};
+
+	enum E_TOUCH_STATE
+	{
+		ETSM_DOWN = 1,
+		ETSM_MOVED,
+		ETSM_UP ,
 	};
 
 	namespace gui
@@ -401,6 +411,21 @@ struct SEvent
 		ELOG_LEVEL Level;
 	};
 
+	struct STouchEvent
+	{
+		//! touch down
+		E_TOUCH_STATE Event;
+
+		//! X position of mouse cursor
+		s32 X;
+
+		//! Y position of mouse cursor
+		s32 Y;
+
+		//! touch force
+		s32 Force;
+	};
+
 	//! Any kind of user event.
 	struct SUserEvent
 	{
@@ -411,6 +436,9 @@ struct SEvent
 		s32 UserData2;
 	};
 
+
+
+
 	EEVENT_TYPE EventType;
 	union
 	{
@@ -420,6 +448,7 @@ struct SEvent
 		struct SJoystickEvent JoystickEvent;
 		struct SLogEvent LogEvent;
 		struct SUserEvent UserEvent;
+		struct STouchEvent TouchEvent;
 	};
 
 };

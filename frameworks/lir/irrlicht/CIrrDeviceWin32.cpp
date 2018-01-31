@@ -715,6 +715,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 #endif
 		event.MouseInput.Wheel = 0.f;
 
+		
+
 		// wheel
 		if ( m->group == 3 )
 		{
@@ -728,7 +730,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		dev = getDeviceFromHWnd(hWnd);
 		if (dev)
-		{
+		{ 
+
+			if (event.MouseInput.Event == irr::EMOUSE_INPUT_EVENT::EMIE_LMOUSE_PRESSED_DOWN
+				|| event.MouseInput.Event == irr::EMOUSE_INPUT_EVENT::EMIE_LMOUSE_LEFT_UP
+				|| event.MouseInput.Event == irr::EMOUSE_INPUT_EVENT::EMIE_MOUSE_MOVED)
+			{
+				irr::SEvent touchEvent;
+				touchEvent.EventType = irr::EET_TOUCH_EVENT;
+				switch (event.MouseInput.Event)
+				{
+				case irr::EMOUSE_INPUT_EVENT::EMIE_LMOUSE_PRESSED_DOWN:
+					touchEvent.TouchEvent.Event = irr::ETSM_DOWN;
+					break;
+				case irr::EMOUSE_INPUT_EVENT::EMIE_LMOUSE_LEFT_UP:
+					touchEvent.TouchEvent.Event = irr::ETSM_UP;
+					break;
+				case irr::EMOUSE_INPUT_EVENT::EMIE_MOUSE_MOVED:
+					touchEvent.TouchEvent.Event = irr::ETSM_MOVED;
+					break;
+				}
+				touchEvent.TouchEvent.Force = 1;
+				touchEvent.TouchEvent.X = event.MouseInput.X;
+				touchEvent.TouchEvent.Y = event.MouseInput.Y;
+				dev->postEventFromUser(touchEvent);
+			}
 			dev->postEventFromUser(event);
 
 			if ( event.MouseInput.Event >= irr::EMIE_LMOUSE_PRESSED_DOWN && event.MouseInput.Event <= irr::EMIE_MMOUSE_PRESSED_DOWN )
@@ -745,6 +771,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					dev->postEventFromUser(event);
 				}
 			}
+			
 		}
 		return 0;
 	}
